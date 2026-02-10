@@ -1,12 +1,11 @@
 # ========================================
 # FICHIERS SENSIBLES (CREDENTIALS)
 # ========================================
-# Le fichier .env contient les vrais mots de passe
-# Il ne doit JAMAIS être sur GitHub
 .env
 .env.local
 .env.production
 .env.backup
+google-plus-api-client/src/config.php
 
 # Backup des anciens fichiers avec mots de passe
 backup_old_config/
@@ -17,16 +16,12 @@ config_secure.php
 config_google_facebook_secure.php
 
 # ========================================
-# NOTE: connec.php, config.php, config_google_facebook.php
-# sont maintenant des versions SÉCURISÉES (sans mot de passe)
-# Elles DOIVENT être sur GitHub car elles utilisent .env
-# ========================================
-
-# ========================================
-# DOSSIERS VOLUMINEUX (5.8 GB)
+# DOSSIERS VOLUMINEUX
 # ========================================
 media/
-_admin_site/
+# On inclut le code de _admin_site, mais on exclut les uploads utilisateurs
+_admin_site/ckfinder/userfiles/
+_admin_site/ckfinder/cache/
 
 # ========================================
 # LOGS ET FICHIERS TEMPORAIRES
@@ -38,7 +33,7 @@ temp_*.txt
 *.tmp
 
 # ========================================
-# FICHIERS SYSTÈME
+# FICHIERS SYSTÈME & IDE
 # ========================================
 .DS_Store
 Thumbs.db
@@ -46,10 +41,6 @@ desktop.ini
 *.bak
 *.swp
 *~
-
-# ========================================
-# DOSSIERS IDE
-# ========================================
 .vscode/
 .idea/
 *.sublime-*
@@ -64,78 +55,9 @@ desktop.ini
 sessions/
 
 # ========================================
-# FICHIERS DE DEBUG
-# ========================================
-# FICHIERS SENSIBLES (CREDENTIALS)
-# ========================================
-# Le fichier .env contient les vrais mots de passe
-# Il ne doit JAMAIS être sur GitHub
-.env
-.env.local
-.env.production
-.env.backup
-
-# Backup des anciens fichiers avec mots de passe
-backup_old_config/
-
-# Les anciennes versions *_secure.php (déjà renommées)
-connec_secure.php
-config_secure.php
-config_google_facebook_secure.php
-
-# ========================================
-# NOTE: connec.php, config.php, config_google_facebook.php
-# sont maintenant des versions SÉCURISÉES (sans mot de passe)
-# Elles DOIVENT être sur GitHub car elles utilisent .env
-# ========================================
-
-# ========================================
-# DOSSIERS VOLUMINEUX (5.8 GB)
-# ========================================
-media/
-_admin_site/
-
-# ========================================
-# LOGS ET FICHIERS TEMPORAIRES
-# ========================================
-error_log
-*.log
-cookie.txt
-temp_*.txt
-*.tmp
-
-# ========================================
-# FICHIERS SYSTÈME
-# ========================================
-.DS_Store
-Thumbs.db
-desktop.ini
-*.bak
-*.swp
-*~
-
-# ========================================
-# DOSSIERS IDE
-# ========================================
-.vscode/
-.idea/
-*.sublime-*
-.project
-.settings/
-
-# ========================================
-# FICHIERS PHP TEMPORAIRES
-# ========================================
-*.cache
-*.sess
-sessions/
-
-# ========================================
-# FICHIERS DE DEBUG
+# SCRIPTS DE TEST/DEBUG
 # ========================================
 debug_*.php
 check_*.php
 test*.php
 verify_*.php
-
-google-plus-api-client/src/config.php
