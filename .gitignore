@@ -1,0 +1,63 @@
+# ========================================
+# FICHIERS SENSIBLES (CREDENTIALS)
+# ========================================
+.env
+.env.local
+.env.production
+.env.backup
+
+# Fichiers de configuration avec mots de passe
+# (versions sécurisées seront créées)
+connec.php
+config.php
+config_google_facebook.php
+
+# ========================================
+# DOSSIERS VOLUMINEUX (5.8 GB)
+# ========================================
+media/
+_admin_site/
+
+# ========================================
+# LOGS ET FICHIERS TEMPORAIRES
+# ========================================
+error_log
+*.log
+cookie.txt
+temp_*.txt
+*.tmp
+
+# ========================================
+# FICHIERS SYSTÈME
+# ========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.bak
+*.swp
+*~
+
+# ========================================
+# DOSSIERS IDE
+# ========================================
+.vscode/
+.idea/
+*.sublime-*
+.project
+.settings/
+
+# ========================================
+# FICHIERS PHP TEMPORAIRES
+# ========================================
+*.cache
+*.sess
+sessions/
+
+# ========================================
+# FICHIERS DE DEBUG
+# ========================================
+debug_*.php
+check_*.php
+test*.php
+verify_*.php
+fix_*.php

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Panier AJAX</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Test Direct du Panier</h1>
+    
+    <button onclick="testAddToCart()">Test Ajout Panier (Product ID: 1)</button>
+    
+    <h3>Résultat:</h3>
+    <pre id="result"></pre>
+    
+    <h3>Erreur:</h3>
+    <pre id="error"></pre>
+    
+    <script>
+    function testAddToCart() {
+        document.getElementById('result').innerHTML = 'Chargement...';
+        document.getElementById('error').innerHTML = '';
+        
+        $.ajax({
+            url: 'includes/cart.php',
+            type: 'GET',
+            data: 'id_produit=1&quantity=1&action=add',
+            dataType: "json",
+            success: function(data) {
+                document.getElementById('result').innerHTML = 'SUCCÈS!\n\n' + JSON.stringify(data, null, 2);
+            },
+            error: function (xhr, status, error) {
+                var msg = '=== ERREUR AJAX ===\n';
+                msg += 'Status: ' + status + '\n';
+                msg += 'Error: ' + error + '\n';
+                msg += 'Status Code: ' + xhr.status + '\n';
+                msg += 'Content-Type: ' + xhr.getResponseHeader('Content-Type') + '\n\n';
+                msg += 'Response Text:\n' + xhr.responseText;
+                
+                document.getElementById('error').innerHTML = msg;
+                console.log('XHR Object:', xhr);
+            }
+        }); 
+    }
+    </script>
+</body>
+</html>
