@@ -137,5 +137,5 @@ debug_*.php
 check_*.php
 test*.php
 verify_*.php
-fix_*.php
+
 google-plus-api-client/src/config.php
