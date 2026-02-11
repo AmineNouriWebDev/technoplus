@@ -39,7 +39,6 @@ $type= isset($_GET['type']) ? sanitize($_GET['type']) : '';
 			if(empty($photo)) $photo = 'image_non_dispo.jpg';		        
 			$caracteristique  = afficheChamp($data['caracteristique']);		        
 			$etatStock		  = afficheChamp($data['etat_stock']);
-			$contenu		  = isset($data['contenu']) ? afficheChamp($data['contenu']) : '';
 			$title_page		  = afficheChamp($data['titre_page']);
 			$id_categ		  = afficheChamp($data['categorie']);
 			$video		      = isset($data['video']) ? afficheChamp($data['video']) : '';

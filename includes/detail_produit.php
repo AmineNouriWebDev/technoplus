@@ -203,8 +203,19 @@ while($datapay = mysqli_fetch_array($respay)){
                             <?php } ?>
                         </div>
                     </div>
-                </div>...
+                </div>
                 
+                <!-- Description détaillée en bas des images -->
+                <?php if(!empty($caracteristique)) { ?>
+                <div class="col-12 col-lg-9">
+                    <div class="full_content my-4 p-4 bg-white rounded shadow-sm">
+                        <h4 class="mb-3">Description détaillée</h4>
+                        <div class="content-text">
+                            <?php echo $caracteristique; ?>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
                 
                 
                 
