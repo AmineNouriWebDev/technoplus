@@ -2,9 +2,9 @@
 	// Prevent any output before JSON
 	ob_start();
 	error_reporting(E_ALL);
-	ini_set('display_errors', 0); // Don't display errors in output
+	ini_set('display_errors', 0); // PRODUCTION : Désactivé
 	
-	include("../include.php");	
+	include("../include.php");
 			
 
 	/* On récupère l'identifiant de la région choisie. */

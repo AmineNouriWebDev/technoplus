@@ -51,7 +51,7 @@ function formReception1($texte)
 }
 function extraire($connexion,$requete)
 {
-     $resultat = mysqli_query($requete, $connexion);
+     $resultat = mysqli_query($connexion, $requete);
      if ($resultat)
      {
           return $resultat;
@@ -108,7 +108,7 @@ function lister($connexion, $table, $nomchamp, $id)
      $requete = 'SELECT '.$nomchamp.', '.$id.' FROM '.$table.' ORDER BY '.$nomchamp.' ';
 
      //extraire la colonne
-     $résultat = extraire($connexion, $requete);
+     $resultat = extraire($connexion, $requete);
 
      //affichage du composant HTML
      echo '<select name="'.$nomchamp.'">';
@@ -157,12 +157,12 @@ function rewriteTitre($msg, $nombreMots = 7) {
 	
 	$text = strtolower($text);
 	
-	$text = ereg_replace("[^a-zA-Z0-9]", "-", $text);
+	$text = preg_replace("/[^a-zA-Z0-9]/", "-", $text);
 	
 	while (strstr($text, '--'))
 		$text = str_replace('--', '-', $text);
 	 
-	return(ereg_replace("-$", "", $text));
+	return(preg_replace("/-$/", "", $text));
 
 	/*
 	$destination = str_replace('é', 'e', $NewString);
