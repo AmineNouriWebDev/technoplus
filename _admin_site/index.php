@@ -144,6 +144,225 @@ include("includes/security.php");
 						include("includes/optimisation_seo.php");
 						break;
 
+					case "bloc_accueil":
+						include("includes/fonctions/fction_pages.php");
+						include("includes/fonctions/fction_bloc_accueil.php");
+						include("includes/bloc_accueil.php");
+						break;
+
+					case "mbloc_accueil":
+						include("includes/fonctions/fction_pages.php");
+						include("includes/fonctions/fction_bloc_accueil.php");
+						include("includes/modifier_bloc_accueil.php");
+						break;
+
+					case "listeSection":
+						include("includes/fonctions/fction_pages.php");
+						include("includes/liste_sections.php");
+						break;
+
+					case "nlisteSection":
+						include("includes/fonctions/fction_pages.php");
+						include("includes/ajouter_liste_sections.php");
+						break;
+
+					case "mlisteSection":
+						include("includes/fonctions/fction_pages.php");
+						include("includes/modifier_liste_sections.php");
+						break;
+
+					case "services":
+						include("includes/services.php");
+						break;
+
+					case "nservice":
+						include("includes/ajouter_service.php");
+						break;
+
+					case "mservice":
+						include("includes/modifier_service.php");
+						break;
+
+					case "sliders":
+						include("includes/sliders.php");
+						break;
+
+					case "nslider":
+						include("includes/ajouter_slider.php");
+						break;
+
+					case "mslider":
+						include("includes/modifier_slider.php");
+						break;
+
+					case "categories_blog":
+						include("includes/fonctions/fction_blogs.php");
+						include("includes/categories_blog.php");
+						break;
+
+					case "ncategorie_blog":
+						include("includes/fonctions/fction_blogs.php");
+						include("includes/ajouter_categorie_blog.php");
+						break;
+
+					case "mcategorie_blog":
+						include("includes/fonctions/fction_blogs.php");
+						include("includes/modifier_categorie_blog.php");
+						break;
+
+					case "caracteristiques":
+						include("includes/caracteristiques.php");
+						break;
+
+					case "ncaracteristiques":
+						include("includes/ajouter_caracteristiques.php");
+						break;
+
+					case "mcaracteristiques":
+						include("includes/modifier_caracteristiques.php");
+						break;
+
+					case "clients":
+						include("includes/fonctions/fction_clients.php");
+						include("includes/client.php");
+						break;
+
+					case "nclient":
+						include("includes/fonctions/fction_clients.php");
+						include("includes/ajouter_client.php");
+						break;
+
+					case "mclient":
+						include("includes/fonctions/fction_clients.php");
+						include("includes/modifier_client.php");
+						break;
+
+					case "applications":
+						include("includes/fonctions/fction_applications.php");
+						include("includes/applications.php");
+						break;
+
+					case "napplications":
+						include("includes/fonctions/fction_applications.php");
+						include("includes/ajouter_application.php");
+						break;
+
+					case "mapplication":
+						include("includes/fonctions/fction_applications.php");
+						include("includes/modifier_application.php");
+						break;
+
+					case "marques":
+						include("includes/marques.php");
+						break;
+
+					case "nmarque":
+						include("includes/ajouter_marque.php");
+						break;
+
+					case "mmarque":
+						include("includes/modifier_marque.php");
+						break;
+
+					case "commandes":
+						include("includes/fonctions/fction_commandes.php");
+						include("includes/commandes.php");
+						break;
+
+					case "etat_commandes":
+						include("includes/fonctions/fction_commandes.php");
+						include("includes/etat_commandes.php");
+						break;
+
+					case "netat_commande":
+						include("includes/fonctions/fction_commandes.php");
+						include("includes/ajouter_etat_commande.php");
+						break;
+
+					case "metat_commande":
+						include("includes/fonctions/fction_commandes.php");
+						include("includes/modifier_etat_commande.php");
+						break;
+
+					case "moyens_paiement":
+						include("includes/fonctions/fction_moyens_paiement.php");
+						include("includes/moyens_paiement.php");
+						break;
+
+					case "nmoyen_paiement":
+						include("includes/fonctions/fction_moyens_paiement.php");
+						include("includes/ajouter_moyen_paiement.php");
+						break;
+
+					case "mmoyen_paiement":
+						include("includes/fonctions/fction_moyens_paiement.php");
+						include("includes/modifier_moyen_paiement.php");
+						break;
+
+					case "fraislivraison":
+						include("includes/fonctions/fction_moyens_paiement.php");
+						include("includes/frais_livraison.php");
+						break;
+
+					case "nfrais_livraison":
+						include("includes/fonctions/fction_moyens_paiement.php");
+						include("includes/ajouter_frais_livraison.php");
+						break;
+
+					case "mfrais_livraison":
+						include("includes/fonctions/fction_moyens_paiement.php");
+						include("includes/modifier_frais_livraison.php");
+						break;
+
+					case "pagesIntrouvables":
+						include("includes/pages_introuvables.php");
+						break;
+
+					case "nadmin":
+						include("includes/ajouter_admin.php");
+						break;
+
+					case "madmin":
+						include("includes/modifier_admin.php");
+						break;
+
+					case "icones":
+						include("includes/fonctions/fction_bloc_accueil.php");
+						include("includes/icones.php");
+						break;
+
+					case "nicone":
+						include("includes/fonctions/fction_bloc_accueil.php");
+						include("includes/ajouter_icone.php");
+						break;
+
+					case "micone":
+						include("includes/fonctions/fction_bloc_accueil.php");
+						include("includes/modifier_icone.php");
+						break;
+
+					case "templatesemail":
+						include("includes/fonctions/fction_emails.php");
+						include("includes/templates_email.php");
+						break;
+
+					case "mtemplatesemail":
+						include("includes/fonctions/fction_emails.php");
+						include("includes/modifier_template_email.php");
+						break;
+
+					case "social_network":
+						include("includes/social_network.php");
+						break;
+
+					case "nsocial_network":
+						include("includes/ajouter_social_network.php");
+						break;
+
+					case "msocial_network":
+						include("includes/modifier_social_network.php");
+						break;
+
 					default:
 						include("includes/home.php");
 				}
