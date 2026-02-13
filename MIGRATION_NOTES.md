@@ -86,8 +86,53 @@ Ce document sert à suivre l'historique du projet, les problèmes rencontrés lo
     - ⚠️ Vérifier l'état d'OPcache sur localhost : `opcache_reset()` après modifications
     - ⚠️ Tester avec `session.save_handler` identique entre local et prod
 
+### Correction des Icônes d'Action Produits (13/02/2026)
+- **Symptôme :** Les 6 icônes d'action sur la page produits étaient visibles, mais cliquer dessus produisait des erreurs PHP :
+    - `Warning: Undefined array key "ids"` 
+    - `Warning: Trying to access array offset on value of type null`
+- **Pages Affectées :**
+    - `_admin_site/includes/add_produit.php` (Ajouter images supplémentaires)
+    - `_admin_site/includes/add_produits_similaire.php` (Produits similaires)
+    - `_admin_site/includes/fichesTechniques.php` (Fiches techniques PDF)
+    - `_admin_site/includes/facilitePaiement.php` (Détails de paiement)
+- **Causes Identifiées :**
+    1. **Paramètres URL manquants** : Les pages tentaient d'accéder à `$_GET['ids']` et `$_GET['start']` sans vérifier leur existence
+    2. **Erreur de casse** : Appel à `imagesProduitSite()` au lieu de `imagesproduitSite()`
+    3. **PHP 8.1+ Strict** : PHP 8.1 génère des warnings pour les accès à des clés non définies (contrairement à PHP 7.2)
+- **Corrections Appliquées :**
+    - **`add_produit.php` :**
+        - Ligne 71 : `imagesProduitSite()` → `imagesproduitSite()`
+        - Ligne 110 : Ajout de `isset($_GET['start'])` avec valeur par défaut
+    - **`add_produits_similaire.php` :**
+        - Ligne 113 : Ajout de `isset($_GET['start'])` avec valeur par défaut
+    - **`fichesTechniques.php` :**
+        - Ligne 153 : Ajout de `isset($_GET['ids'])` avec valeur par défaut
+        - Ligne 161 : Ajout de `isset($_GET['start'])` avec valeur par défaut
+    - **`facilitePaiement.php` :**
+        - Ligne 111 : Ajout de `isset($_GET['ids'])` dans textarea detail
+        - Ligne 121 : Ajout de `isset($_GET['ids'])` dans input remarque
+        - Ligne 131 : Ajout de `isset($_GET['ids'])` dans input prix
+        - Ligne 139 : Ajout de `isset($_GET['start'])` avec valeur par défaut
+    - ~~**`fonctions/fction_produits.php` :**~~
+        - ~~Ajout d'une fonction alias `imagesProduitSite()` qui appelle `imagesproduitSite()` pour maintenir la compatibilité~~
+        - **ERREUR DÉTECTÉE**: Tentative de créer un alias a causé une erreur fatale `Cannot redeclare imagesProduitSite()`
+        - **CAUSE**: PHP est **insensible à la casse** pour les noms de fonctions. `imagesProduitSite()` et `imagesproduitSite()` sont considérés comme la même fonction
+        - **HOTFIX**: Suppression de l'alias. La correction dans `add_produit.php` (ligne 71) suffit car PHP appellera la bonne fonction peu importe la casse
+- **Résultat :** Les 6 icônes d'action (Modifier, Produits similaires, Images, Fiches PDF, Paiement, Supprimer) fonctionnent maintenant sans erreurs. ✅
+
 ## 5. Notes de Maintenance
 
 - **Attention :** Une erreur corrigée qui réapparaît peut signaler un problème de gestion de cache (navigateur ou serveur), une écrasement de fichier non intentionnel, ou une différence de configuration entre Local et Prod non gérée par le code.
 - **Priorité :** Stabiliser le panier et l'accès admin pour la production PHP 8.1.
 - **Cache OPcache :** Potentiellement responsable des problèmes qui "reviennent" après correction. Sur localhost, il est recommandé de désactiver OPcache ou le recharger fréquemment pendant le développement.
+- **PHP 8.1+ Bonnes Pratiques :**
+    - Toujours utiliser `isset()` avant d'accéder à `$_GET`, `$_POST`, ou `$_SESSION`
+    - Utiliser l'opérateur null coalescent `??` pour les valeurs par défaut : `$_GET['param'] ?? ''`
+    - Attention aux noms de fonctions sensibles à la casse
+- **⚠️ IMPORTANT - Noms de Fonctions PHP :**
+    - PHP est **insensible à la casse** pour les noms de fonctions
+    - `imagesproduitSite()`, `imagesProduitSite()`, et `IMAGESPRODUITSITE()` sont **la même fonction**
+    - Tenter de déclarer deux fonctions avec des casses différentes causera : `Fatal error: Cannot redeclare`
+    - **Bonne pratique** : Utiliser toujours la casse exacte de la déclaration pour la lisibilité du code
+
+
