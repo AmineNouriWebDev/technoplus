@@ -1,6 +1,8 @@
 <?php 
 
-include('../include.php');
+include('includes/include.php');
+include('includes/fonctions/fction_produits.php');
+include('includes/fonctions/fction_blogs.php');
                                         
 // Reading value
 $draw = $_POST['draw'];

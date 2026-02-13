@@ -93,6 +93,10 @@
                                                 <td><?php echo auteur_name($data['auteur']); ?><br/><?php echo timestampTDtodate($data['datecreation']); ?></td>
                                                 <td class="text-nowrap">
                                                     <a href="index.php?r=mproduits&id=<?php echo afficheChamp($data['id']); ?>" data-toggle="tooltip" data-original-title="Modifier"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                    <a href="index.php?r=addproduitssimilaire&id=<?php echo afficheChamp($data['id']); ?>" data-toggle="tooltip" data-original-title="Ajouter produits similaire"> <i class="fa fa-list text-inverse m-r-10"></i> </a>
+                                                    <a href="index.php?r=addproduit&id=<?php echo afficheChamp($data['id']); ?>" data-toggle="tooltip" data-original-title="Ajouter images suplimentaires"> <i class="fa fa-image text-inverse m-r-10"></i> </a>
+                                                    <a href="index.php?r=fichesTechniques&id=<?php echo afficheChamp($data['id']); ?>&action=addFiche" data-toggle="tooltip" data-original-title="Ajouter fiche technique"> <i class="fa fa-file-pdf-o text-inverse m-r-10"></i></a>
+                                                    <a href="index.php?r=facilitePaiement&id=<?php echo afficheChamp($data['id']); ?>" data-toggle="tooltip" data-original-title="Ajouter detail paiement"> <i class="fa fa-dollar text-inverse m-r-10"></i></a>
                                                     <a href="index.php?r=produits&id=<?php echo afficheChamp($data['id']); ?>&action=supp" data-toggle="tooltip" data-original-title="Supprimer"> <i class="fa fa-close text-danger"></i></a>
                                                 </td>
                                             </tr>

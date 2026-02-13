@@ -105,6 +105,46 @@ include("includes/security.php");
 						include("includes/produits.php");
 						break;
 
+					case "addproduit":
+						include("includes/fonctions/fction_produits.php");
+						include("includes/add_produit.php");
+						break;
+
+					case "addproduitssimilaire":
+						include("includes/fonctions/fction_produits.php");
+						include("includes/add_produits_similaire.php");
+						break;
+
+					case "fichesTechniques":
+						include("includes/fonctions/fction_produits.php");
+						include("includes/fichesTechniques.php");
+						break;
+
+					case "facilitePaiement":
+						include("includes/fonctions/fction_produits.php");
+						include("includes/facilitePaiement.php");
+						break;
+
+					case "addproduit":
+						include("includes/fonctions/fction_produits.php");
+						include("includes/add_produit.php");
+						break;
+
+					case "addproduitssimilaire":
+						include("includes/fonctions/fction_produits.php");
+						include("includes/add_produits_similaire.php");
+						break;
+
+					case "fichesTechniques":
+						include("includes/fonctions/fction_produits.php");
+						include("includes/fichesTechniques.php");
+						break;
+
+					case "facilitePaiement":
+						include("includes/fonctions/fction_produits.php");
+						include("includes/facilitePaiement.php");
+						break;
+
 					case "nproduits":
 						include("includes/fonctions/fction_produits.php");
 						include("includes/fonctions/fction_blogs.php");
@@ -192,6 +232,7 @@ include("includes/security.php");
 						break;
 
 					case "mslider":
+						include("includes/fonctions/fction_sliders.php");
 						include("includes/modifier_slider.php");
 						break;
 
@@ -210,6 +251,11 @@ include("includes/security.php");
 						include("includes/modifier_categorie_blog.php");
 						break;
 
+					case "categoriesMarques":
+						include("includes/fonctions/fction_produits.php");
+						include("includes/categories_marques.php");
+						break;
+
 					case "caracteristiques":
 						include("includes/caracteristiques.php");
 						break;
@@ -219,7 +265,12 @@ include("includes/security.php");
 						break;
 
 					case "mcaracteristiques":
+						include("includes/fonctions/fction_produits.php");
 						include("includes/modifier_caracteristiques.php");
+						break;
+
+					case "valeurcaracteristiques":
+						include("includes/valeurs_caracteristique.php");
 						break;
 
 					case "clients":
@@ -247,7 +298,7 @@ include("includes/security.php");
 						include("includes/ajouter_application.php");
 						break;
 
-					case "mapplication":
+					case "mapplications":
 						include("includes/fonctions/fction_applications.php");
 						include("includes/modifier_application.php");
 						break;
@@ -261,6 +312,7 @@ include("includes/security.php");
 						break;
 
 					case "mmarque":
+						include("includes/fonctions/fction_produits.php");
 						include("includes/modifier_marque.php");
 						break;
 
@@ -274,12 +326,12 @@ include("includes/security.php");
 						include("includes/etat_commandes.php");
 						break;
 
-					case "netat_commande":
+					case "netatcommande":
 						include("includes/fonctions/fction_commandes.php");
 						include("includes/ajouter_etat_commande.php");
 						break;
 
-					case "metat_commande":
+					case "metatcommande":
 						include("includes/fonctions/fction_commandes.php");
 						include("includes/modifier_etat_commande.php");
 						break;
@@ -289,12 +341,12 @@ include("includes/security.php");
 						include("includes/moyens_paiement.php");
 						break;
 
-					case "nmoyen_paiement":
+					case "nmoyenpaiement":
 						include("includes/fonctions/fction_moyens_paiement.php");
 						include("includes/ajouter_moyen_paiement.php");
 						break;
 
-					case "mmoyen_paiement":
+					case "mmoyenpaiement":
 						include("includes/fonctions/fction_moyens_paiement.php");
 						include("includes/modifier_moyen_paiement.php");
 						break;
