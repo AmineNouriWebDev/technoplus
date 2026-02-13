@@ -12,6 +12,47 @@ include("../include.php");
 
 //include("../includes/script_panier.php");
 
+/**
+ * Generate Bootstrap pagination HTML
+ */
+function generate_pagination($current_page, $total_pages) {
+    if ($total_pages <= 1) return '';
+    
+    $html = '<nav aria-label="Navigation des produits"><ul class="pagination justify-content-center mt-4">';
+    
+    // Previous button
+    $disabled = ($current_page == 1) ? 'disabled' : '';
+    $html .= '<li class="page-item '.$disabled.' mx-2">
+        <a class="page-link pagination-link" href="#" data-page="'.($current_page-1).'"> <i class="fa fa-angle-left"></i> Précédent</a>
+    </li>';
+    
+    // Numbered pages with ellipsis for large page counts
+    $range = 2; // Number of pages to show before and after current
+    
+    for ($i = 1; $i <= $total_pages; $i++) {
+        // Always show first page, last page, and pages around current page
+        if ($i == 1 || $i == $total_pages || ($i >= $current_page - $range && $i <= $current_page + $range)) {
+            $active = ($i == $current_page) ? 'active' : '';
+            $html .= '<li class="page-item '.$active.'">
+                <a class="page-link pagination-link" href="#" data-page="'.$i.'">'.$i.'</a>
+            </li>';
+        } elseif ($i == $current_page - $range - 1 || $i == $current_page + $range + 1) {
+            // Show ellipsis
+            $html .= '<li class="page-item disabled"><span class="page-link">...</span></li>';
+        }
+    }
+    
+    // Next button
+    $disabled = ($current_page == $total_pages) ? 'disabled' : '';
+    $html .= '<li class="page-item '.$disabled.' mx-2">
+        <a class="page-link pagination-link" href="#" data-page="'.($current_page+1).'">Suivant <i class="fa fa-angle-right"></i></a>
+    </li>';
+    
+    $html .= '</ul></nav>';
+    
+    return $html;
+}
+
  
 
 if(isset($_POST["action"]) )
@@ -25,7 +66,12 @@ if(isset($_POST["action"]) )
 	$type_filter = $_POST["type"];
 
 	$qty = "1";
-
+	
+	// ========== PAGINATION PARAMETERS ==========
+	$page = isset($_POST['page']) && is_numeric($_POST['page']) ? (int)$_POST['page'] : 1;
+	$per_page = 12; // Number of products per page
+	$offset = ($page - 1) * $per_page;
+	// ===========================================
 
 
 	$output 	= '';
@@ -237,48 +283,37 @@ if(isset($_POST["action"]) )
         	}
 
     	}
-
     	
-
     	if(isset($_POST["promo"]) && $_POST["promo"]!='')
-
     	{
-
 		
-
 		$query .=" GROUP BY pr.categorie ORDER BY pr.prix_promo ASC";
-
 		
-
     	}else{
-
     	    
-
 		$query .=" GROUP BY pr.id ORDER BY pr.prix_vente ASC";
-
     	    
-
     	}
 
         
-
         //echo $query;
-
 		
-
+		// ========== CALCULATE TOTAL FOR PAGINATION ==========
+		$count_result = executeRequete($query);
+		$total_row = mysqli_num_rows($count_result);
+		$total_row2 = $total_row;
+		
+		// Calculate pagination
+		$total_pages = ceil($total_row / $per_page);
+		
+		// Add LIMIT to query
+		$query .= " LIMIT $offset, $per_page";
+		// ====================================================
+		
 		$result 	= executeRequete($query);
-
 		
-
-		$result2 	= executeRequete($query);
-
+		$result2 	= executeRequete($query); // For grid view if needed
 		
-
-		$total_row 	= mysqli_num_rows($result);
-
-		
-
-		$total_row2 	= mysqli_num_rows($result2);
 //echo $query;
 		
 
@@ -1419,8 +1454,15 @@ if(isset($_POST["action"]) )
 	
 
 	
+	
+	// ========== ADD PAGINATION HTML ==========
+	if ($total_row > 0) {
+		$pagination_html = generate_pagination($page, $total_pages);
+		$output .= '<div class="row"><div class="col-12">'.$pagination_html.'</div></div>';
+	}
+	// =========================================
 
-		echo $output;
+	echo $output;
 
 }
 
