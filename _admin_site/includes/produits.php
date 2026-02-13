@@ -77,7 +77,20 @@
                                         </thead>
                                         <tbody>
                                         <?php   
-										$req = "SELECT * FROM `produits` ORDER BY `id` DESC ";
+                                        include("includes/pagination_ui.php");
+
+                                        $itemsPerPage = 20;
+                                        $currentPage = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+                                        if ($currentPage < 1) $currentPage = 1;
+                                        $offset = ($currentPage - 1) * $itemsPerPage;
+
+                                        $countReq = 'SELECT COUNT(*) as total FROM `produits`';
+                                        $countRes = executeRequete($countReq);
+                                        $countData = mysqli_fetch_array($countRes);
+                                        $totalItems = $countData['total'];
+                                        $totalPages = ceil($totalItems / $itemsPerPage);
+
+										$req = "SELECT * FROM `produits` ORDER BY `id` DESC LIMIT " . $itemsPerPage . " OFFSET " . $offset;
 										$res = executeRequete($req);
 										$num = mysqli_num_rows($res);
 										if ($num > 0 ) { 
@@ -103,6 +116,13 @@
                                          <?php } ?>
                                         <?php } ?>
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="8">
+                                                    <?php renderPagination($currentPage, $totalPages, 'index.php?r=produits'); ?>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>

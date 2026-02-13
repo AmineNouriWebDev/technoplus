@@ -32,8 +32,20 @@
                                         </thead>
                                         <tbody>
                                         <?php
-                                        
-                                        $req = 'SELECT c.*, (SELECT code FROM `commandes` WHERE `idclient` = c.id ORDER BY id DESC LIMIT 1) as last_cmd FROM `clients` c ORDER BY `date_creation` DESC';
+                                        include("includes/pagination_ui.php");
+
+                                        $itemsPerPage = 20;
+                                        $currentPage = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+                                        if ($currentPage < 1) $currentPage = 1;
+                                        $offset = ($currentPage - 1) * $itemsPerPage;
+
+                                        $countReq = 'SELECT COUNT(*) as total FROM `clients`';
+                                        $countRes = executeRequete($countReq);
+                                        $countData = mysqli_fetch_array($countRes);
+                                        $totalItems = $countData['total'];
+                                        $totalPages = ceil($totalItems / $itemsPerPage);
+
+                                        $req = 'SELECT c.*, (SELECT code FROM `commandes` WHERE `idclient` = c.id ORDER BY id DESC LIMIT 1) as last_cmd FROM `clients` c ORDER BY `date_creation` DESC LIMIT ' . $itemsPerPage . ' OFFSET ' . $offset;
                                         $res = executeRequete($req);
                                         $numres = mysqli_num_rows($res); 
 										
@@ -62,6 +74,13 @@
 										  <?php } } ?>
 
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="5">
+                                                    <?php renderPagination($currentPage, $totalPages, 'index.php?r=clients'); ?>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                             </div>
                         </div>
