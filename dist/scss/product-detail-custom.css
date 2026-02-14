@@ -1,0 +1,314 @@
+/* ================================================
+   PRODUCT DETAIL PAGE RESPONSIVE DESIGN 
+   ================================================ */
+
+/* Product Page Layout */
+.single-product-area {
+    background-color: #f5f7fa;
+}
+
+.product-images-section {
+    position: relative;
+    z-index: 1;
+}
+
+.product-images-section .carousel-indicators {
+    position: relative;
+    margin: 15px 0;
+}
+
+.product-images-section .carousel-indicators li {
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    margin: 0 5px;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.product-images-section .carousel-indicators li.active {
+    border-color: #fbb710;
+}
+
+.product-images-section .carousel-indicators li:hover {
+    border-color: #fbb710;
+    opacity: 0.8;
+}
+
+.product-info-section h2.product-title {
+    color: #29215a;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.product-info-section .line {
+    width: 80px;
+    height: 3px;
+    background-color: #fbb710;
+    display: block;
+}
+
+.product-info-section .avaibility {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.product-info-section .avaibility i {
+    color: #20d34a;
+    margin-right: 5px;
+}
+
+.product-info-section .avaibility.rupture i,
+.product-info-section .avaibility i.rupture {
+    color: #eb0e2d;
+}
+
+/* Product Sidebar - Sticky on Desktop */
+.product-sidebar-sticky {
+    position: sticky;
+    top: 100px;
+    z-index: 10;
+}
+
+@media (max-width: 991.98px) {
+    .product-sidebar-sticky {
+        position: relative;
+        top: 0;
+        margin-top: 20px;
+    }
+}
+
+/* Price Display */
+.product-price-section {
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 20px;
+}
+
+.product-price-display .price-promo {
+    font-size: 32px;
+    font-weight: 700;
+    color: #eb0e2d;
+    line-height: 1.2;
+}
+
+.product-price-display .price-original {
+    font-size: 22px;
+    color: #999;
+    text-decoration: line-through;
+}
+
+/* Quantity Selector */
+.quantity-selector {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.quantity-selector label {
+    font-weight: 600;
+    color: #29215a;
+}
+
+.quantity {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    background-color: #f5f7fa;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.quantity input.qty-text {
+    width: 60px;
+    height: 40px;
+    border: none;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #f5f7fa;
+    color: #29215a;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.quantity input.qty-text::-webkit-outer-spin-button,
+.quantity input.qty-text::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.quantity .qty-minus,
+.quantity .qty-plus {
+    width: 35px;
+    height: 40px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #29215a;
+}
+
+.quantity .qty-minus:hover,
+.quantity .qty-plus:hover {
+    background-color: #fbb710;
+    color: #fff;
+}
+
+/* Services Section */
+.services-section .service-item {
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.services-section .service-item:hover {
+    border-color: #fbb710;
+    transform: translateX(5px);
+}
+
+.services-section .service-item img {
+    border: 1px solid #e0e0e0;
+}
+
+/* Express Order Collapse */
+#commandeExpressCollapse .card {
+    border: 1px solid #e0e0e0;
+}
+
+#commandeExpressCollapse .form-control-sm {
+    font-size: 14px;
+    padding: 8px 12px;
+}
+
+#commandeExpressCollapse .custom-control-label {
+    font-size: 13px;
+}
+
+#commandeExpressCollapse h6 {
+    color: #29215a;
+    font-weight: 600;
+}
+
+/* Product Description Section */
+.product-description-section h4 {
+    color: #29215a;
+    font-weight: 600;
+    border-bottom: 3px solid #fbb710;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.product-description-section .content-text {
+    line-height: 1.8;
+    color: #333;
+}
+
+.product-description-section .content-text img {
+    max-width: 100%;
+    height: auto;
+    margin: 15px 0;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 767.98px) {
+    .product-info-section h2.product-title {
+        font-size: 22px;
+    }
+
+    .product-price-display .price-promo {
+        font-size: 26px;
+    }
+
+    .product-price-display .price-original {
+        font-size: 18px;
+    }
+
+    .quantity-selector {
+        flex-direction: column;
+    }
+
+    .quantity-selector label {
+        margin-bottom: 10px;
+        margin-right: 0 !important;
+    }
+
+    .product-images-section .carousel-indicators li {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Tablet Responsive Styles */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .product-sidebar-sticky {
+        margin-top: 30px;
+    }
+
+    .product-price-display .price-promo {
+        font-size: 28px;
+    }
+}
+
+/* Similar Products Section */
+.prod-similaire {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.prod-similaire .slide {
+    flex: 0 0 calc(25% - 15px);
+    max-width: calc(25% - 15px);
+}
+
+@media (max-width: 1199.98px) {
+    .prod-similaire .slide {
+        flex: 0 0 calc(33.333% - 15px);
+        max-width: calc(33.333% - 15px);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .prod-similaire .slide {
+        flex: 0 0 calc(50% - 15px);
+        max-width: calc(50% - 15px);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .prod-similaire .slide {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+/* Utilities */
+.shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.rounded {
+    border-radius: 0.25rem !important;
+}
+
+/* Hover Effects */
+.hoverDiv {
+    transition: all 0.3s ease;
+}
+
+.hoverDiv:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Responsive */
+@media (max-width: 767.98px) {
+    .btn-block {
+        font-size: 14px;
+        padding: 12px;
+    }
+}

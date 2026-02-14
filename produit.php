@@ -93,6 +93,7 @@ $type= isset($_GET['type']) ? sanitize($_GET['type']) : '';
     <?php include('includes/script_panier.php');?>
 	
 	<link rel="stylesheet" href="dist/scss/style.css" />
+	<link rel="stylesheet" href="dist/scss/product-detail-custom.css" />
 	
 </head>
 

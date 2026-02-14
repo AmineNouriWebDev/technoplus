@@ -1,124 +1,201 @@
 <div class="main main-content-wrapper">
     <!-- Product Details Area Start -->
     <div class="single-product-area section-padding-20 clearfix">
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-9 row">
-                    <div class="col-12 col-lg-6">
-                        <div class="single_product_thumb">
-                            
-                            <div id="product_details_slider" class="carousel slide" data-ride="carousel">
-                                <ul class="carousel-indicators">
-                                    <li data-target="#product_details_slider" data-slide-to="0" class="active" style="background: url('media/products/<?php echo $photo; ?>') no-repeat center;background-size: contain;"></li>
-                                    <?php 
-                                    if(imgproduit($id)){
-                                        $req1 = "SELECT * FROM `images_produit` WHERE `id_produit` = '".$id."'";
-                                        $res1 = executeRequete($req1);
-                                        $c="1";
-                                        while($dataip = mysqli_fetch_array($res1)){    
-                                    ?>
-                                        <li data-target="#product_details_slider" data-slide-to="<?php echo $c; ?>" style="background: url('<?php echo imagesproduitSite($dataip['id']); ?>') no-repeat center;background-size: contain;"></li>
-                                    <?php $c++; }} 
-                                    
-                                    // Initialize variables for order form
-                                    $sous_total = isset($sous_total) ? $sous_total : 0;
-                                    $total = isset($total) ? $total : 0;
-                                    $frais = isset($frais) ? $frais : 0;
-                                    ?>
-                                </ul>
-                                <div class="carousel-inner text-center">
-                                    <div class="carousel-item active">
-                                        <img class="img-fluid myImage" src="media/products/<?php echo $photo; ?>" alt="First slide">
-                                    </div>
-                                    <?php 
-                                    if(imgproduit($id)){
-                                        $req2 = "SELECT * FROM `images_produit` WHERE `id_produit` = '".$id."'";
-                                        $res2 = executeRequete($req2);
-                                        while($dataip2 = mysqli_fetch_array($res2)){    
-                                    ?>
-                                        <div class="carousel-item">
-                                            <img class="img-fluid myImage" src="<?php echo imagesproduitSite($dataip2['id']); ?>" alt="First slide">
-                                        </div>
-                                    <?php }} ?>
+        <div class="container">
+            <!-- Main Product Row -->
+            <div class="row">
+                <!-- Left Column: Product Images & Info -->
+                <div class="col-12 col-lg-8 mb-4">
+                    <!-- Product Image Carousel -->
+                    <div class="product-images-section mb-4">
+                        <div id="product_details_slider" class="carousel slide" data-ride="carousel">
+                            <ul class="carousel-indicators">
+                                <li data-target="#product_details_slider" data-slide-to="0" class="active" style="background: url('media/products/<?php echo $photo; ?>') no-repeat center;background-size: contain;"></li>
+                                <?php 
+                                if(imgproduit($id)){
+                                    $req1 = "SELECT * FROM `images_produit` WHERE `id_produit` = '".$id."'";
+                                    $res1 = executeRequete($req1);
+                                    $c="1";
+                                    while($dataip = mysqli_fetch_array($res1)){    
+                                ?>
+                                    <li data-target="#product_details_slider" data-slide-to="<?php echo $c; ?>" style="background: url('<?php echo imagesproduitSite($dataip['id']); ?>') no-repeat center;background-size: contain;"></li>
+                                <?php $c++; }} 
+                                
+                                // Initialize variables for order form
+                                $sous_total = isset($sous_total) ? $sous_total : 0;
+                                $total = isset($total) ? $total : 0;
+                                $frais = isset($frais) ? $frais : 0;
+                                ?>
+                            </ul>
+                            <div class="carousel-inner text-center bg-light rounded">
+                                <div class="carousel-item active">
+                                    <img class="img-fluid myImage p-3" src="media/products/<?php echo $photo; ?>" alt="<?php echo $titre; ?>" style="max-height: 500px; object-fit: contain;">
                                 </div>
+                                <?php 
+                                if(imgproduit($id)){
+                                    $req2 = "SELECT * FROM `images_produit` WHERE `id_produit` = '".$id."'";
+                                    $res2 = executeRequete($req2);
+                                    while($dataip2 = mysqli_fetch_array($res2)){    
+                                ?>
+                                    <div class="carousel-item">
+                                        <img class="img-fluid myImage p-3" src="<?php echo imagesproduitSite($dataip2['id']); ?>" alt="<?php echo $titre; ?>" style="max-height: 500px; object-fit: contain;">
+                                    </div>
+                                <?php }} ?>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6">
-                        <div class="single_product_desc">
-                            <div class="product-meta-data">
-                                <div class="mobile-sc">
-                                    <div class="product-meta-data mb-3">
-                                        <p class="product-price mt-3 text-left"><?php if($PrixPromo != '0.000') { echo $PrixPromo.' DT <span style="text-decoration:line-through;color:#aaa;font-size: 22px;">'.$PrixVente.' DT</span>'; }else{ echo $PrixVente.' DT'; } ?></p>
-                                    </div>
-                                </div>  
-                                <div class="line"></div>
-                                <h2><?php echo $titre; ?></h2>
-                                <?php if(marquesProduits($id) != '0' && ApercuMarque(marquesProduits($id)) !='') {  ?>
-                                    <div class="mb-3" style="height:60px;overflow:hidden"><img src="<?php echo photoMarqueSite(marquesProduits($id)); ?>" class="img-fluid" style="width: 120px;height: -webkit-fill-available; object-fit: contain;"></div>
-                                <?php } ?>
-                                <?php if ($etatStock == '1'){  ?>
-                                    <p class="avaibility"><i class="fa fa-circle"></i> En Stock</p>
-                                <?php }else{?>
-                                    <p class="avaibility"><i class="fa fa-circle rupture"></i> En Rupture</p>
-                                <?php } ?>
+
+                    <!-- Product Information -->
+                    <div class="product-info-section bg-white p-4 rounded shadow-sm">
+                        <div class="line mb-3"></div>
+                        <h2 class="product-title mb-3"><?php echo $titre; ?></h2>
+                        
+                        <?php if(marquesProduits($id) != '0' && ApercuMarque(marquesProduits($id)) !='') {  ?>
+                            <div class="mb-3" style="height:60px;overflow:hidden">
+                                <img src="<?php echo photoMarqueSite(marquesProduits($id)); ?>" class="img-fluid" style="width: 120px;height: -webkit-fill-available; object-fit: contain;">
                             </div>
-                            <div class="short_overview my-3">
-                                <?php echo courtContenuProduits($id); ?>
+                        <?php } ?>
+                        
+                        <?php if ($etatStock == '1'){  ?>
+                            <p class="avaibility mb-3"><i class="fa fa-circle"></i> En Stock</p>
+                        <?php }else{?>
+                            <p class="avaibility mb-3"><i class="fa fa-circle rupture"></i> En Rupture</p>
+                        <?php } ?>
+                        
+                        <div class="short_overview my-3">
+                            <?php echo courtContenuProduits($id); ?>
+                        </div>
+                        
+                        <?php if(rqProduits($id)){ ?>
+                            <div class="remarque bg-light p-3 rounded mb-3" style="font-size:14px;font-weight:500">
+                                <?php echo rqProduits($id); ?>
                             </div>
-                            <?php if(rqProduits($id)){ ?>
-                                <div class="remarque bg-light p-2 rounded-3" style="font-size:14px;font-weight:500">
-                                    <?php echo rqProduits($id); ?>
-                                </div>
-                            <?php } ?>
+                        <?php } ?>
+                    </div>
+
+                    <!-- Detailed Description - Directly Below Images -->
+                    <?php if(!empty($caracteristique)) { ?>
+                    <div class="product-description-section mt-4">
+                        <div class="bg-white p-4 rounded shadow-sm">
+                            <h4 class="mb-3">Description détaillée</h4>
+                            <div class="content-text">
+                                <?php echo $caracteristique; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php } ?>
+                </div>
+
+                <!-- Right Column: Sticky Sidebar -->
+                <div class="col-12 col-lg-4">
+                    <div class="product-sidebar-sticky">
+                        <div class="bg-light p-4 rounded shadow-sm">
+                            <!-- Price Display -->
+                            <div class="product-price-section mb-4 text-center">
+                                <p class="product-price-display mb-0">
+                                    <?php if($PrixPromo != '0.000') { 
+                                        echo '<span class="price-promo">'.$PrixPromo.' DT</span><br/>';
+                                        echo '<span class="price-original">'.$PrixVente.' DT</span>'; 
+                                    } else { 
+                                        echo '<span class="price-promo">'.$PrixVente.' DT</span>'; 
+                                    } ?>
+                                </p>
+                            </div>
+                            
                             <?php if ($etatStock == '1'){  ?>
-                                <div class="cart-table-area mt-2">
-                                    <div class="cart-summary m-0">
-                                        <a href="applications.php"><button type="button" name="addtocart" value="5" class="btn amado-btn text-uppercase">Vers Télécharger applications</button></a>
-                                        <br><br>
-                                        <h5>COMMANDE EXPRESS</h5>
-                                        <hr>
-                                        <form class="cart" id="commandeExpressForm" method="post" enctype="multipart/form-data">
-                                            <div class="row">
-                                                <div class="col-md-6 form-group mb-2">
-                                                    <label>Nom <span class="text-danger">*</span></label>
-                                                    <input type="text" name="nom" class="form-control" required>
-                                                </div>
-                                                <div class="col-md-6 form-group mb-2">
-                                                    <label>Prénom <span class="text-danger">*</span></label>
-                                                    <input type="text" name="prenom" class="form-control" required>
-                                                </div>
-                                                <div class="col-md-6 form-group mb-2">
-                                                    <label>Téléphone <span class="text-danger">*</span></label>
-                                                    <input type="text" name="tel" class="form-control" required>
-                                                </div>
-                                                <div class="col-md-6 form-group mb-2">
-                                                    <label>Email <span class="text-danger">*</span></label>
-                                                    <input type="email" name="email" class="form-control" required>
-                                                </div>
+                            <!-- Add to Cart Form -->
+                            <form class="cart-form" method="post">
+                                <div class="quantity-selector d-flex justify-content-center align-items-center mb-3">
+                                    <label class="mr-2 mb-0">Qté</label>
+                                    <div class="quantity">
+                                        <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;">
+                                            <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                        </span>
+                                        <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
+                                        <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;">
+                                            <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" name="addtocart" value="5" class="btn amado-btn btn-block text-uppercase mb-3" onclick="addToCart(<?php echo $id; ?>, document.getElementById('qty').value);">
+                                    <i class="fa fa-shopping-bag mr-2"></i>Ajouter au panier
+                                </button>
+                            </form>
+                            <?php }else{?>
+                                <button type="button" class="btn amado-btn btn-block text-uppercase mb-3" disabled>
+                                    <i class="fa fa-shopping-bag mr-2"></i>En rupture de stock
+                                </button>
+                            <?php } ?>
+                            
+                            <!-- Services Section -->
+                            <div class="services-section mt-4">
+                                <?php 
+                                    $reqs ="SELECT * FROM `services` ORDER BY `ordre` ASC";
+                                    $ress =executeRequete($reqs);
+                                    while($datas = mysqli_fetch_array($ress)){
+                                ?>
+                                <div class="service-item bg-white p-2 mb-2 rounded d-flex align-items-center" style="font-size:13px">
+                                    <img src="<?php echo photoServiceSite($datas['id']); ?>" width="40px" class="bg-white mr-2 p-2 rounded" />
+                                    <span><?php echo titreService($datas['id']); ?></span>
+                                </div>    
+                                <?php } ?>
+                            </div>
+                            
+                            <!-- Express Order Link (Collapsed by default) -->
+                            <?php if ($etatStock == '1'){  ?>
+                            <div class="mt-4">
+                                <button class="btn btn-outline-secondary btn-block" type="button" data-toggle="collapse" data-target="#commandeExpressCollapse" aria-expanded="false" aria-controls="commandeExpressCollapse">
+                                    <i class="fa fa-bolt mr-2"></i>Commande Express
+                                </button>
+                                
+                                <div class="collapse mt-3" id="commandeExpressCollapse">
+                                    <div class="card card-body">
+                                        <h6 class="mb-3">COMMANDE EXPRESS</h6>
+                                        <form id="commandeExpressForm" method="post" enctype="multipart/form-data">
+                                            <div class="form-group">
+                                                <label>Nom <span class="text-danger">*</span></label>
+                                                <input type="text" name="nom" class="form-control form-control-sm" required>
                                             </div>
                                             <div class="form-group">
-                                                <label>Choisissez la plateforme pour recevoir la confirmation:</label>
+                                                <label>Prénom <span class="text-danger">*</span></label>
+                                                <input type="text" name="prenom" class="form-control form-control-sm" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Téléphone <span class="text-danger">*</span></label>
+                                                <input type="text" name="tel" class="form-control form-control-sm" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Email <span class="text-danger">*</span></label>
+                                                <input type="email" name="email" class="form-control form-control-sm" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Plateforme de confirmation:</label>
                                                 <div class="custom-control custom-radio">
                                                     <input type="radio" name="platform" value="whatsapp" id="platform_whatsapp" class="custom-control-input" required>
-                                                    <label class="custom-control-label" for="platform_whatsapp"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width:25px;height:25px;"> WhatsApp</label>
+                                                    <label class="custom-control-label" for="platform_whatsapp">
+                                                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width:20px;height:20px;"> WhatsApp
+                                                    </label>
                                                 </div>
                                                 <div class="custom-control custom-radio">
                                                     <input type="radio" name="platform" value="messenger" id="platform_messenger" class="custom-control-input">
-                                                    <label class="custom-control-label" for="platform_messenger"><img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Facebook_Messenger_logo_2020.svg" alt="Messenger" style="width:20px;height:20px;"> Messenger</label>
+                                                    <label class="custom-control-label" for="platform_messenger">
+                                                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Facebook_Messenger_logo_2020.svg" alt="Messenger" style="width:18px;height:18px;"> Messenger
+                                                    </label>
                                                 </div>
                                                 <div class="custom-control custom-radio">
                                                     <input type="radio" name="platform" value="telegram" id="platform_telegram" class="custom-control-input">
-                                                    <label class="custom-control-label" for="platform_telegram"><img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" style="width:20px;height:20px;"> Telegram</label>
+                                                    <label class="custom-control-label" for="platform_telegram">
+                                                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" style="width:18px;height:18px;"> Telegram
+                                                    </label>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <div class="form-check mb-3 text-start" style="color:#000; font-size: 13px;">
-                                                            <input type="checkbox" class="form-check-input" id="cgv" required> J'accepte les <a href="#politique" data-toggle="modal" class="politique">Conditions Générales de Ventes</a>
-                                                        </div>
-                                                    </div>
+                                            <div class="form-group">
+                                                <div class="form-check" style="color:#000; font-size: 12px;">
+                                                    <input type="checkbox" class="form-check-input" id="cgv" required>
+                                                    <label class="form-check-label" for="cgv">
+                                                        J'accepte les <a href="#politique" data-toggle="modal" class="politique">CGV</a>
+                                                    </label>
                                                 </div>
                                             </div>
                                             <hr>
@@ -133,7 +210,7 @@ $respay = executeRequete($requetepay);
 $first = true;
 while($datapay = mysqli_fetch_array($respay)){
 ?>
-    <div class="custom-control custom-radio mr-sm-2">
+    <div class="custom-control custom-radio">
         <input 
             type="radio" 
             name="paymentMethod" 
@@ -142,43 +219,42 @@ while($datapay = mysqli_fetch_array($respay)){
             id="payment_<?php echo $datapay['id'];?>" 
             <?php if ($first) { echo 'required'; $first = false; } ?>
         >
-        <label class="custom-control-label" for="payment_<?php echo $datapay['id']; ?>">
+        <label class="custom-control-label small" for="payment_<?php echo $datapay['id']; ?>">
             <?php 
             $label = moyen_paiement($datapay['id']);
             echo $label;
 
             // Display corresponding image if matched
             switch ($label) {
-               
                 case "Paiement Paypal":
-                    echo '<img class="ml-15" src="dist/img/paypal.png" alt="">';
+                    echo '<img class="ml-2" src="dist/img/paypal.png" alt="" width="40px">';
                     break;
                 case "Paiement par D17":
-                    echo '<img class="ml-15" src="dist/img/d17.png" alt="">';
+                    echo '<img class="ml-2" src="dist/img/d17.png" alt="" width="40px">';
                     break;
                 case "Western Union":
-                    echo '<img class="ml-15" src="dist/img/paymentmethode/2.png" alt="" width="52px" height="52px">';
+                    echo '<img class="ml-2" src="dist/img/paymentmethode/2.png" alt="" width="40px">';
                     break;
                 case "Ria":
-                    echo '<img class="ml-15" src="dist/img/paymentmethode/3.png" alt="" width="52px" height="52px">';
+                    echo '<img class="ml-2" src="dist/img/paymentmethode/3.png" alt="" width="40px">';
                     break;
                 case "Carte Bancaire Tunisienne":
-                    echo '<img class="ml-15" src="dist/img/paymentmethode/5.png" alt="" width="52px" height="52px">';
+                    echo '<img class="ml-2" src="dist/img/paymentmethode/5.png" alt="" width="40px">';
                     break;
                 case "Virement bancaire international":
-                    echo '<img class="ml-15" src="dist/img/paymentmethode/1.png" alt="" width="52px" height="52px">';
+                    echo '<img class="ml-2" src="dist/img/paymentmethode/1.png" alt="" width="40px">';
                     break;
                 case "Wise":
-                    echo '<img class="ml-15" src="dist/img/paymentmethode/4.png" alt="" width="52px" height="52px">';
+                    echo '<img class="ml-2" src="dist/img/paymentmethode/4.png" alt="" width="40px">';
                     break;
                 case "CoinBase":
-                    echo '<img class="ml-15" src="dist/img/paymentmethode/7.png" alt="" width="52px" height="52px">';
+                    echo '<img class="ml-2" src="dist/img/paymentmethode/7.png" alt="" width="40px">';
                     break;
                 case "Binance":
-                    echo '<img class="ml-15" src="dist/img/paymentmethode/6.png" alt="" width="52px" height="52px">';
+                    echo '<img class="ml-2" src="dist/img/paymentmethode/6.png" alt="" width="40px">';
                     break;
-                     case "Revolut":
-                    echo '<img class="ml-15" src="dist/img/paymentmethode/8.png" alt="" width="52px" height="52px">';
+                case "Revolut":
+                    echo '<img class="ml-2" src="dist/img/paymentmethode/8.png" alt="" width="40px">';
                     break;
             }
             ?>
@@ -186,86 +262,28 @@ while($datapay = mysqli_fetch_array($respay)){
     </div>
 <?php } ?>
 </div>
-
                                             <hr>
-                                            <div class="form-group mb-2">
-                                                <button type="submit" name="" class="btn amado-btn">Confirmer</button>
-                                                <input type="hidden" name="action" id="" value="cmd_express" />
-                                                <input type="hidden" name="soustotal" id="stotal_commande" value="<?php echo $sous_total; ?>" />
-                                                <input type="hidden" name="total" id="total_commande" value="<?php echo $total; ?>" />
-                                                <input type="hidden" name="frais_livraison" id="frais_commande" value="<?php echo $frais; ?>" />
-                                                <input type="hidden" name="qte_cmd" id="qte_cmd" value="1" />
-                                                <input type="hidden" name="prod_cmd" id="prod_cmd" value="<?php echo $id; ?>" />
-                                            </div>
+                                            <button type="submit" class="btn amado-btn btn-sm btn-block">Confirmer</button>
+                                            <input type="hidden" name="action" value="cmd_express" />
+                                            <input type="hidden" name="soustotal" id="stotal_commande" value="<?php echo $sous_total; ?>" />
+                                            <input type="hidden" name="total" id="total_commande" value="<?php echo $total; ?>" />
+                                            <input type="hidden" name="frais_livraison" id="frais_commande" value="<?php echo $frais; ?>" />
+                                            <input type="hidden" name="qte_cmd" id="qte_cmd" value="1" />
+                                            <input type="hidden" name="prod_cmd" id="prod_cmd" value="<?php echo $id; ?>" />
                                         </form>
                                     </div>
-                                </div> 
+                                </div>
+                            </div>
                             <?php } ?>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Description détaillée en bas des images -->
-                <?php if(!empty($caracteristique)) { ?>
-                <div class="col-12 col-lg-9">
-                    <div class="full_content my-4 p-4 bg-white rounded shadow-sm">
-                        <h4 class="mb-3">Description détaillée</h4>
-                        <div class="content-text">
-                            <?php echo $caracteristique; ?>
-                        </div>
-                    </div>
-                </div>
-                <?php } ?>
-                
-                
-                
-                <!--------------------------------------------------- sidebar ---------------------------------------------------------------->
-                    
-                    <div class="col-12 col-lg-3 mb-4">
-                        <div class="sticky-top pt-2 full-sc ">
-                            <div class="single_product_desc bg-light px-2 py-4 rounded">
-    	                        
-                                <div class="product-meta-data mb-3">
-    	                            <p class="product-price mt-3"><?php if($PrixPromo != '0.000') { echo $PrixPromo.' DT <br/><span style="text-decoration:line-through;color:#aaa;font-size: 22px;">'.$PrixVente.' DT</span>'; }else{ echo $PrixVente.' DT'; } ?></p>
-                                </div>
-                                    
-                                <!-- Add to Cart Form -->
-                                <form class="cart clearfix d-flex flex-wrap flex-column justify-content-center align-items-center" method="post">
-                                    <div class="cart-btn d-flex mx-auto mb-3">
-                                        <p>Qté</p>
-                                        <div class="quantity">
-                                            <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
-                                            <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
-                                            <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
-                                        </div>
-                                    </div>
-    								<?php if ($etatStock == '1'){  ?>
-                                    <button type="button" name="addtocart" value="5" class="btn amado-btn text-uppercase"  onclick="addToCart(<?php echo $id; ?>, document.getElementById('qty').value);"><i class="fa fa-shopping-bag mr-2 border-right pr-2"></i>Ajouter au panier</button>
-                                    <?php }else{?>
-    								<button type="button" name="addtocart" value="5" class="btn amado-btn text-uppercase"  onclick="addToCart(<?php echo $id; ?>, document.getElementById('qty').value);" disabled><i class="fa fa-shopping-bag mr-2 border-right pr-2"></i>Ajouter au panier</button>
-    								<?php } ?>
-    							</form>
-                            </div>
-                            
-                            
-                            <?php 
-                                $reqs ="SELECT * FROM `services` ORDER BY `ordre` ASC";
-                                $ress =executeRequete($reqs);
-                                while($datas = mysqli_fetch_array($ress)){
-                            ?>
-                            <div class="bg-light p-2 mt-2 rounded" style="font-size:13px"><img src="<?php echo photoServiceSite($datas['id']); ?>" width="40px" class="bg-white me-2 p-2 rounded" /> <?php echo titreService($datas['id']); ?></div>    
-                            <?php
-                                }
-                            ?>
-                            
-                        </div>
-                    </div>
-                </div>                
             </div>
         </div>
     </div>
 </div>
 
+<!-- Modal for CGV -->
 <div class="modal fade" id="politique" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -282,6 +300,7 @@ while($datapay = mysqli_fetch_array($respay)){
     </div>
 </div>
 
+<!-- Scripts for Express Order -->
 <script>
 document.getElementById('commandeExpressForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -290,8 +309,8 @@ document.getElementById('commandeExpressForm').addEventListener('submit', functi
         return;
     }
     const now = new Date();
-    const date = now.toLocaleDateString('fr-TN'); // e.g. "14/06/2025"
-    const time = now.toLocaleTimeString('fr-TN', { hour: '2-digit', minute: '2-digit' }); // e.g. "15:42"
+    const date = now.toLocaleDateString('fr-TN');
+    const time = now.toLocaleTimeString('fr-TN', { hour: '2-digit', minute: '2-digit' });
     const nom = document.querySelector('input[name="nom"]').value;
     const prenom = document.querySelector('input[name="prenom"]').value;
     const tel = document.querySelector('input[name="tel"]').value;
@@ -334,110 +353,87 @@ document.getElementById('commandeExpressForm').addEventListener('submit', functi
     }
     window.location.href = url;
 });
-</script> <!--------------------------------------------------- Facebook ---------------------------------------------------------------->
-                
-                <script>
-                    fbq('track','ViewContent',{
-                        content_type: 'product',
-                        content_ids:['<?php echo $id;?>'],
-                        content_name:'<?php echo $titre;?>',
-                        value:'<?php echo $price;?>',
-                        currency: 'TND'
-                    });
-                </script>                
-                <!------------------------------------------------------- PRODUITS SIMILAIRES ------------------------------------------------------------>
-                <?php 
-		            $requete = 'SELECT * FROM `produits_similaire` WHERE `id_produit` ="'.$id.'" AND id_categ !="0"';
-                    $resultat = executeRequete($requete);
-	                $num = mysqli_num_rows($resultat);
-		            if ($num > 0 ) {?>
-		            <div class="my-4">
-        	            <h2>Produits similaires</h2>
-        	            <div class="prod-similaire slider justify-content-center">
-        		            <?php
-        		            
-        		            while ($datapr = mysqli_fetch_array($resultat))  {
-        		                
-                    		    if($datapr['id_categ']){   
-                    				$id_categ = $datapr['id_categ'];  
-                		            $requete1 = 'SELECT * FROM `produits` WHERE `categorie` ="'.$id_categ.'"';
-                                    $resultat1 = executeRequete($requete1);
-        		                    while ($datapr1 = mysqli_fetch_array($resultat1))  {
-                    				$id_p = $datapr1['id']; 
-                    				$link_p  = linkProduits($id_p); 
-                    		    
-                    		?>
-			                    <div class="mb-4 slide px-2">
-        							<div class="single-product-wrapper border p-2 text-center hoverDiv h-100">
-        								<!-- Product Image -->
-        								<a href="<?php echo lienProduits($link_p); ?>" class="product-img hover-zoom">
-        									<img src="<?php echo photoProduitsSite($id_p); ?>" alt="" class="img-fluid">
-        								</a>
-        
-        								<!-- Product Description -->
-        								<div class="product-description d-flex flex-column align-items-center justify-content-between">
-        									<!-- Product Meta Data -->
-        									<div class="product-meta-data text-center">
-        										<a href="<?php echo lienProduits($link_p); ?>">
-        											<h6><?php echo titreProduits($id_p); ?></h6>
-        										</a>
-        										<div class="line mx-auto my-2 h-auto"></div>
-        										<?php
-        										if(marquesProduits($id_p) != '0' && ApercuMarque(marquesProduits($id_p)) !='') { 
-            									$output = '<div style="height:60px;overflow:hidden"><img src="'.photoMarqueSite(marquesProduits($id_p)).'" class="img-fluid mx-auto" style="width: 120px;height: -webkit-fill-available; object-fit: contain;"> </div>';
-            									}
-        										echo $output;
-        										?>
-            									<?php if (etatStockProduits($id_p) == '1'){ ?> 
-                                                    <p class="avaibility m-0" style="color:#20d34a;font-size:14px;text-transform:uppercase"><i class="fa fa-circle"></i> En Stock</p>
-        								        <?php }else{?>
-                                                    <p class="avaibility m-0" style="color:#6b6b6b;font-size:14px;text-transform:uppercase"><i class="fa fa-circle rupture"></i> En Rupture</p>
-        								        <?php } ?>
-        										<?php if(prixPromoProduits($id_p) != '0.000') { ?>
-            									<p class="product-price"><?php echo prixPromoProduits($id_p); ?> DT  <br/> <span style="text-decoration:line-through;color:#aaa;font-size: 18px;"><?php echo prixVenteProduits($id_p); ?> DT</span> </p>
-            									<?php }else{?>
-            									<p class="product-price"><?php echo prixVenteProduits($id_p); ?> DT </p>
-            									<?php }?>
-        									</div>
-        									<!-- Ratings & Cart -->
-        									<div class="ratings-cart d-flex w-100 justify-content-between">
-    										    <div class="cart">
-        										<?php if(etatStockProduits($id_p) == '1'){  ?>
-                                                 <button data-toggle="tooltip" data-placement="top"  onclick="addToCart(<?php echo afficheChamp($id_p) ?>,'1')" id="AddCart" class="btn btn-primary-outline" title="Ajouter au panier"  style="font-size: 12px;padding: 0px 1px;"><img src="dist/img/cart.png" alt="" class="img-fluid" style="width:15px!important;display:inline-block;"> Ajouter au panier</button>
-        								        <?php }else{ ?>
-                                                 <button data-toggle="tooltip" data-placement="top"  onclick="addToCart(<?php echo afficheChamp($id_p) ?>,'1')" id="AddCart" style="background: unset;opacity: 0.5; font-size: 12px;padding: 0px 1px;" class="btn btn-primary-outline" disabled title="En rupture"><img src="dist/img/cart.png" alt="" class="img-fluid" style="width:15px!important;display:inline-block;"> Ajouter au panier</button>
-        								        <?php } ?>
-        												
-        										</div>
-        										<div class="cart" data-toggle="tooltip" data-placement="top" title="Détails produit">
-        											<a href="<?php echo lienProduits($link_p); ?>"  class="btn btn-primary-outline"  style="font-size: 12px;padding: 0px 1px;"><i class="fa fa-eye" style="color:#ababab"></i> Voir détails</a>
-        										</div>
-        									</div>
-        								</div>
-        							</div>
-        						</div>
-        	            <?php } } } ?>
-        	            </div>
-    	            </div>
-    	            <?php } ?>
-                
-            </div>
+</script>
+
+<!-- Facebook Pixel -->
+<script>
+    fbq('track','ViewContent',{
+        content_type: 'product',
+        content_ids:['<?php echo $id;?>'],
+        content_name:'<?php echo $titre;?>',
+        value:'<?php echo $price;?>',
+        currency: 'TND'
+    });
+</script>
+
+<!-- Similar Products Section -->
+<?php 
+    $requete = 'SELECT * FROM `produits_similaire` WHERE `id_produit` ="'.$id.'" AND id_categ !="0"';
+    $resultat = executeRequete($requete);
+    $num = mysqli_num_rows($resultat);
+    if ($num > 0 ) {?>
+    <div class="container my-5">
+        <h2 class="mb-4">Produits similaires</h2>
+        <div class="prod-similaire slider justify-content-center">
+            <?php
+            while ($datapr = mysqli_fetch_array($resultat))  {
+                if($datapr['id_categ']){   
+                    $id_categ = $datapr['id_categ'];  
+                    $requete1 = 'SELECT * FROM `produits` WHERE `categorie` ="'.$id_categ.'"';
+                    $resultat1 = executeRequete($requete1);
+                    while ($datapr1 = mysqli_fetch_array($resultat1))  {
+                        $id_p = $datapr1['id']; 
+                        $link_p  = linkProduits($id_p); 
+            ?>
+                    <div class="mb-4 slide px-2">
+                        <div class="single-product-wrapper border p-2 text-center hoverDiv h-100">
+                            <!-- Product Image -->
+                            <a href="<?php echo lienProduits($link_p); ?>" class="product-img hover-zoom">
+                                <img src="<?php echo photoProduitsSite($id_p); ?>" alt="" class="img-fluid">
+                            </a>
+
+                            <!-- Product Description -->
+                            <div class="product-description d-flex flex-column align-items-center justify-content-between">
+                                <!-- Product Meta Data -->
+                                <div class="product-meta-data text-center">
+                                    <a href="<?php echo lienProduits($link_p); ?>">
+                                        <h6><?php echo titreProduits($id_p); ?></h6>
+                                    </a>
+                                    <div class="line mx-auto my-2 h-auto"></div>
+                                    <?php
+                                    if(marquesProduits($id_p) != '0' && ApercuMarque(marquesProduits($id_p)) !='') { 
+                                        $output = '<div style="height:60px;overflow:hidden"><img src="'.photoMarqueSite(marquesProduits($id_p)).'" class="img-fluid mx-auto" style="width: 120px;height: -webkit-fill-available; object-fit: contain;"> </div>';
+                                    }
+                                    echo $output;
+                                    ?>
+                                    <?php if (etatStockProduits($id_p) == '1'){ ?> 
+                                        <p class="avaibility m-0" style="color:#20d34a;font-size:14px;text-transform:uppercase"><i class="fa fa-circle"></i> En Stock</p>
+                                    <?php }else{?>
+                                        <p class="avaibility m-0" style="color:#6b6b6b;font-size:14px;text-transform:uppercase"><i class="fa fa-circle rupture"></i> En Rupture</p>
+                                    <?php } ?>
+                                    <?php if(prixPromoProduits($id_p) != '0.000') { ?>
+                                        <p class="product-price"><?php echo prixPromoProduits($id_p); ?> DT  <br/> <span style="text-decoration:line-through;color:#aaa;font-size: 18px;"><?php echo prixVenteProduits($id_p); ?> DT</span> </p>
+                                    <?php }else{?>
+                                        <p class="product-price"><?php echo prixVenteProduits($id_p); ?> DT </p>
+                                    <?php }?>
+                                </div>
+                                <!-- Ratings & Cart -->
+                                <div class="ratings-cart d-flex w-100 justify-content-between">
+                                    <div class="cart">
+                                        <?php if(etatStockProduits($id_p) == '1'){  ?>
+                                        <button data-toggle="tooltip" data-placement="top"  onclick="addToCart(<?php echo afficheChamp($id_p) ?>,'1')" id="AddCart" class="btn btn-primary-outline" title="Ajouter au panier"  style="font-size: 12px;padding: 0px 1px;"><img src="dist/img/cart.png" alt="" class="img-fluid" style="width:15px!important;display:inline-block;"> Ajouter au panier</button>
+                                        <?php }else{ ?>
+                                        <button data-toggle="tooltip" data-placement="top"  onclick="addToCart(<?php echo afficheChamp($id_p) ?>,'1')" id="AddCart" style="background: unset;opacity: 0.5; font-size: 12px;padding: 0px 1px;" class="btn btn-primary-outline" disabled title="En rupture"><img src="dist/img/cart.png" alt="" class="img-fluid" style="width:15px!important;display:inline-block;"> Ajouter au panier</button>
+                                        <?php } ?>
+                                    </div>
+                                    <div class="cart" data-toggle="tooltip" data-placement="top" title="Détails produit">
+                                        <a href="<?php echo lienProduits($link_p); ?>"  class="btn btn-primary-outline"  style="font-size: 12px;padding: 0px 1px;"><i class="fa fa-eye" style="color:#ababab"></i> Voir détails</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            <?php } } } ?>
         </div>
-	
-	</div>
-	
-	    <div class="modal fade" id="politique" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="modal-title" id="exampleModalLabel"><?php echo titrePage(26); ?></h3>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-              </div>
-          <div class="modal-body">
-            <?php echo contenuPage(26); ?>
-          </div>
-        </div>
-      </div>
     </div>
+    <?php } ?>
