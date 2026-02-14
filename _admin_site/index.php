@@ -196,8 +196,21 @@ include("includes/security.php");
 						include("includes/modifier_bloc_accueil.php");
 						break;
 
+					case "nbloc_accueil":
+						include("includes/fonctions/fction_pages.php");
+						include("includes/fonctions/fction_bloc_accueil.php");
+						include("includes/ajouter_bloc_accueil.php");
+						break;
+
+					case "addSectionContent":
+						include("includes/fonctions/fction_pages.php");
+						include("includes/fonctions/fction_bloc_accueil.php");
+						include("includes/add_section_content.php");
+						break;
+
 					case "listeSection":
 						include("includes/fonctions/fction_pages.php");
+						include("includes/fonctions/fction_bloc_accueil.php");
 						include("includes/liste_sections.php");
 						break;
 
@@ -208,10 +221,12 @@ include("includes/security.php");
 
 					case "mlisteSection":
 						include("includes/fonctions/fction_pages.php");
+						include("includes/fonctions/fction_bloc_accueil.php");
 						include("includes/modifier_liste_sections.php");
 						break;
 
 					case "services":
+						include("includes/fonctions/fction_services.php");
 						include("includes/services.php");
 						break;
 
@@ -220,6 +235,7 @@ include("includes/security.php");
 						break;
 
 					case "mservice":
+						include("includes/fonctions/fction_services.php");
 						include("includes/modifier_service.php");
 						break;
 
@@ -257,10 +273,12 @@ include("includes/security.php");
 						break;
 
 					case "caracteristiques":
+						include("includes/fonctions/fction_produits.php");
 						include("includes/caracteristiques.php");
 						break;
 
 					case "ncaracteristiques":
+						include("includes/fonctions/fction_produits.php");
 						include("includes/ajouter_caracteristiques.php");
 						break;
 
@@ -304,14 +322,16 @@ include("includes/security.php");
 						break;
 
 					case "marques":
+						include("includes/fonctions/fction_produits.php");
 						include("includes/marques.php");
 						break;
 
 					case "nmarque":
+						include("includes/fonctions/fction_produits.php");
 						include("includes/ajouter_marque.php");
 						break;
 
-					case "mmarque":
+					case "mMarque":
 						include("includes/fonctions/fction_produits.php");
 						include("includes/modifier_marque.php");
 						break;
@@ -356,12 +376,12 @@ include("includes/security.php");
 						include("includes/frais_livraison.php");
 						break;
 
-					case "nfrais_livraison":
+					case "nfraislivraison":
 						include("includes/fonctions/fction_moyens_paiement.php");
 						include("includes/ajouter_frais_livraison.php");
 						break;
 
-					case "mfrais_livraison":
+					case "mfraislivraison":
 						include("includes/fonctions/fction_moyens_paiement.php");
 						include("includes/modifier_frais_livraison.php");
 						break;
