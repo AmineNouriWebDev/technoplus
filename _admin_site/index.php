@@ -208,6 +208,12 @@ include("includes/security.php");
 						include("includes/add_section_content.php");
 						break;
 
+					case "editSectionContent":
+						include("includes/fonctions/fction_pages.php");
+						include("includes/fonctions/fction_bloc_accueil.php");
+						include("includes/edit_section_content.php");
+						break;
+
 					case "listeSection":
 						include("includes/fonctions/fction_pages.php");
 						include("includes/fonctions/fction_bloc_accueil.php");
