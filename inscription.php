@@ -88,7 +88,19 @@
 
                 $confirm_key=random(40);
 
-                $req="INSERT INTO `clients`(`nom`,`prenom`,`email`,`tel`,`password`,`date_creation`,`etat`) VALUES('".$nom."','".$prenom."','".$email."','".$tel."','".$password."','".$date_creation."','1')";
+                // Fix default values for missing fields in production DB
+                $adresse = "";
+                $ville = "";
+                $code_postale = "0"; // int(20)
+                $commentaire = "";
+                $mpc = "";
+                $sess_id = "";
+                $oauth_provider = "google"; // enum default
+                $oauth_uid = "";
+                $link = "";
+                $date_modif = time();
+
+                $req="INSERT INTO `clients`(`nom`,`prenom`,`email`,`tel`,`password`,`date_creation`,`etat`, `adresse`, `ville`, `code_postale`, `commentaire`, `mpc`, `sess_id`, `oauth_provider`, `oauth_uid`, `link`, `date_modif`) VALUES('".$nom."','".$prenom."','".$email."','".$tel."','".$password."','".$date_creation."','1', '".$adresse."', '".$ville."', '".$code_postale."', '".$commentaire."', '".$mpc."', '".$sess_id."', '".$oauth_provider."', '".$oauth_uid."', '".$link."', '".$date_modif."')";
                 
                 log_debug("Insert Query: $req");
 
