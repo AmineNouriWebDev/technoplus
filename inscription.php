@@ -32,141 +32,185 @@
 	exit;
     }
 
+	/* DEBUG: FUNCTION LOG */
+	function log_debug($msg) {
+		$logFile = __DIR__ . '/debug_inscription.log';
+		$date = date('Y-m-d H:i:s');
+		file_put_contents($logFile, "[$date] $msg" . PHP_EOL, FILE_APPEND);
+	}
+
 	if(isset($_POST['action']) && $_POST['action']=="add" ){
+        log_debug("Action ADD started.");
+        
+        try {
 
-
-
-		$nom=sanitize($_POST['nom']);
-		
-		$prenom=sanitize($_POST['prenom']);
-
-		$email=sanitize($_POST['email']);
-
-		$tel=sanitize($_POST['phone']);
-
-		$password=sanitize($_POST['password']);
-
-		$confirm_password=sanitize($_POST['confirm_password']);
-
-		//exit;
-
-		if($password!=$confirm_password){ // mot de passe non identiques erreur
-
-			$erreur="Les mot de passe et sa confirmation ne sont pas identiques!";
-
-		}else
-		{ // mots de passes identiques c'est ok
-
-			$req="SELECT * FROM `clients` where `email` ='".$email."'";    
-
-			$res=executeRequete($req);
-
-			$data1 = mysqli_fetch_array($res);
-
-			if(isset($data1['id']) && $data1['id']!=""){ // compte existe avec l'adresse email 
-
-			  $erreur="Un compte existe déjà avec cette adresse e-mail!";
-
-			}
-
-			else{ // inscription
-
-			  $date_creation=time();
-
-			  $confirm_key=random(40);
-
-			  $req="INSERT INTO `clients`(`nom`,`prenom`,`email`,`tel`,`password`,`date_creation`,`etat`) VALUES('".$nom."','".$prenom."','".$email."','".$tel."','".$password."','".$date_creation."','1')";
-
-      //echo $req; exit;
-
-			  $connexion=ouvrirCnx() or die("erreur cnx");
-
-			  $result  = mysqli_query($connexion, $req); 
-
-
-
-			  // envoi email
-              // Initialisation sécurisée de $email_contact
-              if (!isset($email_contact)) {
-                  $email_contact = "";
-              }
-
-              $email_contacts = array();
-              if (!empty($email_contact)) {
-                  $email_contacts = explode(';', $email_contact);
-              }
-
-              // Si aucun email de contact n'est défini, on ajoute une valeur par défaut ou on gère l'erreur silencieusement pour ne pas bloquer l'inscription
-              if (empty($email_contacts)) {
-                  // Optionnel: logger l'erreur
-                  error_log("Attention: Aucun email de contact défini dans la configuration pour l'inscription.");
-              }
+            $nom=sanitize($_POST['nom']);
             
-              // Envoi de l'email au client
-              if (!empty($email)) {
-                  $clientmail = $prenom . " " . $nom;
-                  $sujetmail = sujetEmail(4);
-                  $messagemail = str_replace("%%NOMCLT%%", $clientmail, messageEmail(4));
+            $prenom=sanitize($_POST['prenom']);
 
-                  $headers  = 'MIME-Version: 1.0' . "\r\n";
-                  $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
-                  $nomSite_safe = isset($nomSite) ? $nomSite : 'Technoplus';
-                  $from_email = !empty($email_contacts) ? $email_contacts[0] : 'no-reply@technoplus.io';
-                  $headers .= 'From: ' . $nomSite_safe . ' <' . $from_email . '>' . "\r\n";
+            $email=sanitize($_POST['email']);
 
-                  if ($_SERVER['SERVER_NAME'] != 'localhost') {
-                      @mail($email, $sujetmail, $messagemail, $headers, "-f " . $from_email);
-                  }
-              }
+            $tel=sanitize($_POST['phone']);
 
-              // Envoi des alertes aux administrateurs
-              if (!empty($email_contacts)) {
-                  $sujetmailadmin = sujetEmail(7);
-                  $detailsclt = "Nom :" . $prenom . " " . $nom . "<br />";
-                  $detailsclt .= "Tél :" . $tel . "<br />";
-                  $detailsclt .= "E-mail :" . $email . "<br />";
-                  $messagemailadmin = str_replace("%%DETAILSCLT%%", $detailsclt, messageEmail(7));
+            $password=sanitize($_POST['password']);
 
-                  foreach ($email_contacts as $emc) {
-                      if (!empty($emc)) {
-                          $headers_admin = 'MIME-Version: 1.0' . "\r\n";
-                          $headers_admin .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
-                          $headers_admin .= 'From: ' . $nomSite_safe . ' <' . $emc . '>' . "\r\n";
+            $confirm_password=sanitize($_POST['confirm_password']);
 
-                          if ($_SERVER['SERVER_NAME'] != 'localhost') {
-                              @mail($emc, $sujetmailadmin, $messagemailadmin, $headers_admin, "-f " . $emc);
-                          }
-                      }
-                  }
-              }
+            log_debug("Inputs sanitized. Email: $email");
 
+            //exit;
 
+            if($password!=$confirm_password){ // mot de passe non identiques erreur
+                $erreur="Les mot de passe et sa confirmation ne sont pas identiques!";
+                log_debug("Error: Passwords do not match.");
+            }else
+            { // mots de passes identiques c'est ok
 
-			  $new_id = mysqli_insert_id($connexion);
-              $sess_id = md5(microtime());
-              
-              // Update sess_id in DB
-              $strSQL1 = "UPDATE `clients` SET sess_id='".$sess_id."' WHERE id='".$new_id."'";
-              executeRequete($strSQL1);
+                $req="SELECT * FROM `clients` where `email` ='".$email."'";    
+                log_debug("Checking existing email: $req");
 
-              // Set SESSION variables (Auto-login)
-              $_SESSION['client_id'] = $new_id; 
-              $_SESSION['client_login'] = $email;
-              $_SESSION['client_nom'] = $nom;
-              $_SESSION['sess_id'] = $sess_id;
-              
-              // Redirect
-              ?>
-                <script language="javascript">
-                  window.location = '<?php echo lienCompte();?>';
-                </script>
-              <?php
-              exit;
+                $res=executeRequete($req);
+
+                $data1 = mysqli_fetch_array($res);
+
+                if(isset($data1['id']) && $data1['id']!=""){ // compte existe avec l'adresse email 
+                
+                $erreur="Un compte existe déjà avec cette adresse e-mail!";
+                log_debug("Error: Account already exists.");
+
+                }
+
+                else{ // inscription
+                
+                log_debug("Proceeding to insert new client.");
+
+                $date_creation=time();
+
+                $confirm_key=random(40);
+
+                $req="INSERT INTO `clients`(`nom`,`prenom`,`email`,`tel`,`password`,`date_creation`,`etat`) VALUES('".$nom."','".$prenom."','".$email."','".$tel."','".$password."','".$date_creation."','1')";
+                
+                log_debug("Insert Query: $req");
+
+                //echo $req; exit;
+
+                $connexion=ouvrirCnx() or die("erreur cnx");
+                log_debug("DB Connection opened.");
+
+                $result  = mysqli_query($connexion, $req);
+                
+                if (!$result) {
+                    log_debug("DB ERROR: " . mysqli_error($connexion));
+                    throw new Exception("DB Insert Failed: " . mysqli_error($connexion));
+                }
+                log_debug("Client inserted successfully.");
 
 
-			}
+                // envoi email
+                // Initialisation sécurisée de $email_contact
+                if (!isset($email_contact)) {
+                    $email_contact = "";
+                }
+                log_debug("Email contact safe: $email_contact");
 
-		}
+                $email_contacts = array();
+                if (!empty($email_contact)) {
+                    $email_contacts = explode(';', $email_contact);
+                }
+
+                // Si aucun email de contact n'est défini, on ajoute une valeur par défaut ou on gère l'erreur silencieusement pour ne pas bloquer l'inscription
+                if (empty($email_contacts)) {
+                    // Optionnel: logger l'erreur
+                    error_log("Attention: Aucun email de contact défini dans la configuration pour l'inscription.");
+                    log_debug("Warning: No contact email defined.");
+                }
+                
+                // Envoi de l'email au client
+                if (!empty($email)) {
+                    log_debug("Preparing client email.");
+                    $clientmail = $prenom . " " . $nom;
+                    $sujetmail = sujetEmail(4);
+                    log_debug("Client Subject: $sujetmail");
+                    $messagemail = str_replace("%%NOMCLT%%", $clientmail, messageEmail(4));
+                    log_debug("Client Message prepared.");
+
+                    $headers  = 'MIME-Version: 1.0' . "\r\n";
+                    $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+                    $nomSite_safe = isset($nomSite) ? $nomSite : 'Technoplus';
+                    $from_email = !empty($email_contacts) ? $email_contacts[0] : 'no-reply@technoplus.io';
+                    $headers .= 'From: ' . $nomSite_safe . ' <' . $from_email . '>' . "\r\n";
+
+                    if ($_SERVER['SERVER_NAME'] != 'localhost') {
+                        log_debug("Sending email to $email from $from_email");
+                        @mail($email, $sujetmail, $messagemail, $headers, "-f " . $from_email);
+                        log_debug("Email sent (supposedly).");
+                    } else {
+                        log_debug("Localhost: Skipping mail.");
+                    }
+                }
+
+                // Envoi des alertes aux administrateurs
+                if (!empty($email_contacts)) {
+                    log_debug("Preparing admin alerts.");
+                    $sujetmailadmin = sujetEmail(7);
+                    $detailsclt = "Nom :" . $prenom . " " . $nom . "<br />";
+                    $detailsclt .= "Tél :" . $tel . "<br />";
+                    $detailsclt .= "E-mail :" . $email . "<br />";
+                    $messagemailadmin = str_replace("%%DETAILSCLT%%", $detailsclt, messageEmail(7));
+
+                    foreach ($email_contacts as $emc) {
+                        if (!empty($emc)) {
+                            $headers_admin = 'MIME-Version: 1.0' . "\r\n";
+                            $headers_admin .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+                            $headers_admin .= 'From: ' . $nomSite_safe . ' <' . $emc . '>' . "\r\n";
+
+                            if ($_SERVER['SERVER_NAME'] != 'localhost') {
+                                log_debug("Sending admin alert to $emc");
+                                @mail($emc, $sujetmailadmin, $messagemailadmin, $headers_admin, "-f " . $emc);
+                            }
+                        }
+                    }
+                }
+
+
+
+                $new_id = mysqli_insert_id($connexion);
+                log_debug("New ID: $new_id");
+                $sess_id = md5(microtime());
+                
+                // Update sess_id in DB
+                $strSQL1 = "UPDATE `clients` SET sess_id='".$sess_id."' WHERE id='".$new_id."'";
+                executeRequete($strSQL1);
+                log_debug("Session ID updated in DB.");
+
+                // Set SESSION variables (Auto-login)
+                $_SESSION['client_id'] = $new_id; 
+                $_SESSION['client_login'] = $email;
+                $_SESSION['client_nom'] = $nom;
+                $_SESSION['sess_id'] = $sess_id;
+                
+                log_debug("Session set. Redirecting...");
+
+                // Redirect
+                ?>
+                    <script language="javascript">
+                    window.location = '<?php echo lienCompte();?>';
+                    </script>
+                <?php
+                exit;
+
+
+                }
+
+            }
+        
+        } catch (Exception $e) {
+            log_debug("CRITICAL EXCEPTION: " . $e->getMessage());
+            $erreur = "Une erreur est survenue: " . $e->getMessage();
+        } catch (Throwable $t) {
+            log_debug("CRITICAL THROWABLE: " . $t->getMessage() . " in " . $t->getFile() . ":" . $t->getLine());
+            $erreur = "Erreur fatale: " . $t->getMessage();
+        }
 
 	}
 	?>
