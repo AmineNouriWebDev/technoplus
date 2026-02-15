@@ -86,50 +86,59 @@
 
 
 			  // envoi email
-            $email_contacts = explode(';',$email_contact);
-            
-		    foreach($email_contacts as $emc){
-		        
-			  $headers  = 'MIME-Version: 1.0' . "\r\n";
-
-			  $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
-
-			  $headers .= 'From: '.$nomSite.' <'.$emc.'>'. "\r\n";
-
-
-			  $clientmail=$prenom." ".$nom;
-
-			  $sujetmail=sujetEmail(4);
-
-			  $linkconfirm=lienConfirminscription($confirm_key);
-
-			  $messagemail=str_replace("%%NOMCLT%%",$clientmail,messageEmail(4));
-
-			  //$messagemail=str_replace("%%LINKCONFIRM%%",$linkconfirm,$messagemail);
-            
-              if ($_SERVER['SERVER_NAME'] != 'localhost') {
-			      @mail($email, $sujetmail, $messagemail, $headers, "-f ".$emc."");
-              }
-            
-
-			  $sujetmailadmin=sujetEmail(7);
-
-			  $detailsclt="Nom :".$prenom." ".$nom."<br />";
-
-			  $detailsclt.="Tél :".$tel."<br />";
-
-			  $detailsclt.="E-mail :".$email."<br />";
-
-			  $messagemailadmin=str_replace("%%DETAILSCLT%%",$detailsclt,messageEmail(7));
-		        
-		        // Alerte client 
-		    
-
-              if ($_SERVER['SERVER_NAME'] != 'localhost') {
-			      @mail($emc, $sujetmailadmin, $messagemailadmin, $headers, "-f ".$emc."");
+              // Initialisation sécurisée de $email_contact
+              if (!isset($email_contact)) {
+                  $email_contact = "";
               }
 
-		    }
+              $email_contacts = array();
+              if (!empty($email_contact)) {
+                  $email_contacts = explode(';', $email_contact);
+              }
+
+              // Si aucun email de contact n'est défini, on ajoute une valeur par défaut ou on gère l'erreur silencieusement pour ne pas bloquer l'inscription
+              if (empty($email_contacts)) {
+                  // Optionnel: logger l'erreur
+                  error_log("Attention: Aucun email de contact défini dans la configuration pour l'inscription.");
+              }
+            
+              // Envoi de l'email au client
+              if (!empty($email)) {
+                  $clientmail = $prenom . " " . $nom;
+                  $sujetmail = sujetEmail(4);
+                  $messagemail = str_replace("%%NOMCLT%%", $clientmail, messageEmail(4));
+
+                  $headers  = 'MIME-Version: 1.0' . "\r\n";
+                  $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+                  $nomSite_safe = isset($nomSite) ? $nomSite : 'Technoplus';
+                  $from_email = !empty($email_contacts) ? $email_contacts[0] : 'no-reply@technoplus.io';
+                  $headers .= 'From: ' . $nomSite_safe . ' <' . $from_email . '>' . "\r\n";
+
+                  if ($_SERVER['SERVER_NAME'] != 'localhost') {
+                      @mail($email, $sujetmail, $messagemail, $headers, "-f " . $from_email);
+                  }
+              }
+
+              // Envoi des alertes aux administrateurs
+              if (!empty($email_contacts)) {
+                  $sujetmailadmin = sujetEmail(7);
+                  $detailsclt = "Nom :" . $prenom . " " . $nom . "<br />";
+                  $detailsclt .= "Tél :" . $tel . "<br />";
+                  $detailsclt .= "E-mail :" . $email . "<br />";
+                  $messagemailadmin = str_replace("%%DETAILSCLT%%", $detailsclt, messageEmail(7));
+
+                  foreach ($email_contacts as $emc) {
+                      if (!empty($emc)) {
+                          $headers_admin = 'MIME-Version: 1.0' . "\r\n";
+                          $headers_admin .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+                          $headers_admin .= 'From: ' . $nomSite_safe . ' <' . $emc . '>' . "\r\n";
+
+                          if ($_SERVER['SERVER_NAME'] != 'localhost') {
+                              @mail($emc, $sujetmailadmin, $messagemailadmin, $headers_admin, "-f " . $emc);
+                          }
+                      }
+                  }
+              }
 
 
 
