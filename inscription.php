@@ -100,7 +100,7 @@
                 $link = "";
                 $date_modif = time();
 
-                $req="INSERT INTO `clients`(`nom`,`prenom`,`email`,`tel`,`password`,`date_creation`,`etat`, `adresse`, `ville`, `code_postale`, `commentaire`, `mpc`, `sess_id`, `oauth_provider`, `oauth_uid`, `link`, `date_modif`) VALUES('".$nom."','".$prenom."','".$email."','".$tel."','".$password."','".$date_creation."','1', '".$adresse."', '".$ville."', '".$code_postale."', '".$commentaire."', '".$mpc."', '".$sess_id."', '".$oauth_provider."', '".$oauth_uid."', '".$link."', '".$date_modif."')";
+                $req="INSERT INTO `clients`(`nom`,`prenom`,`email`,`tel`,`password`,`date_creation`,`etat`, `adresse`, `ville`, `code_postale`, `commentaire`, `mpc`, `sess_id`, `oauth_provider`, `oauth_uid`, `link`, `date_modif`, `confirm_key`) VALUES('".$nom."','".$prenom."','".$email."','".$tel."','".$password."','".$date_creation."','1', '".$adresse."', '".$ville."', '".$code_postale."', '".$commentaire."', '".$mpc."', '".$sess_id."', '".$oauth_provider."', '".$oauth_uid."', '".$link."', '".$date_modif."', '".$confirm_key."')";
                 
                 log_debug("Insert Query: $req");
 
