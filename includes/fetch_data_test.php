@@ -1478,8 +1478,6 @@ if(isset($_POST["action"]) )
 
 	$(document).ready(function(){
 
-
-
 		var rowNumber = 4;
 
 		var $post = $('.list-element');
@@ -1487,8 +1485,6 @@ if(isset($_POST["action"]) )
 		var $post2 = $('.list-element-grid');
 
 		var fadeInSpeed = 500;
-
-
 
 		// Add rows around posts
 
@@ -1505,96 +1501,6 @@ if(isset($_POST["action"]) )
 			$post2.slice(i, i+4).wrapAll('<div class="row clearfix"></div>');
 
 		}
-
-
-
-		// Add display container every 4 rows
-
-		for(var i = 0, length = $post.length; i < length; i += rowNumber) {
-
-			$post.parent().slice(i, i+rowNumber).wrapAll('<div class="postContainer"></div>');
-
-		}
-
-		// Add display container every 4 rows
-
-		for(var i = 0, length = $post2.length; i < length; i += rowNumber) {
-
-			$post2.parent().slice(i, i+rowNumber).wrapAll('<div class="postContainerGrid"></div>');
-
-		}
-
-
-
-		// Add more button
-
-		$('.postContainer').each(function(){
-
-			$(this).append('<div class="loadMore"><button type="button" id="loadMoreBtn" class="portfolio-more-btn d-none">Afficher plus de produits...</button></div>');
-
-		});
-
-		// Add more button
-
-		$('.postContainerGrid').each(function(){
-
-			$(this).append('<div class="loadMore"><button type="button" id="loadMoreBtn" class="portfolio-more-btn d-block">Afficher plus de produits...</button></div>');
-
-		});
-
-		
-
-		// Hide last more button
-
-		$('.postContainer').last().find('.loadMore').fadeOut(0);
-
-		// Hide last more button
-
-		$('.postContainerGrid').last().find('.loadMore').fadeOut(0);
-
-		
-
-		// Hide all posts containers except the first one
-
-		$('.postContainer').not(":first").fadeOut(0);
-
-		// Hide all posts containers except the first one
-
-		$('.postContainerGrid').not(":first").fadeOut(0);
-
-		
-
-		// Display next posts container
-
-		$('.list').on('click', '#loadMoreBtn', function(evt){
-
-			evt.preventDefault();
-
-			// Show next post container
-
-			$(this).parents('.postContainer').next().fadeIn(fadeInSpeed);
-
-			// Hide old button
-
-			$(this).parent().fadeOut(0);
-
-		});
-
-		// Display next posts container
-
-		$('.list-grid').on('click', '#loadMoreBtn', function(evt){
-
-			evt.preventDefault();
-
-			// Show next post container
-
-			$(this).parents('.postContainerGrid').next().fadeIn(fadeInSpeed);
-
-			// Hide old button
-
-			$(this).parent().fadeOut(0);
-
-		});
 
 	});
 
