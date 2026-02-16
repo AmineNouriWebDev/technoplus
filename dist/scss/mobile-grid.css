@@ -136,4 +136,9 @@
         margin: 0 !important;
         color: #ababab;
     }
+
+    /* Hide Sidebar Toggle (fa-bars) as requested */
+    #sidebarToggle {
+        display: none !important;
+    }
 }
