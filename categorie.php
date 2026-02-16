@@ -171,6 +171,7 @@
             border-color: #ebebeb;
         }
 	</style>
+    <link rel="stylesheet" href="dist/scss/mobile-grid.css">
 	
 </head>
 

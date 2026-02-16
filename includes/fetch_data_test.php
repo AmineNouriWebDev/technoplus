@@ -815,7 +815,7 @@ if(isset($_POST["action"]) )
 
     						
 
-    						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 mb-3 ">
+    						<div class="col-6 col-sm-12 col-md-6 col-lg-3 mb-3 ">
 
     							<div class="single-product-wrapper border p-2 text-center hoverDiv">
 
@@ -1299,7 +1299,7 @@ if(isset($_POST["action"]) )
 
     						
 
-    						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 mb-3 list-element-grid grid-group-item d-block">
+    						<div class="col-6 col-sm-12 col-md-6 col-lg-3 mb-3 list-element-grid grid-group-item d-block">
 
     							<div class="single-product-wrapper border p-2 text-center hoverDiv">
 
