@@ -18,10 +18,36 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
+        /* Align content to top */
+    }
+
+    /* Description Container - Force it to fill space so buttons stay at bottom if needed, 
+       but primarily to control spacing */
+    .product-description {
+        flex-grow: 1;
+        justify-content: flex-start !important;
+        /* Force content to top, remove space-between */
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    /* Make sure specific margins inside description don't push it down */
+    .product-description .product-meta-data {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
     }
 
     /* Image */
+    .product-img {
+        margin-bottom: 0 !important;
+        /* Remove space below image */
+        display: block;
+        height: auto !important;
+        /* Override fixed 200px height from style.css */
+        min-height: 0 !important;
+    }
+
     .product-img img {
         max-height: 140px;
         /* Limit height to prevent huge images */
@@ -65,38 +91,49 @@
 
     /* Buttons Container */
     .ratings-cart {
-        flex-direction: column;
+        flex-direction: row !important;
+        /* Force Horizontal */
         gap: 5px;
+        width: 100%;
+        margin-top: 5px;
     }
 
     /* Action Buttons */
     .ratings-cart .btn {
-        padding: 8px 0 !important;
-        /* Vertical padding only */
+        padding: 6px 0 !important;
         font-size: 0 !important;
         /* Hide text */
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
+        margin: 0 !important;
+    }
+
+    .ratings-cart .cart {
+        width: 48% !important;
+        /* Two buttons side by side */
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: none !important;
+    }
+
+    /* Ensure icons are visible */
+    .ratings-cart .btn img,
+    .ratings-cart .btn i {
+        display: inline-block !important;
     }
 
     .ratings-cart .btn img {
-        width: 20px !important;
+        width: 18px !important;
         height: auto !important;
-        margin-right: 0 !important;
+        margin: 0 !important;
     }
 
     .ratings-cart .btn i {
         font-size: 16px !important;
-        /* Restore icon size */
-        margin-right: 0 !important;
-        color: #ababab;
-    }
-
-    .ratings-cart .cart {
-        width: 100% !important;
-        /* Full width buttons */
         margin: 0 !important;
+        color: #ababab;
     }
 }
