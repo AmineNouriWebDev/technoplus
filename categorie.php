@@ -171,8 +171,8 @@
             border-color: #ebebeb;
         }
 	</style>
-    <link rel="stylesheet" href="dist/scss/mobile-grid.css">
-    <link rel="stylesheet" href="dist/scss/reset-overflow.css">
+    <link rel="stylesheet" href="dist/scss/mobile-grid.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="dist/scss/reset-overflow.css?v=<?php echo time(); ?>">
 	
 </head>
 
