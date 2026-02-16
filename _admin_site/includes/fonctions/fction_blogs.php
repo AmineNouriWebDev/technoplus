@@ -56,7 +56,8 @@ function idparentCategBlog($id)
 	$requete = "SELECT * FROM `categories_blog` WHERE `id` = '".$id."'";
 	$resultat = executeRequete($requete);
 	$data = mysqli_fetch_array($resultat);
-	return afficheChamp($data['idparent']);
+	// Fix: Check if data exists before accessing array offset
+	return ($data && isset($data['idparent'])) ? afficheChamp($data['idparent']) : '0';
 }
 
 function idCategBlog($link)
@@ -79,7 +80,8 @@ function titreCategBlog($id)
 	$requete = "SELECT * FROM `categories_blog` WHERE `id` = '".$id."'";
 	$resultat = executeRequete($requete);
 	$data = mysqli_fetch_array($resultat);
-	return afficheChamp1($data['titre']);
+	// Fix: Check if data exists before accessing array offset
+	return ($data && isset($data['titre'])) ? afficheChamp1($data['titre']) : '';
 }
 function titreCategories($link) 
 {

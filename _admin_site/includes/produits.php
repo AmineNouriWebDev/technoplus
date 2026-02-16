@@ -76,51 +76,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <?php   
-                                        include("includes/pagination_ui.php");
-
-                                        $itemsPerPage = 20;
-                                        $currentPage = isset($_GET['p']) ? (int)$_GET['p'] : 1;
-                                        if ($currentPage < 1) $currentPage = 1;
-                                        $offset = ($currentPage - 1) * $itemsPerPage;
-
-                                        $countReq = 'SELECT COUNT(*) as total FROM `produits`';
-                                        $countRes = executeRequete($countReq);
-                                        $countData = mysqli_fetch_array($countRes);
-                                        $totalItems = $countData['total'];
-                                        $totalPages = ceil($totalItems / $itemsPerPage);
-
-										$req = "SELECT * FROM `produits` ORDER BY `id` DESC LIMIT " . $itemsPerPage . " OFFSET " . $offset;
-										$res = executeRequete($req);
-										$num = mysqli_num_rows($res);
-										if ($num > 0 ) { 
-										 while ($data = mysqli_fetch_array($res))  {
-										 ?>
-                                            <tr data-row-id="<?php echo afficheChamp($data['id']); ?>">
-                                                <td><input type="checkbox" class="sub_chk" data-id="<?php echo afficheChamp($data['id']); ?>" style="position:relative;left:0;opacity:1"></td>
-                                                <td><?php echo photoProduits($data['id']) ; echo afficheChamp($data['titre']); ?></td>
-                                                <td><?php if($data['prix_promo'] != '0.000') { echo afficheChamp($data['prix_promo']).' DT <span style="text-decoration:line-through">'.afficheChamp($data['prix_vente']).' DT </span>'; }else{ echo afficheChamp($data['prix_vente']).' DT'; } ?></td>
-                                                <td><?php echo titreCategBlog($data['categorie']); ?></td>
-                                                <td><?php echo raisonMarque($data['marque']); ?></td>
-                                                <td><?php if( afficheChamp($data['type']) == "E") echo "Equipement" ; else echo "Abonnement"; ?></td>
-                                                <td><?php echo auteur_name($data['auteur']); ?><br/><?php echo timestampTDtodate($data['datecreation']); ?></td>
-                                                <td class="text-nowrap">
-                                                    <a href="index.php?r=mproduits&id=<?php echo afficheChamp($data['id']); ?>" data-toggle="tooltip" data-original-title="Modifier"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                                    <a href="index.php?r=addproduitssimilaire&id=<?php echo afficheChamp($data['id']); ?>" data-toggle="tooltip" data-original-title="Ajouter produits similaire"> <i class="fa fa-list text-inverse m-r-10"></i> </a>
-                                                    <a href="index.php?r=addproduit&id=<?php echo afficheChamp($data['id']); ?>" data-toggle="tooltip" data-original-title="Ajouter images suplimentaires"> <i class="fa fa-image text-inverse m-r-10"></i> </a>
-                                                    <a href="index.php?r=fichesTechniques&id=<?php echo afficheChamp($data['id']); ?>&action=addFiche" data-toggle="tooltip" data-original-title="Ajouter fiche technique"> <i class="fa fa-file-pdf-o text-inverse m-r-10"></i></a>
-                                                    <a href="index.php?r=facilitePaiement&id=<?php echo afficheChamp($data['id']); ?>" data-toggle="tooltip" data-original-title="Ajouter detail paiement"> <i class="fa fa-dollar text-inverse m-r-10"></i></a>
-                                                    <a href="index.php?r=produits&id=<?php echo afficheChamp($data['id']); ?>&action=supp" data-toggle="tooltip" data-original-title="Supprimer"> <i class="fa fa-close text-danger"></i></a>
-                                                </td>
-                                            </tr>
-                                         <?php } ?>
-                                        <?php } ?>
+                                        <!-- DataTables will populate this table via AJAX from arrays.php -->
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="8">
-                                                    <?php renderPagination($currentPage, $totalPages, 'index.php?r=produits'); ?>
-                                                </td>
+                                                <th></th>
+                                                <th width="40%">Produit</th>
+                                                <th>Prix vente</th>
+                                                <th>Catégorie</th>
+                                                <th>Marque</th>
+                                                <th>Type</th>
+                                                <th>Créée par /Date</th>
+                                                <th class="text-nowrap">Action</th>
                                             </tr>
                                         </tfoot>
                                     </table>

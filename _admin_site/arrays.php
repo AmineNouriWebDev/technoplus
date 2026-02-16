@@ -1,4 +1,6 @@
 <?php 
+// Suppress warnings to ensure clean JSON output
+error_reporting(0); 
 
 include('includes/include.php');
 include('includes/fonctions/fction_produits.php');
@@ -11,6 +13,22 @@ $rowperpage = $_POST['length']; // Rows display per page
 $columnIndex = $_POST['order'][0]['column']; // Column index
 $columnName = $_POST['columns'][$columnIndex]['data']; // Column name
 $columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
+
+// Map DataTables column names to actual SQL column names
+$columnMap = array(
+    '' => 'id',              // Checkbox column
+    'produit' => 'titre',    // Product title
+    'prix_vente' => 'prix_vente',
+    'categorie' => 'categorie',
+    'marque' => 'marque',
+    'type' => 'type',
+    'datecreation' => 'datecreation',
+    'action' => 'id'         // Action column, sort by id
+);
+
+// Get the actual SQL column name
+$actualColumnName = isset($columnMap[$columnName]) ? $columnMap[$columnName] : 'id';
+
 //$searchValue = mysqli_real_escape_string(ouvrirCnx(),$_POST['search']['value']); // Search value 
 
 
@@ -26,7 +44,7 @@ if($searchByTitle != ''){
    $searchQuery .= " and ( pr.link LIKE '%".nett($searchByTitle)."%' or pr.titre LIKE '%".$searchByTitle."%' ) ";
 }
 if($searchByCateg != ''){
-   $searchQuery .= " and ( ( ctg.titre LIKE '%".$searchByCateg."%'  &&  pr.categorie = ctg.id ) or ( ctg.link LIKE '%".nett($searchByCateg)."%'  && pr.categorie = ctg.id ) OR ( ctg.titre LIKE '%".$searchByCateg."%'  &&  ctg.id = pr.idparent_categ ) OR ( ctg.link LIKE '%".$searchByCateg."%'  &&  ctg.id = pr.idparent_categ ) ) ";
+   $searchQuery .= " and ( ( ctg.titre LIKE '%".$searchByCateg."%'  && pr.categorie = ctg.id ) or ( ctg.link LIKE '%".nett($searchByCateg)."%'  && pr.categorie = ctg.id ) OR ( ctg.titre LIKE '%".$searchByCateg."%'  &&  ctg.id = pr.idparent_categ ) OR ( ctg.link LIKE '%".$searchByCateg."%'  &&  ctg.id = pr.idparent_categ ) ) ";
 }
 if($searchByMarque != ''){
    $searchQuery .= " and ( mr.raison LIKE '%".$searchByMarque."%'  && pr.marque = mr.id ) ";
@@ -49,7 +67,8 @@ $totalRecordwithFilter = $recordwithFilter['allcount'];
 $empQuery = "SELECT DISTINCT(pr.id) FROM `produits` pr, `marques` mr , `categories_blog` ctg WHERE 1 ".$searchQuery;
 
 if(!empty($_POST["order"])){
-	$empQuery .= ' ORDER BY pr.'.$columnName.' '.$columnSortOrder.' ';
+	// Use the mapped actual column name
+	$empQuery .= ' ORDER BY pr.'.$actualColumnName.' '.$columnSortOrder.' ';
 } else {
 	$empQuery .= ' ORDER BY pr.id DESC ';
 }
