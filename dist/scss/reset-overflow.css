@@ -1,0 +1,45 @@
+/* Fix Horizontal Overflow on Mobile */
+@media only screen and (max-width: 575px) {
+
+    body,
+    html {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+
+    /* Ensure container doesn't overflow */
+    .container-fluid {
+        padding-right: 15px;
+        padding-left: 15px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Fix potential overflow from row margins */
+    .row {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    /* Constrain scrollUP button */
+    #scrollUP {
+        right: 15px !important;
+        /* Move it slightly away from edge */
+        bottom: 60px !important;
+        /* Move up to avoid covering content */
+    }
+
+    /* Fix Cart Feedback/Icon if it appears */
+    #feedbackContent {
+        max-width: 90%;
+        right: 5% !important;
+        left: 5% !important;
+    }
+
+    /* Ensure images don't overflow */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}

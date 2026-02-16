@@ -172,6 +172,7 @@
         }
 	</style>
     <link rel="stylesheet" href="dist/scss/mobile-grid.css">
+    <link rel="stylesheet" href="dist/scss/reset-overflow.css">
 	
 </head>
 
