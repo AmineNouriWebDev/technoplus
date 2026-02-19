@@ -69,10 +69,80 @@
             color: #444;
             line-height: 38px;
         }
-	    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
             height: 38px;
         }
+
+        /* Premium Pagination Styling - Fixed Ergonomics */
+        .pagination .page-item {
+            margin: 0 4px; 
+            display: inline-block; /* Ensure items don't collapse */
+        }
+
+        .pagination .page-item .page-link {
+            color: #2b2b2b;
+            border: 1px solid #ebebeb;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 300ms ease;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+            width: auto !important; /* Force auto width */
+            white-space: nowrap; 
+            overflow: visible; /* Ensure content is not clipped */
+        }
+
+        /* Adjust width for text-heavy buttons (Précédent / Suivant) */
+        .pagination .page-item.mx-2 {
+            margin-right: 15px !important;
+            margin-left: 15px !important;
+        }
+
+        .pagination .page-item.mx-2 .page-link {
+            min-width: 120px !important; /* Give them enough space */
+            width: auto !important;
+            padding: 0 20px !important;
+        }
+
+        .pagination .page-link i {
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        /* Spacing for icons */
+        .pagination .page-link i.fa-angle-left {
+            margin-right: 10px;
+        }
+
+        .pagination .page-link i.fa-angle-right {
+            margin-left: 10px;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #fbb710;
+            border-color: #fbb710;
+            color: #fff;
+        }
+
+        .pagination .page-item:not(.active):hover .page-link {
+            background-color: #2b2b2b;
+            border-color: #2b2b2b;
+            color: #fff;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #ccc;
+            background-color: #f9f9f9;
+            border-color: #ebebeb;
+        }
 	</style>
+    <link rel="stylesheet" href="dist/scss/mobile-grid.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="dist/scss/reset-overflow.css?v=<?php echo time(); ?>">
     
 </head>
 
@@ -114,9 +184,8 @@
 
 		filter_data();
 
-		function filter_data()
+		function filter_data(page = 1)
 		{
-			$('.filter_data').html('<div class="row"> <div class="col-12"><div id="loading"></div></div></div>');
 			var action = 'fetch_data';
             var minimum_price = $('#hidden_minimum_price').val();
             var maximum_price = $('#hidden_maximum_price').val();
@@ -129,13 +198,23 @@
 			var category = get_filter('category');
 			var caracteristique = get_filter('caracteristique');
 			var categoryByTitre = '<?php if ((isset($_GET['categorie']) && $_GET['categorie'] != '')){ echo $_GET['categorie']; }elseif ((isset($_POST['categorie']) && $_POST['categorie'] != '')){ echo linkCategBlog($_POST['categorie']); }else{ echo ''; } ?>';
+			
+			$('.filter_data').html('<div class="row"> <div class="col-12"><div id="loading"></div></div></div>');
+			
 			$.ajax({
 				url:"includes/fetch_data_test.php",
 				method:"POST",
-				data:{action:action,brand:brand, category:category,caracteristique:caracteristique, type:type,link:link,search:search, minimum_price:minimum_price, maximum_price:maximum_price,categoryByTitre:categoryByTitre,marque:marque,promo:promo },
+				data:{action:action,brand:brand, category:category,caracteristique:caracteristique, type:type,link:link,search:search, minimum_price:minimum_price, maximum_price:maximum_price,categoryByTitre:categoryByTitre,marque:marque,promo:promo, page:page },
 				
 				success:function(data){
 					$('.filter_data').html(data);
+                    init_price_slider();
+                    // Scroll to top of products after page change
+                    if (page > 1) {
+                        $('html, body').animate({
+                            scrollTop: $('.filter_data').offset().top - 100
+                        }, 500);
+                    }
 				}
 			});
 		}
@@ -143,31 +222,70 @@
 		function get_filter(class_name)
 		{
 			var filter = [];
-			$('.'+class_name+':checked').each(function(){
+			$('.'+class_name+':checked:visible').each(function(){
 				filter.push($(this).val());
 			});
+            // Handle select elements for mobile
+            $('select.'+class_name+':visible').each(function(){
+                if($(this).val() != ''){
+                    filter.push($(this).val());
+                }
+            });
 			return filter;
 		}
 
-		$('.common_selector').click(function(){
+		$(document).on('change', '.common_selector', function(){
 			filter_data();
 		});
 
-        $('#price_range').slider({
-            range:true,
-            min:<?php echo $dataprice['min']; ?>,
-            max:<?php echo $dataprice['max']; ?>,
-            values:[<?php echo $dataprice['min']; ?>, <?php echo $dataprice['max']; ?>],
-            step:0.001,
-            format:'DT',
-            stop:function(event, ui)
-            {
-                $('#price_show').html(ui.values[0] + ' DT - ' + ui.values[1] +' DT');
-                $('#hidden_minimum_price').val(ui.values[0]);
-                $('#hidden_maximum_price').val(ui.values[1]);
-                filter_data();
+        // ========== PAGINATION CLICK HANDLER ==========
+        $(document).on('click', '.pagination-link', function(e){
+            e.preventDefault();
+            var page = $(this).data('page');
+            if (page && !$(this).parent().hasClass('disabled') && !$(this).parent().hasClass('active')) {
+                // Modified filter_data to accept page parameter
+                filter_data(page);
             }
         });
+        // ==============================================
+
+        function init_price_slider() {
+            var min = <?php echo $dataprice['min']; ?>;
+            var max = <?php echo $dataprice['max']; ?>;
+            var cur_min = $('#hidden_minimum_price').val() || min;
+            var cur_max = $('#hidden_maximum_price').val() || max;
+
+            var slider_options = {
+                range:true,
+                min: min,
+                max: max,
+                values:[cur_min, cur_max],
+                format:"DT",
+                step:0.001,
+                unit:'DT',
+                stop:function(event, ui)
+                {
+                    $('#price_show, #price_show_mobile').html(ui.values[0] + ' DT - ' + ui.values[1] +' DT');
+                    $('#hidden_minimum_price').val(ui.values[0]);
+                    $('#hidden_maximum_price').val(ui.values[1]);
+                    filter_data();
+                },
+                slide: function(event, ui) {
+                    $('#price_show, #price_show_mobile').html(ui.values[0] + ' DT - ' + ui.values[1] +' DT');
+                }
+            };
+
+            if ($('#price_range').length > 0) {
+                $('#price_range').slider(slider_options);
+                $('#price_show').html(cur_min + ' DT - ' + cur_max +' DT');
+            }
+            if ($('#price_range_mobile').length > 0) {
+                $('#price_range_mobile').slider(slider_options);
+                $('#price_show_mobile').html(cur_min + ' DT - ' + cur_max +' DT');
+            }
+        }
+
+        init_price_slider();
 		$('.slect2').select2();
 
     });

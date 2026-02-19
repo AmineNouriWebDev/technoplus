@@ -1,7 +1,7 @@
 
 	<div class="main main-content-wrapper d-flex clearfix" >
     
-        <div class="shop_sidebar_area">
+        <div class="shop_sidebar_area d-none d-xl-block">
 		
     			<h4 class="mb-4"> <i class="fa fa-filter"></i> Filter par</h4>
             
