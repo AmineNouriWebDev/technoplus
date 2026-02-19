@@ -361,6 +361,67 @@ if(isset($_POST["action"]) )
 
 								</div>
 
+                                <!-- Mobile Filters -->
+                                <div class="mobile-filters d-flex d-xl-none flex-wrap mt-3 w-100">
+                                    <div class="filter-item mr-2 mb-2" style="flex: 1; min-width: 150px;">
+                                        <select class="form-control common_selector brand">
+                                            <option value="">Toutes les marques</option>';
+                                            
+                                            $reqM = "SELECT DISTINCT id,raison FROM `marques` WHERE `etat`= '1' ORDER BY `ordre` ASC";
+                                            $resM = executeRequete($reqM);
+                                            while ($dataM = mysqli_fetch_array($resM)) {
+                                                $selM = (isset($_POST["brand"]) && in_array($dataM['id'], $_POST["brand"])) ? "selected" : "";
+                                                $output .= '<option value="'.afficheChamp($dataM['id']).'" '.$selM.'>'.afficheChamp($dataM['raison']).'</option>';
+                                            }
+                                            
+                                    $output .= '
+                                        </select>
+                                    </div>
+                                    <div class="filter-item mr-2 mb-2" style="flex: 1; min-width: 150px;">
+                                        <select class="form-control common_selector category">
+                                            <option value="">Toutes les catégories</option>';
+                                            
+                                            $reqC = 'SELECT DISTINCT id,titre FROM `categories_blog` WHERE `etat` = "1" ORDER BY `ordre` ASC';
+                                            $resC = executeRequete($reqC);
+                                            while ($dataC = mysqli_fetch_array($resC)) {
+                                                $selC = (isset($_POST["category"]) && in_array($dataC['id'], $_POST["category"])) ? "selected" : "";
+                                                $output .= '<option value="'.afficheChamp($dataC['id']).'" '.$selC.'>'.afficheChamp($dataC['titre']).'</option>';
+                                            }
+                                            
+                                    $output .= '
+                                        </select>
+                                    </div>';
+
+                                    // Characteristics Dropdowns for Mobile (Promo)
+                                    $req3_p = "SELECT * FROM `caracteristique_prod` WHERE valeur != '0' GROUP BY idcarac ORDER BY `id` ASC";
+                                    $res3_p = executeRequete($req3_p);
+                                    while ($data3_p = mysqli_fetch_array($res3_p)) {
+                                        $req4_p = 'SELECT * FROM `caracteristique_prod` WHERE valeur != "0" AND `idcarac`= "'.$data3_p['idcarac'].'" GROUP BY valeur ORDER BY `id` ASC';
+                                        $res4_p = executeRequete($req4_p);
+                                        if(mysqli_num_rows($res4_p) > 0){
+                                            $output .= '
+                                            <div class="filter-item mr-2 mb-2" style="flex: 1; min-width: 150px;">
+                                                <select class="form-control common_selector caracteristique">
+                                                    <option value="">'.titreCaracteristiques($data3_p['idcarac']).'</option>';
+                                                    while ($data4_p = mysqli_fetch_array($res4_p)) {
+                                                        $val_carac = valeurCaracteristiques($data4_p['valeur']);
+                                                        $selX = (isset($_POST["caracteristique"]) && in_array($val_carac, $_POST["caracteristique"])) ? "selected" : "";
+                                                        $output .= '<option value="'.$val_carac.'" '.$selX.'>'.$val_carac.'</option>';
+                                                    }
+                                            $output .= '
+                                                </select>
+                                            </div>';
+                                        }
+                                    }
+
+                                    $output .= '
+                                    <div class="filter-item w-100 mb-3 px-3">
+                                        <h6 class="mb-2">Prix</h6>
+                                        <p id="price_show_mobile" class="mb-2" style="font-weight:600; color:#fbb710;"></p>
+                                        <div id="price_range_mobile"></div>
+                                    </div>
+                                </div>
+
 							</div>
 
 						</div>
@@ -998,6 +1059,90 @@ if(isset($_POST["action"]) )
 									</div>
 
 								</div>
+
+                                <!-- Mobile Filters -->
+                                <div class="mobile-filters d-flex d-xl-none flex-wrap mt-3 w-100">
+                                    <div class="filter-item mr-2 mb-2" style="flex: 1; min-width: 150px;">
+                                        <select class="form-control common_selector brand">
+                                            <option value="">Toutes les marques</option>';
+                                            
+                                            if(isset($_POST["link"]) && $_POST["link"] != '' ){
+                                                $idCategProd_f = $_POST["link"];
+                                                $reqM = "SELECT id,raison FROM `marques` WHERE id IN (SELECT marque FROM `produits` WHERE `categorie` = '".$idCategProd_f."') AND `etat`= '1' ORDER BY `ordre` ASC";
+                                                $resM = executeRequete($reqM);
+                                                while ($dataM = mysqli_fetch_array($resM)) {
+                                                    $selM = (isset($_POST["brand"]) && in_array($dataM['id'], $_POST["brand"])) ? "selected" : "";
+                                                    $output .= '<option value="'.afficheChamp($dataM['id']).'" '.$selM.'>'.afficheChamp($dataM['raison']).'</option>';
+                                                }
+                                            } else {
+                                                $reqM = "SELECT DISTINCT id,raison FROM `marques` WHERE `etat`= '1' ORDER BY `ordre` ASC";
+                                                $resM = executeRequete($reqM);
+                                                while ($dataM = mysqli_fetch_array($resM)) {
+                                                    $selM = (isset($_POST["brand"]) && in_array($dataM['id'], $_POST["brand"])) ? "selected" : "";
+                                                    $output .= '<option value="'.afficheChamp($dataM['id']).'" '.$selM.'>'.afficheChamp($dataM['raison']).'</option>';
+                                                }
+                                            }
+                                            
+                                    $output .= '
+                                        </select>
+                                    </div>
+                                    <div class="filter-item mr-2 mb-2" style="flex: 1; min-width: 150px;">
+                                        <select class="form-control common_selector category">
+                                            <option value="">Toutes les catégories</option>';
+                                            
+                                            if(isset($_POST["link"]) && $_POST["link"] != '' ){
+                                                $link_ff = $_POST["link"];
+                                                $reqC = 'SELECT DISTINCT id,titre FROM `categories_blog` WHERE `etat` = "1" AND `id` = "'.$link_ff.'" ORDER BY `ordre` ASC';
+                                                $resC = executeRequete($reqC);
+                                            } else {
+                                                $reqC = 'SELECT DISTINCT id,titre FROM `categories_blog` WHERE `etat` = "1" ORDER BY `ordre` ASC';
+                                                $resC = executeRequete($reqC);
+                                            }
+                                            while ($dataC = mysqli_fetch_array($resC)) {
+                                                $selC = (isset($_POST["category"]) && in_array($dataC['id'], $_POST["category"])) ? "selected" : "";
+                                                $output .= '<option value="'.afficheChamp($dataC['id']).'" '.$selC.'>'.afficheChamp($dataC['titre']).'</option>';
+                                            }
+                                            
+                                    $output .= '
+                                        </select>
+                                    </div>';
+
+                                    // Characteristics Dropdowns for Mobile
+                                    if(isset($_POST["link"]) && $_POST["link"] != '' ){
+                                        $idCategProd_ff = $_POST["link"];
+                                        $req3 = "SELECT * FROM `caracteristique_prod` WHERE valeur != '0' AND `idproduit` IN (SELECT id FROM `produits` WHERE `categorie` = '".$idCategProd_ff."') GROUP BY idcarac ORDER BY `id` ASC";
+                                        $res3 = executeRequete($req3);
+                                    } else {
+                                        $req3 = "SELECT * FROM `caracteristique_prod` WHERE valeur != '0' GROUP BY idcarac ORDER BY `id` ASC";
+                                        $res3 = executeRequete($req3);
+                                    }
+                                    
+                                    while ($data3 = mysqli_fetch_array($res3)) {
+                                        $req4 = 'SELECT * FROM `caracteristique_prod` WHERE valeur != "0" AND `idcarac`= "'.$data3['idcarac'].'" GROUP BY valeur ORDER BY `id` ASC';
+                                        $res4 = executeRequete($req4);
+                                        if(mysqli_num_rows($res4) > 0){
+                                            $output .= '
+                                            <div class="filter-item mr-2 mb-2" style="flex: 1; min-width: 150px;">
+                                                <select class="form-control common_selector caracteristique">
+                                                    <option value="">'.titreCaracteristiques($data3['idcarac']).'</option>';
+                                                    while ($data4 = mysqli_fetch_array($res4)) {
+                                                        $val_carac = valeurCaracteristiques($data4['valeur']);
+                                                        $selX = (isset($_POST["caracteristique"]) && in_array($val_carac, $_POST["caracteristique"])) ? "selected" : "";
+                                                        $output .= '<option value="'.$val_carac.'" '.$selX.'>'.$val_carac.'</option>';
+                                                    }
+                                            $output .= '
+                                                </select>
+                                            </div>';
+                                        }
+                                    }
+
+                                    $output .= '
+                                </div>
+                                <div class="mobile-price-filter d-xl-none w-100 px-3 py-2 bg-light rounded mt-2">
+                                    <h6 class="mb-2" style="font-size:14px">Filtrer par prix</h6>
+                                    <p id="price_show_mobile" style="font-weight:600; color:#fbb710; font-size:14px" class="mb-2"></p>
+                                    <div id="price_range_mobile" class="mb-2"></div>
+                                </div>
 
 							</div>
 

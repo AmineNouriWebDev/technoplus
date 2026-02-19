@@ -221,7 +221,6 @@
 
 		function filter_data(page = 1)
 	{
-		$('.filter_data').html('<div class="row"> <div class="col-12"><div id="loading"></div></div></div>');
 		var action = 'fetch_data';
             var minimum_price = $('#hidden_minimum_price').val();
             var maximum_price = $('#hidden_maximum_price').val();
@@ -231,12 +230,15 @@
 		var link = document.getElementById('linkProd').value;
 		var category = get_filter('category');
 		var caracteristique = get_filter('caracteristique');
+
+		$('.filter_data').html('<div class="row"> <div class="col-12"><div id="loading"></div></div></div>');
 		$.ajax({
 			url:"includes/fetch_data_test.php",
 			method:"POST",
 			data:{action:action,brand:brand, category:category,caracteristique:caracteristique, type:type, minimum_price:minimum_price, maximum_price:maximum_price,link:link,promo:promo, page:page },
 			success:function(data){
 				$('.filter_data').html(data);
+                init_price_slider();
 				// Scroll to top of products after page change
 				if (page > 1) {
 					$('html, body').animate({
@@ -250,13 +252,19 @@
 		function get_filter(class_name)
 		{
 			var filter = [];
-			$('.'+class_name+':checked').each(function(){
+			$('.'+class_name+':checked:visible').each(function(){
 				filter.push($(this).val());
 			});
+            // Handle select elements for mobile
+            $('select.'+class_name+':visible').each(function(){
+                if($(this).val() != ''){
+                    filter.push($(this).val());
+                }
+            });
 			return filter;
 		}
 
-		$('.common_selector').click(function(){
+		$(document).on('change', '.common_selector', function(){
 		filter_data(1); // Reset to page 1 when filters change
 	});
 	
@@ -270,22 +278,43 @@
 	});
 	// ==============================================
 
-        $('#price_range').slider({
+    function init_price_slider() {
+        var min = <?php echo $dataprice['min']; ?>;
+        var max = <?php echo $dataprice['max']; ?>;
+        var cur_min = $('#hidden_minimum_price').val() || min;
+        var cur_max = $('#hidden_maximum_price').val() || max;
+
+        var slider_options = {
             range:true,
-            min:<?php echo $dataprice['min']; ?>,
-            max:<?php echo $dataprice['max']; ?>,
-            values:[<?php echo $dataprice['min']; ?>, <?php echo $dataprice['max']; ?>],
+            min: min,
+            max: max,
+            values:[cur_min, cur_max],
             format:"DT",
             step:0.001,
             unit:'DT',
             stop:function(event, ui)
             {
-                $('#price_show').html(ui.values[0] + ' DT - ' + ui.values[1] +' DT');
+                $('#price_show, #price_show_mobile').html(ui.values[0] + ' DT - ' + ui.values[1] +' DT');
                 $('#hidden_minimum_price').val(ui.values[0]);
                 $('#hidden_maximum_price').val(ui.values[1]);
                 filter_data();
+            },
+            slide: function(event, ui) {
+                $('#price_show, #price_show_mobile').html(ui.values[0] + ' DT - ' + ui.values[1] +' DT');
             }
-        });
+        };
+
+        if ($('#price_range').length > 0) {
+            $('#price_range').slider(slider_options);
+            $('#price_show').html(cur_min + ' DT - ' + cur_max +' DT');
+        }
+        if ($('#price_range_mobile').length > 0) {
+            $('#price_range_mobile').slider(slider_options);
+            $('#price_show_mobile').html(cur_min + ' DT - ' + cur_max +' DT');
+        }
+    }
+
+    init_price_slider();
 
     });
     
