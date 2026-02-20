@@ -57,7 +57,7 @@ if ($resMenu) {
     while ($row = mysqli_fetch_assoc($resMenu)) {
         $lastmod = !empty($row['datecreation']) ? date('Y-m-d', (int)$row['datecreation']) : $today;
         $urls[]  = [
-            'loc'        => SITE_URL . '/boutique/' . htmlspecialchars($row['link'], ENT_XML1, 'UTF-8') . '/',
+            'loc'        => SITE_URL . '/contenu/' . htmlspecialchars($row['link'], ENT_XML1, 'UTF-8') . '/',
             'lastmod'    => $lastmod,
             'changefreq' => 'weekly',
             'priority'   => '0.80',

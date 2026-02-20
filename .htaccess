@@ -1,0 +1,123 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#  .htaccess — Technoplus
+#  Réécriture d'URLs SEO-friendly
+#  Compatible local (localhost/technoplus/) et production (technoplus.io)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+RewriteEngine On
+
+# ── Détection automatique de l'environnement ──────────────────────────────────
+# En local (localhost), le sous-dossier est /technoplus/
+# En production (technoplus.io), le site est à la racine /
+RewriteCond %{HTTP_HOST} ^localhost$ [OR]
+RewriteCond %{HTTP_HOST} ^127\.0\.0\.1$
+RewriteRule ^ - [E=REWRITE_BASE:/technoplus/]
+
+RewriteCond %{HTTP_HOST} !^localhost$
+RewriteCond %{HTTP_HOST} !^127\.0\.0\.1$
+RewriteRule ^ - [E=REWRITE_BASE:/]
+
+# ═══════════════════════════════════════════════════════════════════════════════
+#  PARTIE 1 : Redirections 301 (anciennes URLs → nouvelles URLs propres)
+#  DOIT être AVANT le check des fichiers existants
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# categorie.php?link=xxx → /categorie/xxx/
+RewriteCond %{THE_REQUEST} \s/(?:technoplus/)?categorie\.php\?link=([^\s&]+) [NC]
+RewriteRule ^ %{ENV:REWRITE_BASE}categorie/%1/ [QSD,R=301,L]
+
+# categorie.php?promo → /promotions/
+RewriteCond %{THE_REQUEST} \s/(?:technoplus/)?categorie\.php\?promo [NC]
+RewriteRule ^ %{ENV:REWRITE_BASE}promotions/ [QSD,R=301,L]
+
+# produit.php?link=xxx → /produit/xxx/
+RewriteCond %{THE_REQUEST} \s/(?:technoplus/)?produit\.php\?link=([^\s&]+) [NC]
+RewriteRule ^ %{ENV:REWRITE_BASE}produit/%1/ [QSD,R=301,L]
+
+# contenu.php?link=xxx → /contenu/xxx/
+RewriteCond %{THE_REQUEST} \s/(?:technoplus/)?contenu\.php\?link=([^\s&]+) [NC]
+RewriteRule ^ %{ENV:REWRITE_BASE}contenu/%1/ [QSD,R=301,L]
+
+# recherche.php?search=xxx → /recherche/xxx/
+RewriteCond %{THE_REQUEST} \s/(?:technoplus/)?recherche\.php\?search=([^\s&]+) [NC]
+RewriteRule ^ %{ENV:REWRITE_BASE}recherche/%1/ [QSD,R=301,L]
+
+# checkout.php?cmdId=xxx → /checkout/xxx/
+RewriteCond %{THE_REQUEST} \s/(?:technoplus/)?checkout\.php\?cmdId=([^\s&]+) [NC]
+RewriteRule ^ %{ENV:REWRITE_BASE}checkout/%1/ [QSD,R=301,L]
+
+# detail_commande.php?cmdId=xxx → /commande/xxx/
+RewriteCond %{THE_REQUEST} \s/(?:technoplus/)?detail_commande\.php\?cmdId=([^\s&]+) [NC]
+RewriteRule ^ %{ENV:REWRITE_BASE}commande/%1/ [QSD,R=301,L]
+
+# confirm.php?cmd=xxx → /confirm/xxx/
+RewriteCond %{THE_REQUEST} \s/(?:technoplus/)?confirm\.php\?cmd=([^\s&]+) [NC]
+RewriteRule ^ %{ENV:REWRITE_BASE}confirm/%1/ [QSD,R=301,L]
+
+# Pages simples : xxx.php → /xxx/
+RewriteCond %{THE_REQUEST} \s/(?:technoplus/)?(contact|inscription|connexion|mdp-oublie|compte|deconnexion|cart|checkout|recherche|applications|commande-express)\.php[\s?] [NC]
+RewriteRule ^ %{ENV:REWRITE_BASE}%1/ [QSD,R=301,L]
+
+# ── Exclure l'administration et les assets ────────────────────────────────────
+RewriteRule ^_admin_site/ - [L]
+RewriteRule ^dist/ - [L]
+RewriteRule ^assets/ - [L]
+RewriteRule ^media/ - [L]
+RewriteRule ^includes/ - [L]
+RewriteRule ^ckfinder/ - [L]
+RewriteRule ^Facebook/ - [L]
+
+# ── Ne pas réécrire les fichiers et dossiers existants (sauf *.php redirigés) ─
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ═══════════════════════════════════════════════════════════════════════════════
+#  PARTIE 2 : Réécriture interne (URLs propres → fichiers PHP)
+#  Le visiteur voit /categorie/xxx/ mais Apache charge categorie.php?link=xxx
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# /categorie/xxx/ → categorie.php?link=xxx
+RewriteRule ^categorie/([a-zA-Z0-9_-]+)/?$ categorie.php?link=$1 [QSA,L]
+
+# /promotions/ → categorie.php?promo=1
+RewriteRule ^promotions/?$ categorie.php?promo=1 [QSA,L]
+
+# /produit/xxx/ → produit.php?link=xxx
+RewriteRule ^produit/([a-zA-Z0-9_-]+)/?$ produit.php?link=$1 [QSA,L]
+
+# /contenu/xxx/ → contenu.php?link=xxx
+RewriteRule ^contenu/([a-zA-Z0-9_-]+)/?$ contenu.php?link=$1 [QSA,L]
+
+# /recherche/xxx/ → recherche.php?search=xxx
+RewriteRule ^recherche/([a-zA-Z0-9_%+-]+)/?$ recherche.php?search=$1 [QSA,L]
+
+# /recherche/ → recherche.php
+RewriteRule ^recherche/?$ recherche.php [QSA,L]
+
+# /checkout/xxx/ → checkout.php?cmdId=xxx
+RewriteRule ^checkout/([a-zA-Z0-9_-]+)/?$ checkout.php?cmdId=$1 [QSA,L]
+
+# /commande/xxx/ → detail_commande.php?cmdId=xxx
+RewriteRule ^commande/([a-zA-Z0-9_-]+)/?$ detail_commande.php?cmdId=$1 [QSA,L]
+
+# /confirm/xxx/ → confirm.php?cmd=xxx
+RewriteRule ^confirm/([a-zA-Z0-9_-]+)/?$ confirm.php?cmd=$1 [QSA,L]
+
+# /marque/xxx/ → recherche.php?marque=xxx
+RewriteRule ^marque/([a-zA-Z0-9_-]+)/?$ recherche.php?marque=$1 [QSA,L]
+
+# Pages simples sans paramètres
+RewriteRule ^contact/?$ contact.php [QSA,L]
+RewriteRule ^inscription/?$ inscription.php [QSA,L]
+RewriteRule ^connexion/?$ connexion.php [QSA,L]
+RewriteRule ^mdp-oublie/?$ mdp-oublie.php [QSA,L]
+RewriteRule ^compte/?$ compte.php [QSA,L]
+RewriteRule ^deconnexion/?$ deconnexion.php [QSA,L]
+RewriteRule ^panier/?$ cart.php [QSA,L]
+RewriteRule ^checkout/?$ checkout.php [QSA,L]
+RewriteRule ^applications/?$ applications.php [QSA,L]
+RewriteRule ^commande-express/?$ commande-express.php [QSA,L]
+
+# ── Page 404 personnalisée ────────────────────────────────────────────────────
+ErrorDocument 404 /404.php

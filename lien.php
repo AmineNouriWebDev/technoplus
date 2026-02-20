@@ -12,11 +12,9 @@ function lienContenu($id){
 	if(afficheChamp($data['link']) == 'accueil' || afficheChamp($data['link']) == 'home')
 	    return CHEMIN;
 	else
-	    return CHEMIN."contenu.php?link=".afficheChamp($data['link']);
-	    //return "".afficheChamp($data['link'])."/";
+	    return CHEMIN."contenu/".afficheChamp($data['link'])."/";
 }
 function lienMentionslegales(){
-    //return "contenu.php?link=mentions-legales";
 	return lienContenu(13);
 } 
 function lienServices($id){
@@ -29,21 +27,15 @@ function lienServices($id){
 
 function lienCategorie(){
     return CHEMIN."categorie.php";
-    //return "boutique/";
 } 
 function lienApplications(){
-    return CHEMIN."applications.php";
-    //return "applications/";
-    
+    return CHEMIN."applications/";
 }
 function lienCategories($link){
-    return CHEMIN."categorie.php?link=".$link;
-    //return "boutique/".$link."/";
+    return CHEMIN."categorie/".$link."/";
 } 
 function lienCategorieEquipements($link){
-    
-    return CHEMIN."categorie.php?link=".$link;
-    //return "boutique/".$link."/";
+    return CHEMIN."categorie/".$link."/";
 } 
 function idCategorieProduits($id){
     $requete = 'SELECT * FROM `categories_blog` WHERE `id` = "'.$id.'"';
@@ -52,76 +44,61 @@ function idCategorieProduits($id){
 	return afficheChamp($data['link']);
 } 
 function lienProduits($link){
-    return CHEMIN."produit.php?link=".$link;
-    //return "boutique/".$link."/";
+    return CHEMIN."produit/".$link."/";
 }
 function liencontact(){
-    return CHEMIN."contact.php";
-    //return "contact/";
+    return CHEMIN."contact/";
 } 
 function lienInscription(){
-    return CHEMIN."inscription.php";
-    //return "inscription/";
+    return CHEMIN."inscription/";
 } 
 function lienRegister(){
 return "register.php";
 } 
 function lienConnexion(){
-    return CHEMIN."connexion.php";
-    //return "connexion/";
+    return CHEMIN."connexion/";
 } 
 function lienforget(){
-    return CHEMIN."mdp-oublie.php";
-    //return "mdp-oublie/";
+    return CHEMIN."mdp-oublie/";
 }
 function lienCompte(){
-    return CHEMIN."compte.php";
-    //return "compte/";
+    return CHEMIN."compte/";
 }
 function lienDeconnexion(){
-    return CHEMIN."deconnexion.php";    
-    //return "deconnexion/";
+    return CHEMIN."deconnexion/";
 }
 
 function lienDeatilCommandes($id){
-return CHEMIN."detail_commande.php?cmdId=".$id;
-//return "commande/".$id.'/';
+return CHEMIN."commande/".$id.'/';
 }
 function lienCommandeExpress(){
-    return CHEMIN."commande-express.php";
+    return CHEMIN."commande-express/";
 }
 function lienPanier(){
-    return CHEMIN."cart.php"; 
-    //return "panier/";
+    return CHEMIN."panier/";
 }
 function lienCommande(){
-    return CHEMIN."checkout.php";
-  //return "checkout/";
+    return CHEMIN."checkout/";
 }
 function lienCommandes($cmdId){
-    return CHEMIN."checkout.php?cmdId=".$cmdId;
-  //return "checkout/".$cmdId.'/';
+    return CHEMIN."checkout/".$cmdId.'/';
 }
 function lienPaiement($tx_id){
 return "paiement.php?tx_id=".$tx_id;
 }
 function lienConfirm($cmd){
-return CHEMIN."confirm.php?cmd=".$cmd;
-//return "confirm/".$cmd."/";
+return CHEMIN."confirm/".$cmd."/";
 }
 function lienConfirmInscription($cle){
 return "confirm_inscription.php?key=".$cle;
 }
 function lienRecherche(){
-return CHEMIN."recherche.php";
-//return "recherche/";
+return CHEMIN."recherche/";
 }
 function lienSearch($search){
-return CHEMIN."recherche.php?search=".$search;
-//return "recherche/".$search.'/';
+return CHEMIN."recherche/".$search.'/';
 }
 function lienRechercheByCM($marque,$categorie){
 return CHEMIN."recherche.php?categorie=".$categorie."&marque=".$marque;
-//return "recherche/".$categorie.'/'.$marque.'/';
 }
 
