@@ -34,6 +34,30 @@
 	
 	
 	<?php echo $tagmanager_head; ?>
-	
-	
+
+	<!-- ═══════════════════════════════════════════════════════
+	     GOOGLE ANALYTICS 4 (GA4)
+	     → Remplacer G-XXXXXXXXXX par votre Measurement ID
+	     → Décommenter les lignes ci-dessous quand prêt
+	     ═══════════════════════════════════════════════════════
+	<!--
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	  gtag('config', 'G-XXXXXXXXXX');
+	</script>
+	-->
+
+	<!-- ═══════════════════════════════════════════════════════
+	     GOOGLE SEARCH CONSOLE — Vérification du site
+	     → Remplacer XXXXXXXXXXXXXXXXX par votre meta content
+	     → Décommenter la ligne ci-dessous quand prêt
+	     ═══════════════════════════════════════════════════════
+	<!--
+	<meta name="google-site-verification" content="XXXXXXXXXXXXXXXXX" />
+	-->
+
+
  

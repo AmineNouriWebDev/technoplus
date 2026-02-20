@@ -1,0 +1,70 @@
+# ═══════════════════════════════════════════════════════
+#  robots.txt — Technoplus.io
+#  Genere le : 2026-02-20
+# ═══════════════════════════════════════════════════════
+
+User-agent: *
+
+# ── Administration ────────────────────────────────────
+Disallow: /_admin_site/
+Disallow: /ckfinder/
+
+# ── Fichiers de configuration et securite ─────────────
+Disallow: /.env
+Disallow: /.env.example
+Disallow: /config.php
+Disallow: /config_google_facebook.php
+Disallow: /env_loader.php
+Disallow: /include.php
+Disallow: /php.ini
+Disallow: /backup_old_config/
+
+# ── Scripts de debug / test / maintenance ─────────────
+Disallow: /debug_*.php
+Disallow: /check_*.php
+Disallow: /fix_*.php
+Disallow: /test*.php
+Disallow: /testAcces.php
+Disallow: /verify_encoding.php
+Disallow: /clear_cache.php
+Disallow: /migration/
+Disallow: /cron/
+
+# ── Pages fonctionnelles sans valeur SEO ──────────────
+Disallow: /cart.php
+Disallow: /checkout.php
+Disallow: /commande-express.php
+Disallow: /confirm.php
+Disallow: /payment-success.php
+Disallow: /payment-fail.php
+Disallow: /payment_webhook.php
+Disallow: /detail_commande.php
+Disallow: /deconnexion.php
+Disallow: /compte.php
+Disallow: /connexion.php
+Disallow: /connexion_facebook.php
+Disallow: /connexion_google.php
+Disallow: /login-with.php
+Disallow: /fb-callback.php
+Disallow: /inscription.php
+Disallow: /mdp-oublie.php
+Disallow: /connec.php
+Disallow: /flux_catalogue.php
+
+# ── Bibliotheques et assets non publics ───────────────
+Disallow: /Facebook/
+Disallow: /google-plus-api-client/
+Disallow: /dist/scss/
+Disallow: /media/
+
+# ── Fichiers journaux et temporaires ──────────────────
+Disallow: /*.log
+Disallow: /*.txt
+Disallow: /cookie.txt
+Disallow: /testamine.txt
+
+# ── Parametres de recherche (eviter le contenu duplique)
+Disallow: /recherche.php
+
+# ── Sitemap ───────────────────────────────────────────
+Sitemap: https://technoplus.io/sitemap.php
