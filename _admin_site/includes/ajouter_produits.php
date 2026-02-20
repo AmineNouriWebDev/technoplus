@@ -35,15 +35,14 @@ if (isset($_POST['action']) && $_POST['action'] == 'ajout' )
 	$auteur       = auteur_id();
 	
 	$requete = 'INSERT INTO `produits`
-	(`titre`,`court_contenu`, `caracteristique`,`remarque`, `link`, `categorie`,`idparent_categ`, `prix_vente`, `etat_stock`, `quantite`, `marque`, `type`, `afficher_accueil`,
+	(`titre`,`court_contenu`, `caracteristique`,`remarque`, `link`, `categorie`,`idparent_categ`, `prix_vente`, `prix_promo`, `etat_stock`, `quantite`, `marque`, `type`, `afficher_accueil`,
 	`video`, `delai`, `nbr_vod`, `nbr_chaine_hd`, `ancre`, `ordre`, `etat`, `titre_page`, `description`, `keywords`, `auteur`, `datecreation`) 
 	VALUES
-	("'. $titre .'","'. $court_contenu .'","'. $contenu .'","'. $remarque .'","'. $link .'","'. $categorie .'","'. $idprt .'","'. $prix_vente .'","'. $etat_stock .'","'. $quantite .'","'. $marque .'","'. $type .'","'
-	. $afficher_accueil .'","'.$video.'","'. $duree .'","'. $ancre .'","'. $nbr_vod .'","'. $nbr_chaine_hd .'","'. $ordre .'", "'. $etat .'","'. $titre_page .'","'. $keywords .'",
-	"'. $description .'","'. $auteur .'","'. $datec .'")';
+	("'. $titre .'","'. $court_contenu .'","'. $contenu .'","'. $remarque .'","'. $link .'","'. $categorie .'","'. $idprt .'","'. $prix_vente .'","0","'. $etat_stock .'","'. $quantite .'","'. $marque .'","'. $type .'","'
+	. $afficher_accueil .'","'.$video.'","'. $duree .'","'. $nbr_vod .'","'. $nbr_chaine_hd .'","'. $ancre .'","'. $ordre .'", "'. $etat .'","'. $titre_page .'","'. $description .'",
+	"'. $keywords .'","'. $auteur .'","'. $datec .'")';
 		
-		$connexion=ouvrirCnx() or die("erreur cnx");
-		$result  = mysqli_query($connexion, $requete);	
+		$result  = executeRequete($requete);	
 		$idp     = mysqli_insert_id($connexion);
 		
 	if (isset($_FILES['photo']) && $_FILES['photo']['type'] != '') {
@@ -63,15 +62,14 @@ if (isset($_POST['action']) && $_POST['action'] == 'ajout' )
 		}
 	}
     // caracteristiques produit
-	$carac = $_POST['caracteristiques'];
-	$valeurs = $_POST['valeurs'];
-	foreach ($carac as $key => $idcarac){
-		$requete1 = 'INSERT INTO `caracteristique_prod` (`idproduit`,`idcarac`) VALUES ("'. $idp .'","'. $idcarac .'")';
-		$connexion=ouvrirCnx() or die("erreur cnx");
-		$result1  = mysqli_query($connexion, $requete1);	
-		$idcp     = mysqli_insert_id($connexion);
-		
-		executeRequete('UPDATE `caracteristique_prod` set `valeur`="'. $valeurs[$key] .'"  WHERE `id`="'.$idcp.'"');
+	if (isset($_POST['caracteristiques']) && is_array($_POST['caracteristiques'])) {
+		$carac = $_POST['caracteristiques'];
+		$valeurs = $_POST['valeurs'];
+		foreach ($carac as $key => $idcarac){
+			$valeur = isset($valeurs[$key]) ? $valeurs[$key] : '';
+			$requete1 = 'INSERT INTO `caracteristique_prod` (`idproduit`,`idcarac`, `valeur`) VALUES ("'. $idp .'","'. $idcarac .'", "'. $valeur .'")';
+			$result1  = executeRequete($requete1);	
+		}	
 	}	
 
 	?>

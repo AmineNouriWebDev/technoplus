@@ -61,18 +61,16 @@ if (isset($_POST['action']) && $_POST['action'] == 'mod' )
 	}
 	
     // caracteristiques produit
-	$ver1=executeRequete("DELETE from `caracteristique_prod` WHERE `idproduit`='".$id."'");
-	//var_dump($carac);
-	// caracteristiques produit
-	$carac = $_POST['caracteristiques'];
-	$valeurs = $_POST['valeurs'];
-	foreach ($carac as $key => $idcarac){
-		$requete1 = 'INSERT INTO `caracteristique_prod` (`idproduit`,`idcarac`) VALUES ("'. $id .'","'. $idcarac .'")';
-		$connexion=ouvrirCnx() or die("erreur cnx");
-		$result1  = mysqli_query($connexion, $requete1);	
-		$idcp     = mysqli_insert_id($connexion);
-		
-		executeRequete('UPDATE `caracteristique_prod` set `valeur`="'. $valeurs[$key] .'"  WHERE `id`="'.$idcp.'"');
+	executeRequete("DELETE from `caracteristique_prod` WHERE `idproduit`='".$id."'");
+
+	if (isset($_POST['caracteristiques']) && is_array($_POST['caracteristiques'])) {
+		$carac = $_POST['caracteristiques'];
+		$valeurs = $_POST['valeurs'];
+		foreach ($carac as $key => $idcarac){
+			$valeur = isset($valeurs[$key]) ? $valeurs[$key] : '';
+			$requete1 = 'INSERT INTO `caracteristique_prod` (`idproduit`,`idcarac`, `valeur`) VALUES ("'. $id .'","'. $idcarac .'", "'. $valeur .'")';
+			$result1  = executeRequete($requete1);	
+		}	
 	}	
 
 	?>
