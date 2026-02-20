@@ -18,9 +18,9 @@
 	
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
-	<link rel="stylesheet" href="dist/css/style.css" />
-	<link rel="stylesheet" href="assets/css/sidebar.css" />
-	<link rel="stylesheet" href="assets/css/mobile.css" />
+	<link rel="stylesheet" href="dist/css/style.css?v=<?php echo filemtime(__DIR__.'/../dist/css/style.css'); ?>" />
+	<link rel="stylesheet" href="assets/css/sidebar.css?v=<?php echo filemtime(__DIR__.'/../assets/css/sidebar.css'); ?>" />
+	<link rel="stylesheet" href="assets/css/mobile.css?v=<?php echo filemtime(__DIR__.'/../assets/css/mobile.css'); ?>" />
 	
 	<link rel="stylesheet" href="dist/css/jquery-ui.min.css" />
 	<!--- Animation ------------------------>	
