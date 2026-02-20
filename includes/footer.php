@@ -27,7 +27,7 @@
 	                        <nav>
 	                         	<ul>
 	                                <li>
-	                                    <a href="<?php echo lienContenu(2);  ?>"> A propos de Techno plus </a>
+	                                    <a href="<?php echo lienContenu(2);  ?>"> A propos de TechnoPlus </a>
 	                                </li>
 	                                <li>
 	                                    <a href="<?php echo lienContenu(3);  ?>"> Liste des chaînes</a>
