@@ -12,6 +12,7 @@ $urls_to_test = [
     'Product URL (no SSL)' => "http://technoplus.io/produit/infinix-hot-60/",
     'Home Page' => "https://technoplus.io/",
     'Robots.txt' => "https://technoplus.io/robots.txt",
+    'Simple PHP Test' => "https://technoplus.io/test_200.php",
     'Direct PHP File' => "https://technoplus.io/index.php"
 ];
 
@@ -39,8 +40,9 @@ foreach ($urls_to_test as $url_label => $target_url) {
         $response = curl_exec($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $redirect_url = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
+        $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         
-        echo "   - UA: $ua_label -> Status: $http_code";
+        echo "   - UA: $ua_label -> Status: $http_code ($content_type)";
         if ($redirect_url) echo " | Redirect to: $redirect_url";
         echo "\n";
         
