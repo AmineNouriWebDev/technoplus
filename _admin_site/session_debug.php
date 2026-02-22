@@ -52,8 +52,33 @@ if (session_status() === PHP_SESSION_ACTIVE) {
     echo "<b style='color:red;'>ERREUR:</b> La session n'a pas pu être démarrée.<br>";
 }
 
-// 4. Test du répertoire local
-echo "<h2>4. Diagnostic du répertoire local</h2>";
+// 4. Test de la base de données
+echo "<h2>4. Diagnostic de la Base de Données</h2>";
+$db_file = __DIR__ . '/includes/include.php';
+if (file_exists($db_file)) {
+    include_once($db_file);
+    if (isset($connexion) && $connexion) {
+        echo "<b style='color:green;'>SUCCÈS:</b> Connexion BDD établie.<br>";
+        
+        // Vérifier les tables clés
+        $tables = ['editor', 'editor_state', 'produits', 'categories_blog'];
+        foreach ($tables as $table) {
+            $check = mysqli_query($connexion, "SHOW TABLES LIKE '$table'");
+            if (mysqli_num_rows($check) > 0) {
+                echo "Table '$table': <b style='color:green;'>OK</b><br>";
+            } else {
+                echo "Table '$table': <b style='color:red;'>ABSENTE</b><br>";
+            }
+        }
+    } else {
+        echo "<b style='color:red;'>ERREUR:</b> Connexion BDD échouée.<br>";
+    }
+} else {
+    echo "Fichier include.php absent.<br>";
+}
+
+// 5. Diagnostic du répertoire local
+echo "<h2>5. Diagnostic du répertoire local</h2>";
 $local_sessions = __DIR__ . '/sessions';
 echo "Chemin: $local_sessions<br>";
 if (is_dir($local_sessions)) {

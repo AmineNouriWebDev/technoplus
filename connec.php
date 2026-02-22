@@ -11,6 +11,12 @@
 // Charger les variables d'environnement
 require_once __DIR__ . '/env_loader.php';
 
+// Désactiver le rapport d'erreurs mysqli strict (par défaut en PHP 8.1) 
+// pour éviter les Erreurs 500 sur des requêtes non critiques
+if (function_exists('mysqli_report')) {
+    mysqli_report(MYSQLI_REPORT_OFF);
+}
+
 try {
     EnvLoader::load(__DIR__ . '/.env');
 } catch (Exception $e) {
