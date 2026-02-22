@@ -16,6 +16,18 @@ echo "Interface: " . php_sapi_name() . "<br>";
 echo "session.save_handler: " . ini_get('session.save_handler') . "<br>";
 echo "session.save_path (initial): " . (session_save_path() ?: "<i>(vide - utilise system temp)</i>") . "<br>";
 
+// 1b. Configuration MySQL
+echo "<h2>1b. Configuration MySQL</h2>";
+$db_file = __DIR__ . '/includes/include.php';
+if (file_exists($db_file)) {
+    include_once($db_file);
+    if (isset($connexion) && $connexion) {
+        $res = mysqli_query($connexion, "SELECT @@sql_mode as mode");
+        $row = mysqli_fetch_assoc($res);
+        echo "SQL Mode: <b style='color:blue;'>" . ($row['mode'] ?: "<i>(vide)</i>") . "</b><br>";
+    }
+}
+
 // 2. Test du chargement de session_config.php
 echo "<h2>2. Test du fallback (session_config.php)</h2>";
 $config_file = __DIR__ . '/includes/session_config.php';
@@ -124,6 +136,26 @@ if (isset($connexion) && $connexion) {
         echo "Record de test supprimé.<br>";
     } else {
         echo "<b style='color:red;'>ERREUR:</b> Insertion dans produits échouée : " . mysqli_error($connexion) . "<br>";
+    }
+
+    // Test 3: produits avec HTML (Test WAF/ModSecurity)
+    echo "<h3>Test d'insertion dans 'produits' avec HTML (Test WAF) :</h3>";
+    $test_html = "<div>Contenu test avec <b>HTML</b> et un 'quote'.</div>";
+    $q3 = "INSERT INTO `produits` 
+    (`titre`, `court_contenu`, `caracteristique`, `remarque`, `photo`, `link`, `categorie`, `idparent_categ`, `prix_vente`, `prix_promo`, `etat_stock`, `quantite`, `marque`, `type`, `afficher_accueil`, `video`, `delai`, `nbr_vod`, `nbr_chaine_hd`, `ancre`, `ordre`, `etat`, `titre_page`, `description`, `keywords`, `auteur`, `datecreation`) 
+    VALUES 
+    ('TEST_WAF_".time()."', '" . mysqli_real_escape_string($connexion, $test_html) . "', '', '', '', 'test-waf', '0', '0', '0', '0', '1', '0', '', 'E', '1', '', '', '0', '0', '', '1', '1', '', '', '', '1', '".time()."')";
+    
+    $start = microtime(true);
+    $res3 = mysqli_query($connexion, $q3);
+    $end = microtime(true);
+    
+    if ($res3) {
+        echo "<b style='color:green;'>SUCCÈS:</b> Insertion HTML réussie en " . round($end - $start, 4) . "s.<br>";
+        $new_id = mysqli_insert_id($connexion);
+        mysqli_query($connexion, "DELETE FROM `produits` WHERE `id` = '$new_id'");
+    } else {
+        echo "<b style='color:red;'>ERREUR:</b> Insertion HTML échouée : " . mysqli_error($connexion) . "<br>";
     }
 }
 
