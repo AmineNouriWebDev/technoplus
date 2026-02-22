@@ -66,6 +66,21 @@ if (file_exists($db_file)) {
             $check = mysqli_query($connexion, "SHOW TABLES LIKE '$table'");
             if (mysqli_num_rows($check) > 0) {
                 echo "Table '$table': <b style='color:green;'>OK</b><br>";
+                if ($table == 'produits') {
+                    echo "<h4>Structure de la table 'produits' :</h4><pre>";
+                    $struct = mysqli_query($connexion, "DESCRIBE produits");
+                    while($f = mysqli_fetch_assoc($struct)) {
+                        print_r($f);
+                    }
+                    echo "</pre>";
+                    
+                    echo "<h4>Triggers sur 'produits' :</h4><pre>";
+                    $triggers = mysqli_query($connexion, "SHOW TRIGGERS LIKE 'produits'");
+                    while($t = mysqli_fetch_assoc($triggers)) {
+                        print_r($t);
+                    }
+                    echo "</pre>";
+                }
             } else {
                 echo "Table '$table': <b style='color:red;'>ABSENTE</b><br>";
             }
@@ -77,8 +92,21 @@ if (file_exists($db_file)) {
     echo "Fichier include.php absent.<br>";
 }
 
-// 5. Diagnostic du répertoire local
-echo "<h2>5. Diagnostic du répertoire local</h2>";
+// 5. Test d'insertion simple
+echo "<h2>5. Test d'insertion simple</h2>";
+if (isset($connexion) && $connexion) {
+    $test_val = "Test_" . time();
+    $q = "INSERT INTO `editor_state` (`editor_id`, `entree`, `sess_id`, `ip`) VALUES ('1', '".time()."', '$test_val', '127.0.0.1')";
+    if (mysqli_query($connexion, $q)) {
+        echo "<b style='color:green;'>SUCCÈS:</b> Insertion dans editor_state réussie.<br>";
+        mysqli_query($connexion, "DELETE FROM `editor_state` WHERE `sess_id` = '$test_val'");
+    } else {
+        echo "<b style='color:red;'>ERREUR:</b> Insertion dans editor_state échouée : " . mysqli_error($connexion) . "<br>";
+    }
+}
+
+// 6. Diagnostic du répertoire local
+echo "<h2>6. Diagnostic du répertoire local</h2>";
 $local_sessions = __DIR__ . '/sessions';
 echo "Chemin: $local_sessions<br>";
 if (is_dir($local_sessions)) {
