@@ -7,49 +7,46 @@
 
 header('Content-Type: text/plain');
 
-$target_url = "https://technoplus.io/produit/infinix-hot-60/";
-$user_agents = [
-    'Normal Browser' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-    'Googlebot' => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-    'Schema Validator' => 'Mozilla/5.0 (compatible; Schema.org Validator; +http://validator.schema.org)',
-    'Empty/Bot' => 'Wget/1.21.1',
+$urls_to_test = [
+    'Product URL' => "https://technoplus.io/produit/infinix-hot-60/",
+    'Product URL (no SSL)' => "http://technoplus.io/produit/infinix-hot-60/",
+    'Home Page' => "https://technoplus.io/",
+    'Robots.txt' => "https://technoplus.io/robots.txt",
+    'Direct PHP File' => "https://technoplus.io/index.php"
 ];
 
-echo "Diagnostic Access for: $target_url\n";
+$user_agents = [
+    'Googlebot' => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+    'Normal Browser' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+];
+
+echo "Comprehensive Diagnostic Access\n";
 echo str_repeat("=", 50) . "\n\n";
 
-foreach ($user_agents as $label => $ua) {
-    echo "Testing User-Agent: $label\n";
-    echo "UA String: $ua\n";
+foreach ($urls_to_test as $url_label => $target_url) {
+    echo "### TESTING URL: $url_label ($target_url)\n";
     
-    $ch = curl_init($target_url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, $ua);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_HEADER, true);
-    curl_setopt($ch, CURLOPT_NOBODY, true); // We only want headers
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    
-    $response = curl_exec($ch);
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $redirect_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
-    
-    if (curl_errno($ch)) {
-        echo "CURL Error: " . curl_error($ch) . "\n";
-    } else {
-        echo "HTTP Status Code: $http_code\n";
-        if ($redirect_url != $target_url) {
-            echo "Final URL after redirects: $redirect_url\n";
-        }
+    foreach ($user_agents as $ua_label => $ua) {
+        $ch = curl_init($target_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); // Don't follow to see the first response
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         
-        // Print first line of headers
-        $header_lines = explode("\n", $response);
-        echo "Header: " . trim($header_lines[0]) . "\n";
+        $response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $redirect_url = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
+        
+        echo "   - UA: $ua_label -> Status: $http_code";
+        if ($redirect_url) echo " | Redirect to: $redirect_url";
+        echo "\n";
+        
+        curl_close($ch);
     }
-    
-    curl_close($ch);
-    echo "\n" . str_repeat("-", 30) . "\n\n";
+    echo "\n";
 }
 
 echo "END OF DIAGNOSTIC\n";
