@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 
 /* Connexion PDO */
@@ -103,26 +104,6 @@ include("includes/security.php");
 						include("includes/fonctions/fction_produits.php");
 						include("includes/fonctions/fction_blogs.php");
 						include("includes/produits.php");
-						break;
-
-					case "addproduit":
-						include("includes/fonctions/fction_produits.php");
-						include("includes/add_produit.php");
-						break;
-
-					case "addproduitssimilaire":
-						include("includes/fonctions/fction_produits.php");
-						include("includes/add_produits_similaire.php");
-						break;
-
-					case "fichesTechniques":
-						include("includes/fonctions/fction_produits.php");
-						include("includes/fichesTechniques.php");
-						break;
-
-					case "facilitePaiement":
-						include("includes/fonctions/fction_produits.php");
-						include("includes/facilitePaiement.php");
 						break;
 
 					case "addproduit":

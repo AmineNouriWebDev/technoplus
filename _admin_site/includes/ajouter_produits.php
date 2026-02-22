@@ -42,46 +42,51 @@ if (isset($_POST['action']) && $_POST['action'] == 'ajout' )
 	. $afficher_accueil .'","'.$video.'","'. $duree .'","'. $nbr_vod .'","'. $nbr_chaine_hd .'","'. $ancre .'","'. $ordre .'", "'. $etat .'","'. $titre_page .'","'. $description .'",
 	"'. $keywords .'","'. $auteur .'","'. $datec .'")';
 		
-		$result  = executeRequete($requete);	
-		$idp     = mysqli_insert_id($connexion);
+		$result  = executeRequete($requete);
 		
-	if (isset($_FILES['photo']) && $_FILES['photo']['type'] != '') {
-		if ($_FILES['photo']['type']=="image/jpeg" || $_FILES['photo']['type']=="image/png" || $_FILES['photo']['type']=="image/gif" ){
-	
-			$destination = str_replace(' ', '-', $idp."-produits-".$_FILES['photo']['name']);
-			$destination = str_replace('é', 'e', $destination);
-			$destination = str_replace('è', 'e', $destination);
-			$destination = str_replace('à', 'a', $destination);
-			$destination = str_replace('ù', 'u', $destination);
-			$destination = str_replace('ç', 'c', $destination);
+		if (!$result) {
+			$erreur_produit = "Erreur lors de l'ajout du produit. Veuillez réessayer.";
+		} else {
+			$idp = mysqli_insert_id($connexion);
+		
+			if (isset($_FILES['photo']) && $_FILES['photo']['type'] != '') {
+				if ($_FILES['photo']['type']=="image/jpeg" || $_FILES['photo']['type']=="image/png" || $_FILES['photo']['type']=="image/gif" ){
+			
+					$destination = str_replace(' ', '-', $idp."-produits-".$_FILES['photo']['name']);
+					$destination = str_replace('é', 'e', $destination);
+					$destination = str_replace('è', 'e', $destination);
+					$destination = str_replace('à', 'a', $destination);
+					$destination = str_replace('ù', 'u', $destination);
+					$destination = str_replace('ç', 'c', $destination);
 
-			copy ($_FILES['photo']['tmp_name'], "../media/products/".$destination);
-			$photo = $destination;
-			$requete = 'UPDATE `produits` set `photo`="'. $photo .'"  WHERE `id`="'.$idp.'"';
-			$result = executeRequete($requete);	
+					copy ($_FILES['photo']['tmp_name'], "../media/products/".$destination);
+					$photo = $destination;
+					$requete = 'UPDATE `produits` set `photo`="'. $photo .'"  WHERE `id`="'.$idp.'"';
+					$result = executeRequete($requete);	
+				}
+			}
+			// caracteristiques produit
+			if (isset($_POST['caracteristiques']) && is_array($_POST['caracteristiques'])) {
+				$carac = $_POST['caracteristiques'];
+				$valeurs = $_POST['valeurs'];
+				foreach ($carac as $key => $idcarac){
+					$valeur = isset($valeurs[$key]) ? $valeurs[$key] : '';
+					$requete1 = 'INSERT INTO `caracteristique_prod` (`idproduit`,`idcarac`, `valeur`) VALUES ("'. $idp .'","'. $idcarac .'", "'. $valeur .'")';
+					$result1  = executeRequete($requete1);	
+				}	
+			}
+			
+			// Redirection PHP propre (ne dépend pas du HTML/JS)
+			header('Location: index.php?r=produits');
+			exit;
 		}
-	}
-    // caracteristiques produit
-	if (isset($_POST['caracteristiques']) && is_array($_POST['caracteristiques'])) {
-		$carac = $_POST['caracteristiques'];
-		$valeurs = $_POST['valeurs'];
-		foreach ($carac as $key => $idcarac){
-			$valeur = isset($valeurs[$key]) ? $valeurs[$key] : '';
-			$requete1 = 'INSERT INTO `caracteristique_prod` (`idproduit`,`idcarac`, `valeur`) VALUES ("'. $idp .'","'. $idcarac .'", "'. $valeur .'")';
-			$result1  = executeRequete($requete1);	
-		}	
-	}	
-
-	?>
-	<script language="javascript">
-	<!--
-		window.location = 'index.php?r=produits';
-	-->
-	</script>
-	<?php 
-	//echo $strSQL
 }
 ?>
+<?php if (isset($erreur_produit)) { ?>
+<div class="alert alert-danger" role="alert">
+    <?php echo $erreur_produit; ?>
+</div>
+<?php } ?>
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
