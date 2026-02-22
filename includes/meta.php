@@ -8,7 +8,7 @@
     <title><?php if($title_page !='') echo $title_page; else echo 'Accueil'; ?></title>
     <meta name="description" content="<?php echo $description_page; ?>" />
     <meta name="keywords" content="<?php echo $keywords_page; ?>" />
-    <meta name="author" content="ONLYTECH">
+    <meta name="author" content="maxsolving">
     <?php 
         if(isset($price) && $price!="" && $price!="0.000"){
     ?>
@@ -27,6 +27,29 @@
     <meta property="product:price:amount" content="<?php echo str_replace(".",",",$price); ?>" />
     <meta property="product:price:currency" content="TND" />
     <meta property="og:availability" content="<?php echo $availability; ?>" />
+    
+    <!-- JSON-LD Product Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": "<?php echo addslashes($titre); ?>",
+      "image": "<?php echo $chemin_absolu . $imgOg; ?>",
+      "description": "<?php echo addslashes(strip_tags($description_page)); ?>",
+      "sku": "<?php echo $id; ?>",
+      "offers": {
+        "@type": "Offer",
+        "url": "<?php echo $urlOg; ?>",
+        "priceCurrency": "TND",
+        "price": "<?php echo $price; ?>",
+        "availability": "https://schema.org/<?php echo ($availability == 'in stock' ? 'InStock' : 'OutOfStock'); ?>",
+        "seller": {
+          "@type": "Organization",
+          "name": "Technoplus"
+        }
+      }
+    }
+    </script>
     <?php 
         }
     ?> 
