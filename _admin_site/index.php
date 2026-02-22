@@ -1,6 +1,6 @@
 <?php
 ob_start();
-session_start();
+include("includes/session_config.php");
 
 /* Connexion PDO */
 include("includes/include.php");

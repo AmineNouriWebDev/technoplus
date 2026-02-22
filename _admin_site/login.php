@@ -1,6 +1,6 @@
 <?php
 ob_start(); // Buffer output to prevent "headers already sent" errors
-session_start();
+include("includes/session_config.php");
 include("includes/include.php");
 $erreur = false;
 $msg = "";
@@ -43,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 //			echo $row['editor_group'];
 			$strSQL1 = "UPDATE `editor` SET ses_id='$sess_id' WHERE editor_id='$row[editor_id]' ";
 				//echo $strSQL; exit;
-			$result1 = mysqli_query($connexion,$strSQL1) or die($strSQL1.' '.mysqli_error($connexion));
+			$result1 = mysqli_query($connexion,$strSQL1);
 			$entree = time();
 			
             $ip_addr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
@@ -120,7 +120,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>
                         <div class="col-xs-12 text-center"> 
-							<a href="<?php echo $chemin_absolu;?>"><i class="fa fa-arrow-left"> </i> Retour à <?php echo $nomSite;?></a>
+							<a href="<?php echo $chemin_absolu ?? '';?>"><i class="fa fa-arrow-left"> </i> Retour à <?php echo $nomSite ?? '';?></a>
                         </div>
                     </form>
                     <form class="form-horizontal" id="recoverform" action="">
