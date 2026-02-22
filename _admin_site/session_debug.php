@@ -95,13 +95,35 @@ if (file_exists($db_file)) {
 // 5. Test d'insertion simple
 echo "<h2>5. Test d'insertion simple</h2>";
 if (isset($connexion) && $connexion) {
+    // Test 1: editor_state
     $test_val = "Test_" . time();
-    $q = "INSERT INTO `editor_state` (`editor_id`, `entree`, `sess_id`, `ip`) VALUES ('1', '".time()."', '$test_val', '127.0.0.1')";
-    if (mysqli_query($connexion, $q)) {
+    $q1 = "INSERT INTO `editor_state` (`editor_id`, `entree`, `sess_id`, `ip`) VALUES ('1', '".time()."', '$test_val', '127.0.0.1')";
+    if (mysqli_query($connexion, $q1)) {
         echo "<b style='color:green;'>SUCCÈS:</b> Insertion dans editor_state réussie.<br>";
         mysqli_query($connexion, "DELETE FROM `editor_state` WHERE `sess_id` = '$test_val'");
     } else {
         echo "<b style='color:red;'>ERREUR:</b> Insertion dans editor_state échouée : " . mysqli_error($connexion) . "<br>";
+    }
+    
+    // Test 2: produits (Attention aux NOT NULL sans défaut)
+    echo "<h3>Test d'insertion dans 'produits' :</h3>";
+    $test_titre = "TEST_DEBUG_" . time();
+    $q2 = "INSERT INTO `produits` 
+    (`titre`, `court_contenu`, `caracteristique`, `remarque`, `photo`, `link`, `categorie`, `idparent_categ`, `prix_vente`, `prix_promo`, `etat_stock`, `quantite`, `marque`, `type`, `afficher_accueil`, `video`, `delai`, `nbr_vod`, `nbr_chaine_hd`, `ancre`, `ordre`, `etat`, `titre_page`, `description`, `keywords`, `auteur`, `datecreation`) 
+    VALUES 
+    ('$test_titre', '', '', '', '', 'test-link', '0', '0', '0', '0', '1', '0', '', 'E', '1', '', '', '0', '0', '', '1', '1', '', '', '', '1', '".time()."')";
+    
+    $start = microtime(true);
+    $res2 = mysqli_query($connexion, $q2);
+    $end = microtime(true);
+    
+    if ($res2) {
+        echo "<b style='color:green;'>SUCCÈS:</b> Insertion dans produits réussie en " . round($end - $start, 4) . "s.<br>";
+        $new_id = mysqli_insert_id($connexion);
+        mysqli_query($connexion, "DELETE FROM `produits` WHERE `id` = '$new_id'");
+        echo "Record de test supprimé.<br>";
+    } else {
+        echo "<b style='color:red;'>ERREUR:</b> Insertion dans produits échouée : " . mysqli_error($connexion) . "<br>";
     }
 }
 
