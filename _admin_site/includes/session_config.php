@@ -9,36 +9,51 @@
 
 if (session_status() === PHP_SESSION_NONE) {
     
-    // Vérifier si le répertoire de sessions par défaut est accessible
-    $default_save_path = session_save_path();
+    // Fichier de log de debug spécifique aux sessions
+    $debug_log = __DIR__ . '/../session_error_debug.log';
     
+    // 1. Essayer le répertoire par défaut
+    $default_save_path = session_save_path();
     if (empty($default_save_path)) {
         $default_save_path = sys_get_temp_dir();
     }
     
-    // Si le répertoire par défaut n'existe pas ou n'est pas accessible en écriture
-    if (!is_dir($default_save_path) || !is_writable($default_save_path)) {
+    $success = false;
+    
+    // Si le répertoire par défaut est valide et accessible
+    if (!empty($default_save_path) && is_dir($default_save_path) && is_writable($default_save_path)) {
+        $success = true;
+    } else {
+        // 2. Fallback sur un répertoire local
+        $custom_save_paths = [
+            __DIR__ . '/../sessions',
+            dirname(__DIR__) . '/sessions'
+        ];
         
-        // Utiliser un répertoire local dans _admin_site/
-        $custom_save_path = __DIR__ . '/../sessions';
-        
-        // Créer le répertoire s'il n'existe pas
-        if (!is_dir($custom_save_path)) {
-            @mkdir($custom_save_path, 0700, true);
-        }
-        
-        // Protéger le répertoire avec un .htaccess
-        $htaccess_path = $custom_save_path . '/.htaccess';
-        if (!file_exists($htaccess_path)) {
-            @file_put_contents($htaccess_path, "Deny from all\n");
-        }
-        
-        // Configurer PHP pour utiliser ce répertoire
-        if (is_dir($custom_save_path) && is_writable($custom_save_path)) {
-            session_save_path($custom_save_path);
+        foreach ($custom_save_paths as $path) {
+            if (!is_dir($path)) {
+                @mkdir($path, 0755, true);
+            }
+            
+            if (is_dir($path) && is_writable($path)) {
+                // Protéger le répertoire avec un .htaccess
+                $htaccess_path = $path . '/.htaccess';
+                if (!file_exists($htaccess_path)) {
+                    @file_put_contents($htaccess_path, "Deny from all\n");
+                }
+                
+                session_save_path($path);
+                $success = true;
+                break;
+            }
         }
     }
     
-    session_start();
+    if (!$success) {
+        $error_msg = "[" . date('Y-m-d H:i:s') . "] CRITICAL: No writable session path found. Default: $default_save_path\n";
+        @file_put_contents($debug_log, $error_msg, FILE_APPEND);
+    }
+    
+    @session_start();
 }
 ?>
