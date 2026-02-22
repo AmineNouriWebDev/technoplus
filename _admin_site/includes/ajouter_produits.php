@@ -10,20 +10,20 @@ if (isset($_POST['action']) && $_POST['action'] == 'ajout' )
 	$titre  	         = FormChampSpeciaux(formReception($_POST['titre']));
 	$court_contenu       = formReception($_POST['court_contenu']);
 	$contenu  	         = formReception($_POST['contenu']);
-	$categorie 	         = formReception($_POST['categorie']);
-    $idprt               = idparentCategBlog($categorie);
-	$prix_vente	         = formReception($_POST['prix_vente']);
-	$quantite	         = formReception($_POST['quantite']);
+	$categorie 	         = (int)formReception($_POST['categorie']);
+    $idprt               = (int)idparentCategBlog($categorie);
+	$prix_vente	         = (float)str_replace(',', '.', formReception($_POST['prix_vente']));
+	$quantite	         = (int)formReception($_POST['quantite']);
 	$etat_stock	         = formReception($_POST['etat_stock']);
 	$marque 	         = formReception($_POST['marque']);
 	$duree  	         = formReception($_POST['duree']);
 	$afficher_accueil  	 = formReception($_POST['afficher_accueil']);
 	$remarque  	         = formReception($_POST['remarque']);
 	$video	             = formReception($_POST['video']);
-	$nbr_vod	         = formReception($_POST['nbr_vod']);
-	$nbr_chaine_hd 	     = formReception($_POST['nbr_chaine_hd']);
+	$nbr_vod	         = (int)formReception($_POST['nbr_vod']);
+	$nbr_chaine_hd 	     = (int)formReception($_POST['nbr_chaine_hd']);
 	$type        	     = formReception($_POST['type']);
-	$ordre 		         = formReception($_POST['ordre']);
+	$ordre 		         = (int)formReception($_POST['ordre']);
 	$etat 		         = formReception($_POST['etat']);
 	$titre_page          = FormChampSpeciaux(formReception($_POST['titre_page']));
 	$keywords 	         = formReception($_POST['keywords']);
@@ -34,23 +34,23 @@ if (isset($_POST['action']) && $_POST['action'] == 'ajout' )
 	if(isset($_POST['ancre'])){ $ancre = formReception($_POST['ancre']); } else { $ancre = "Commander";}
 
 	$datec        = timestampTD(date("d/m/Y H:i:s"));
-	$auteur       = auteur_id();
+	$auteur_int   = (int)auteur_id();
 	
 	$requete = 'INSERT INTO `produits`
-	(`titre`,`court_contenu`, `caracteristique`,`remarque`, `link`, `categorie`,`idparent_categ`, `prix_vente`, `prix_promo`, `etat_stock`, `quantite`, `marque`, `type`, `afficher_accueil`,
+	(`titre`,`court_contenu`, `caracteristique`,`remarque`, `photo`, `link`, `categorie`,`idparent_categ`, `prix_vente`, `prix_promo`, `etat_stock`, `quantite`, `marque`, `type`, `afficher_accueil`,
 	`video`, `delai`, `nbr_vod`, `nbr_chaine_hd`, `ancre`, `ordre`, `etat`, `titre_page`, `description`, `keywords`, `auteur`, `datecreation`) 
 	VALUES
-	("'. $titre .'","'. $court_contenu .'","'. $contenu .'","'. $remarque .'","'. $link .'","'. $categorie .'","'. $idprt .'","'. $prix_vente .'","0","'. $etat_stock .'","'. $quantite .'","'. $marque .'","'. $type .'","'
-	. $afficher_accueil .'","'.$video.'","'. $duree .'","'. $nbr_vod .'","'. $nbr_chaine_hd .'","'. $ancre .'","'. $ordre .'", "'. $etat .'","'. $titre_page .'","'. $description .'",
-	"'. $keywords .'","'. $auteur .'","'. $datec .'")';
+	("'. $titre .'","'. $court_contenu .'","'. $contenu .'","'. $remarque .'","", "'. $link .'",'. $categorie .','. $idprt .','. $prix_vente .',0,"'. $etat_stock .'",'. $quantite .',"'. $marque .'","'. $type .'","'
+	. $afficher_accueil .'","'.$video.'","'. $duree .'",'. $nbr_vod .','. $nbr_chaine_hd .',"'. $ancre .'",'. $ordre .', "'. $etat .'","'. $titre_page .'","'. $description .'",
+	"'. $keywords .'",'. $auteur_int .',"'. $datec .'")';
 		
     @file_put_contents('debug_add.log', "[" . date('Y-m-d H:i:s') . "] Avant Insert produits\n", FILE_APPEND);
-    $result  = executeRequete($requete);
-    @file_put_contents('debug_add.log', "[" . date('Y-m-d H:i:s') . "] Après Insert produits (Result: " . ($result ? 'OK' : 'FAIL') . ")\n", FILE_APPEND);
-		
-		if (!$result) {
-			$erreur_produit = "Erreur lors de l'ajout du produit. Veuillez réessayer.";
-		} else {
+    $result  = mysqli_query($connexion, $requete);
+    if (!$result) {
+        @file_put_contents('debug_add.log', "[" . date('Y-m-d H:i:s') . "] ERREUR SQL: " . mysqli_error($connexion) . "\n", FILE_APPEND);
+        $erreur_produit = "Erreur lors de l'ajout du produit : " . mysqli_error($connexion);
+    } else {
+        @file_put_contents('debug_add.log', "[" . date('Y-m-d H:i:s') . "] Après Insert produits (OK)\n", FILE_APPEND);
 			$idp = mysqli_insert_id($connexion);
 		
 			if (isset($_FILES['photo']) && $_FILES['photo']['type'] != '') {
