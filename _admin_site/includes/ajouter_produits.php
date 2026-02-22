@@ -5,6 +5,8 @@
 <?php 
 if (isset($_POST['action']) && $_POST['action'] == 'ajout' )
 {
+    @file_put_contents('debug_add.log', "[" . date('Y-m-d H:i:s') . "] Début ajout produit\n", FILE_APPEND);
+    
 	$titre  	         = FormChampSpeciaux(formReception($_POST['titre']));
 	$court_contenu       = formReception($_POST['court_contenu']);
 	$contenu  	         = formReception($_POST['contenu']);
@@ -42,7 +44,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'ajout' )
 	. $afficher_accueil .'","'.$video.'","'. $duree .'","'. $nbr_vod .'","'. $nbr_chaine_hd .'","'. $ancre .'","'. $ordre .'", "'. $etat .'","'. $titre_page .'","'. $description .'",
 	"'. $keywords .'","'. $auteur .'","'. $datec .'")';
 		
-		$result  = executeRequete($requete);
+    @file_put_contents('debug_add.log', "[" . date('Y-m-d H:i:s') . "] Avant Insert produits\n", FILE_APPEND);
+    $result  = executeRequete($requete);
+    @file_put_contents('debug_add.log', "[" . date('Y-m-d H:i:s') . "] Après Insert produits (Result: " . ($result ? 'OK' : 'FAIL') . ")\n", FILE_APPEND);
 		
 		if (!$result) {
 			$erreur_produit = "Erreur lors de l'ajout du produit. Veuillez réessayer.";
@@ -77,6 +81,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'ajout' )
 			}
 			
 			// Redirection PHP propre (ne dépend pas du HTML/JS)
+			@file_put_contents('debug_add.log', "[" . date('Y-m-d H:i:s') . "] Avant Redirection\n", FILE_APPEND);
 			header('Location: index.php?r=produits');
 			exit;
 		}
