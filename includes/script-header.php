@@ -38,13 +38,13 @@
 	<!-- ═══════════════════════════════════════════════════════
 	     GOOGLE ANALYTICS 4 (GA4)
 	     ═══════════════════════════════════════════════════════ -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-W8Y9K0YTYW"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-ESZ4KNL8CH"></script>
 	<script>
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
 
-	  gtag('config', 'G-W8Y9K0YTYW');
+	  gtag('config', 'G-ESZ4KNL8CH');
 	</script>
 
 	<!-- ═══════════════════════════════════════════════════════
