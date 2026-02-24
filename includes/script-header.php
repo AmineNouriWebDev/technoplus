@@ -37,27 +37,20 @@
 
 	<!-- ═══════════════════════════════════════════════════════
 	     GOOGLE ANALYTICS 4 (GA4)
-	     → Remplacer G-XXXXXXXXXX par votre Measurement ID
-	     → Décommenter les lignes ci-dessous quand prêt
-	     ═══════════════════════════════════════════════════════
-	<!--
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+	     ═══════════════════════════════════════════════════════ -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-W8Y9K0YTYW"></script>
 	<script>
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
-	  gtag('config', 'G-XXXXXXXXXX');
+
+	  gtag('config', 'G-W8Y9K0YTYW');
 	</script>
-	-->
 
 	<!-- ═══════════════════════════════════════════════════════
 	     GOOGLE SEARCH CONSOLE — Vérification du site
-	     → Remplacer XXXXXXXXXXXXXXXXX par votre meta content
-	     → Décommenter la ligne ci-dessous quand prêt
-	     ═══════════════════════════════════════════════════════
-	<!--
-	<meta name="google-site-verification" content="XXXXXXXXXXXXXXXXX" />
-	-->
+	     ═══════════════════════════════════════════════════════ -->
+	<meta name="google-site-verification" content="effcbc503f21894e" />
 
 
  
