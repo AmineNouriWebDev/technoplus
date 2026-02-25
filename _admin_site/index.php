@@ -227,6 +227,7 @@ include("includes/security.php");
 						break;
 
 					case "sliders":
+						include("includes/fonctions/fction_sliders.php");
 						include("includes/sliders.php");
 						break;
 
