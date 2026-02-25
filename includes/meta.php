@@ -54,3 +54,32 @@
         }
     ?> 
     
+    <!-- Global JSON-LD Search and Company Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "<?php echo addslashes($nom_site ?? $nomSite ?? 'Technoplus'); ?>",
+      "url": "<?php echo $chemin_absolu; ?>",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "<?php echo $chemin_absolu; ?>recherche.php?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "<?php echo addslashes($nom_site ?? $nomSite ?? 'Technoplus'); ?>",
+      "url": "<?php echo $chemin_absolu; ?>",
+      "logo": "<?php echo $chemin_absolu . 'media/site/' . $logo; ?>",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "<?php echo $tel ?? $telConfig ?? ''; ?>",
+        "contactType": "customer service"
+      }
+    }
+    </script>
+    
