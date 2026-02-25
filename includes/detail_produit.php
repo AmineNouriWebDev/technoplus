@@ -52,7 +52,7 @@
                         
                         <?php if(marquesProduits($id) != '0' && ApercuMarque(marquesProduits($id)) !='') {  ?>
                             <div class="mb-3" style="height:60px;overflow:hidden">
-                                <img src="<?php echo photoMarqueSite(marquesProduits($id)); ?>" class="img-fluid" style="width: 120px;height: -webkit-fill-available; object-fit: contain;">
+                                <img src="<?php echo photoMarqueSite(marquesProduits($id)); ?>" class="img-fluid" style="width: 120px;height: -webkit-fill-available; object-fit: contain;" alt="<?php echo raisonMarque(marquesProduits($id)); ?>">
                             </div>
                         <?php } ?>
                         
@@ -136,7 +136,7 @@
                                     while($datas = mysqli_fetch_array($ress)){
                                 ?>
                                 <div class="service-item bg-white p-2 mb-2 rounded d-flex align-items-center" style="font-size:13px">
-                                    <img src="<?php echo photoServiceSite($datas['id']); ?>" width="40px" class="bg-white mr-2 p-2 rounded" />
+                                    <img src="<?php echo photoServiceSite($datas['id']); ?>" width="40px" class="bg-white mr-2 p-2 rounded" alt="<?php echo titreService($datas['id']); ?>" />
                                     <span><?php echo titreService($datas['id']); ?></span>
                                 </div>    
                                 <?php } ?>
@@ -389,7 +389,7 @@ document.getElementById('commandeExpressForm').addEventListener('submit', functi
                         <div class="single-product-wrapper border p-2 text-center hoverDiv h-100">
                             <!-- Product Image -->
                             <a href="<?php echo lienProduits($link_p); ?>" class="product-img hover-zoom">
-                                <img src="<?php echo photoProduitsSite($id_p); ?>" alt="" class="img-fluid">
+                                <img src="<?php echo photoProduitsSite($id_p); ?>" alt="<?php echo titreProduits($id_p); ?>" class="img-fluid">
                             </a>
 
                             <!-- Product Description -->

@@ -60,12 +60,19 @@ $type= isset($_GET['type']) ? sanitize($_GET['type']) : '';
             
             if($title_page != '') $title_page=afficheChamp($data['titre_page']); else { $title_page = str_replace("%%PRODUIT%%",$titre,$title_prod); $title_page = str_replace("%%CATEGORIE%%",$categorie_title,$title_page); }
             
-            // Initialize variables if not set
-            $keywords_page = isset($keywords_page) ? $keywords_page : '';
-            $description_page = isset($description_page) ? $description_page : '';
-            
-            if($keywords_page != '') $keywords_page=afficheChamp($data['keywords']); else { $keywords_page = str_replace("%%PRODUIT%%",$titre,$keywords_prod); $keywords_page = str_replace("%%CATEGORIE%%",$categorie_title,$keywords_page); }
-            if($description_page != '') $description_page=afficheChamp($data['description']); else { $description_page = str_replace("%%PRODUIT%%",$titre,$description_prod); $description_page = str_replace("%%CATEGORIE%%",$categorie_title,$description_page); }
+            if(isset($data['keywords']) && trim($data['keywords']) != '') {
+                $keywords_page = afficheChamp($data['keywords']);
+            } else {
+                $keywords_page = str_replace("%%PRODUIT%%", $titre, $keywords_prod);
+                $keywords_page = str_replace("%%CATEGORIE%%", $categorie_title, $keywords_page);
+            }
+
+            if(isset($data['description']) && trim($data['description']) != '') {
+                $description_page = afficheChamp($data['description']);
+            } else {
+                $description_page = str_replace("%%PRODUIT%%", $titre, $description_prod);
+                $description_page = str_replace("%%CATEGORIE%%", $categorie_title, $description_page);
+            }
 		}
     }else{
         $url = current_url();
