@@ -13,6 +13,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'ajout' )
 	$categorie 	         = (int)formReception($_POST['categorie']);
     $idprt               = (int)idparentCategBlog($categorie);
 	$prix_vente	         = (float)str_replace(',', '.', formReception($_POST['prix_vente']));
+	$prix_promo	         = (float)str_replace(',', '.', formReception($_POST['prix_promo']));
 	$quantite	         = (int)formReception($_POST['quantite']);
 	$etat_stock	         = formReception($_POST['etat_stock']);
 	$marque 	         = formReception($_POST['marque']);
@@ -40,7 +41,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'ajout' )
 	(`titre`,`court_contenu`, `caracteristique`,`remarque`, `photo`, `link`, `categorie`,`idparent_categ`, `prix_vente`, `prix_promo`, `etat_stock`, `quantite`, `marque`, `type`, `afficher_accueil`,
 	`video`, `delai`, `nbr_vod`, `nbr_chaine_hd`, `ancre`, `ordre`, `etat`, `titre_page`, `description`, `keywords`, `auteur`, `datecreation`) 
 	VALUES
-	("'. $titre .'","'. $court_contenu .'","'. $contenu .'","'. $remarque .'","", "'. $link .'",'. $categorie .','. $idprt .','. $prix_vente .',0,"'. $etat_stock .'",'. $quantite .',"'. $marque .'","'. $type .'","'
+	("'. $titre .'","'. $court_contenu .'","'. $contenu .'","'. $remarque .'","", "'. $link .'",'. $categorie .','. $idprt .','. $prix_vente .','. $prix_promo .',"'. $etat_stock .'",'. $quantite .',"'. $marque .'","'. $type .'","'
 	. $afficher_accueil .'","'.$video.'","'. $duree .'",'. $nbr_vod .','. $nbr_chaine_hd .',"'. $ancre .'",'. $ordre .', "'. $etat .'","'. $titre_page .'","'. $description .'",
 	"'. $keywords .'",'. $auteur_int .',"'. $datec .'")';
 		
@@ -107,6 +108,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'ajout' )
                                         <h5>Prix vente </h5>
                                         <div class="controls">
                                             <input type="text" name="prix_vente" value="" class="form-control"> </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h5>Prix promo </h5>
+                                        <div class="controls">
+                                            <input type="text" name="prix_promo" value="" class="form-control"> </div>
                                     </div>
                                                                         
                                     <div class="form-group">
