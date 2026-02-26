@@ -27,7 +27,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'mod' )
 		$result  = executeRequete($requete);
 		
 		if (isset($_FILES['photo']) && $_FILES['photo']['type'] != '') {
-		if ($_FILES['photo']['type']=="image/jpeg" || $_FILES['photo']['type']=="image/png" || $_FILES['photo']['type']=="image/gif" ) {
+		if ($_FILES['photo']['type']=="image/jpeg" || $_FILES['photo']['type']=="image/png" || $_FILES['photo']['type']=="image/gif" || $_FILES['photo']['type']=="image/webp" ) {
 	
 			$destination = str_replace(' ', '-', $id."-sliders-".$_FILES['photo']['name']);
 			$destination = str_replace('é', 'e', $destination);
