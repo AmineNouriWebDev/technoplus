@@ -111,33 +111,53 @@
 			z-index: 5;
 		}
 
-		/* Responsive adjustments */
+		/* Responsive adjustments for Mobile */
 		@media (max-width: 768px) {
+			/* Transform the text box into a bottom band */
 			.custom-carousel-caption {
-				left: 50%;
-				bottom: 25%;
-				transform: translateX(-50%) translateY(20px);
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				max-width: 100%;
+				border-radius: 0; /* Flat band */
+				padding: 0.5rem 1rem;
 				text-align: center;
-				width: 90%;
-				max-width: none;
-				padding: 1.5rem;
-				background: rgba(15, 23, 42, 0.75);
+				background: rgba(15, 23, 42, 0.85); /* Darker for readability */
+				border: none;
+				border-top: 1px solid rgba(255, 255, 255, 0.1);
+				transform: translateY(20px);
 			}
+			
 			.carousel-item.active .custom-carousel-caption {
-				transform: translateX(-50%) translateY(0);
+				transform: translateY(0);
 			}
+
+			/* Make text much smaller so it doesn't take space */
+			.custom-carousel-caption h1 { 
+				font-size: 1.1rem; 
+				margin-bottom: 0.2rem;
+			}
+			.custom-carousel-caption h6 { 
+				font-size: 0.85rem; 
+				margin-bottom: 0; 
+			}
+
+			/* Position the button slightly above the band, or very small */
 			.custom-btn-wrapper {
 				right: 50%;
+				bottom: 12%; /* Just above the text band */
 				transform: translateX(50%) translateY(20px);
-				bottom: 8%;
+				width: auto;
 			}
 			.carousel-item.active .custom-btn-wrapper {
 				transform: translateX(50%) translateY(0);
 			}
-
-			.custom-carousel-caption h1 { font-size: 2rem; }
-			.custom-carousel-caption h6 { font-size: 1rem; }
-			.custom-btn-header { padding: 0.6rem 1.5rem; font-size: 1rem; }
+			
+			.custom-btn-header { 
+				padding: 0.4rem 1rem; 
+				font-size: 0.8rem; 
+				border-radius: 20px;
+			}
 		}
 	</style>
 
