@@ -1,4 +1,141 @@
-    <script src="assets/plugins/jquery/jquery.min.js"></script>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Admin</title>
+         <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../media/site/favicon-cooon.png">
+   <!-- Bootstrap Core CSS --> 
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+    <!-- Date picker plugins css -->
+    <link href="../assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <!-- Popup CSS -->
+    <link href="../assets/plugins/Magnific-Popup-master/dist/magnific-popup.css" rel="stylesheet">
+    <!-- html5 editor -->
+    <link rel="stylesheet" href="../assets/plugins/html5-editor/bootstrap-wysihtml5.css" />
+    
+    <link href="../assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/plugins/datatables/css/buttons.dataTables.min.css" />
+    
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.css" />
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5-premium-features/42.0.0/ckeditor5-premium-features.css">
+    
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="css/colors/blue.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+            <script type="textt/javascript">
+
+                    $('#Type').on('change', function() {    
+                        if(this.value == "A") {
+                            $('#selectAbonnement').show();
+                        } else {
+                            $('#selectAbonnement').hide();
+                        }
+                        
+                    });
+            </script>  
+            
+<script type="text/javascript">
+    function ShowHideDiv() {
+        var Type = document.getElementById("Type");
+        var selectAbonnement = document.getElementById("selectAbonnement");
+        selectAbonnement.style.display = Type.value == "A" ? "block" : "none";
+    }
+</script>
+
+<style>
+    
+.ck-editor__editable {min-height: 300px;}
+</style>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <section id="wrapper">
+        <div class="login-register" style="background-image:url(../assets/images/background/login-register.jpg);">
+            <div class="login-box card">
+                <div class="card-body">
+                    <form class="form-horizontal form-material" id="loginform" action="" method="post">
+                        <h3 class="box-title m-b-20">Connexion</h3>
+                                                <div class="form-group ">
+                            <div class="col-xs-12"> 
+                                <input class="form-control" type="text" name="editor_user" required placeholder="Nom utilisateur">                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <input class="form-control" type="password" name="editor_pass" required placeholder="Mot de passe"> </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-12 font-14">
+                                <div class="checkbox checkbox-primary pull-left p-t-0">
+                                    <input id="checkbox-signup" type="checkbox">
+                                    <label for="checkbox-signup">Se souvenir de moi</label>
+                                </div> <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><!-- <i class="fa fa-lock m-r-5"></i> --> Mot de passe oubli├®?</a> </div>
+                        </div>
+                        <div class="form-group text-center m-t-20">
+                            <div class="col-xs-12">
+
+                                <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Connexion</button>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 text-center"> 
+							<a href="http://localhost/technoplus/"><i class="fa fa-arrow-left"> </i> Retour ├á </a>
+                        </div>
+                    </form>
+                    <form class="form-horizontal" id="recoverform" action="">
+                        <div class="form-group ">
+                            <div class="col-xs-12">
+                                <h3>R├®cup├®rer votre mot de passe</h3>
+                                <p class="text-muted">Veuillez saisir votre adresse email </p>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="col-xs-12">
+                                <input class="form-control" type="text" required placeholder="Email"> </div>
+                        </div>
+                        <div class="form-group text-center m-t-20">
+                            <div class="col-xs-12">
+                                <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">R├®cup├®rer</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+         <script src="assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="assets/plugins/bootstrap/js/popper.min.js"></script>
     <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -281,7 +418,7 @@
         jQuery(document).ready(function() {
             // For select 2
             $(".select2").select2({
-                placeholder:"-- Séléctionnez --"
+                placeholder:"-- S├®l├®ctionnez --"
             });
         });
     </script>
@@ -299,7 +436,7 @@
         
                   type: "POST",
         
-                  url: "includes/get_caracteristique.php?id=<?php echo isset($_GET['id']) ? $_GET['id'] : '';?>",
+                  url: "includes/get_caracteristique.php?id=",
         
                   data:'id_carac='+opt,
         
@@ -322,7 +459,7 @@
         
                   type: "POST",
         
-                  url: "includes/get_caracteristique.php?id=<?php echo isset($_GET['id']) ? $_GET['id'] : '';?>",
+                  url: "includes/get_caracteristique.php?id=",
         
                   data:'id_carac='+opt,
         
@@ -428,7 +565,7 @@
 					};
 					$(document).ready(function() {
                 
-                        var strt = '<?php if(isset($_GET['start']) && $_GET['start'] != '') echo intval($_GET['start']); else echo '0';  ?>';
+                        var strt = '0';
 						
 						var table = $('#tableProduit').DataTable({
                     		"lengthChange": true,
@@ -503,11 +640,11 @@
                         //alert(allVals.length); return false;  
                         if(allVals.length ==0)  
                         {  
-                          alert("Veuillez sélectionner le produit.");  
+                          alert("Veuillez s├®lectionner le produit.");  
                         }  
                         else {  
                           //$("#loading").show(); 
-                          WRN_PROFILE_DELETE = "Etes-vous sur de vouloir supprimer la sélection de produits ?";  
+                          WRN_PROFILE_DELETE = "Etes-vous sur de vouloir supprimer la s├®lection de produits ?";  
                           var check = confirm(WRN_PROFILE_DELETE);  
                           if(check == true){  
                             //for server side
@@ -548,3 +685,6 @@
 						}
 					});
 			</script>
+</body>
+
+</html>
