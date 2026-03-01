@@ -46,7 +46,7 @@
         										</a>
         										<div class="line"></div>
         										<?php if(marquesProduits($id_p) != '0' && ApercuMarque(marquesProduits($id_p)) !='') {  ?>
-            									<div style="height:60px;overflow:hidden"><img src="<?php echo photoMarqueSite(marquesProduits($id_p)); ?>" class="img-fluid" style="width: 120px;height: -webkit-fill-available; object-fit: contain;"> </div>
+            									<div style="height:60px;overflow:hidden"><img src="<?php echo photoMarqueSite(marquesProduits($id_p)); ?>" class="img-fluid" style="width: 120px;height: 100%; object-fit: contain;"> </div>
             									<?php }
             									if (etatStockProduits($id_p) == '1'){   ?>
                                                     <p class="avaibility m-0" style="color:#20d34a;font-size:14px;text-transform:uppercase"><i class="fa fa-circle"></i> En Stock</p>
@@ -106,7 +106,7 @@
         										</a>
         										<div class="line"></div>
         										<?php if(marquesProduits($id_p1) != '0' && ApercuMarque(marquesProduits($id_p1)) !='') {  ?>
-            									<div style="height:60px;overflow:hidden"><img src="<?php echo photoMarqueSite(marquesProduits($id_p1)); ?>" class="img-fluid" style="width: 120px;height: -webkit-fill-available; object-fit: contain;"> </div>
+            									<div style="height:60px;overflow:hidden"><img src="<?php echo photoMarqueSite(marquesProduits($id_p1)); ?>" class="img-fluid" style="width: 120px;height: 100%; object-fit: contain;"> </div>
             									<?php }
             									if (etatStockProduits($id_p1) == '1'){   ?>
                                                     <p class="avaibility m-0" style="color:#20d34a;font-size:14px;text-transform:uppercase"><i class="fa fa-circle"></i> En Stock</p>
@@ -175,7 +175,7 @@
 					            <?php if(ApercuBloc($data1['id'])){ ?>
 			                    <div class="<?php if (numColBloc($data1['id']) =='5'){ echo "col"; }else{ ?>col-xs-4 mobile-section col-sm-4 col-md-4 col-lg-<?php echo numColBloc($data1['id']); } ?> text-center mb-4">
 			                        <div class="h-100">
-			                            <a href="<?php echo lienBloc($data1['id']);  ?>"><img src="<?php echo photoBlocSite($data1['id']); ?>" class="img-fluid" style="width: 100%;object-fit: contain;height: -webkit-fill-available;"></a>
+			                            <a href="<?php echo lienBloc($data1['id']);  ?>"><img src="<?php echo photoBlocSite($data1['id']); ?>" class="img-fluid" style="width: 100%;object-fit: contain;height: 100%;"></a>
         						    </div>
         						</div>
         						<?php } ?>
@@ -188,7 +188,7 @@
                 		        ?>
 			                    <div class="<?php if (numColBloc($data1['id']) =='5'){ echo "col"; }else{ ?>col-xs-4 col-sm-4 mobile-section col-md-4 col-lg-<?php echo numColBloc($data1['id']); } ?> text-center mb-4">
 			                        <div class="h-100">
-			                            <a href="<?php echo lienSectionContent($id_bn);  ?>"><img src="<?php echo photoSectionContent($id_bn); ?>" class="img-fluid" style="width: 100%;object-fit: contain;height: -webkit-fill-available;"></a>
+			                            <a href="<?php echo lienSectionContent($id_bn);  ?>"><img src="<?php echo photoSectionContent($id_bn); ?>" class="img-fluid" style="width: 100%;object-fit: contain;height: 100%;"></a>
         						    </div>
         						</div>
     		                    <?php }  ?>
