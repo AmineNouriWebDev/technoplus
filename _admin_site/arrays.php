@@ -23,7 +23,8 @@ $columnMap = array(
     'marque' => 'marque',
     'type' => 'type',
     'datecreation' => 'datecreation',
-    'action' => 'id'         // Action column, sort by id
+    'action' => 'id',         // Action column, sort by id
+    'produit' => 'titre'      // Map 'produit' to 'titre' for sorting
 );
 
 // Get the actual SQL column name

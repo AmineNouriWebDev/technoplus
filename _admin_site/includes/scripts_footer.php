@@ -299,7 +299,7 @@
         
                   type: "POST",
         
-                  url: "includes/get_caracteristique.php?id=<?php echo isset($_GET['id']) ? $_GET['id'] : '';?>",
+                  url: "includes/get_caracteristique.php?id=<?php echo isset($_GET['id']) ? intval($_GET['id']) : 0; ?>",
         
                   data:'id_carac='+opt,
         
@@ -322,7 +322,7 @@
         
                   type: "POST",
         
-                  url: "includes/get_caracteristique.php?id=<?php echo isset($_GET['id']) ? $_GET['id'] : '';?>",
+                  url: "includes/get_caracteristique.php?id=<?php echo isset($_GET['id']) ? intval($_GET['id']) : 0; ?>",
         
                   data:'id_carac='+opt,
         

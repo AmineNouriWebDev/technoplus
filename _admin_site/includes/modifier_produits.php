@@ -10,8 +10,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'mod' )
 	$court_contenu       = formReception($_POST['court_contenu']);
 	$contenu  	         = formReception($_POST['contenu']);
 	$categorie 	         = formReception($_POST['categorie']);
-	$prix_vente	         = formReception($_POST['prix_vente']);
-	$prix_promo	         = formReception($_POST['prix_promo']);
+	$prix_vente	         = (float)str_replace(',', '.', formReception($_POST['prix_vente']));
+	$prix_promo	         = (float)str_replace(',', '.', formReception($_POST['prix_promo']));
 	$quantite	         = formReception($_POST['quantite']);
 	$etat_stock	         = formReception($_POST['etat_stock']);
 	$marque 	         = formReception($_POST['marque']);
@@ -73,14 +73,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'mod' )
 		}	
 	}	
 
-	?>
-	<script language="javascript">
-	<!--
-		window.location = 'index.php?r=produits&start=<?php echo $_GET['start']; ?>';
-	-->
-	</script>
-	<?php 
-	//echo $strSQL
+	header('Location: index.php?r=produits&start=' . ($_GET['start'] ?? 0));
+	exit();
 }
 ?>
                 <div class="row">

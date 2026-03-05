@@ -751,8 +751,10 @@ function raisonMarque($id)
 	$requete = "SELECT * FROM `marques` WHERE `id` = '".$id."'";
 	$resultat = executeRequete($requete);
 	$data = mysqli_fetch_array($resultat);
-	// Fix: Check if data exists before accessing array offset
-	return ($data && isset($data['raison'])) ? afficheChamp($data['raison']) : '';
+	if($data) {
+		return afficheChamp($data['raison']);
+	}
+	return '';
 }
 function raisonByLinkMarque($link)
 {
